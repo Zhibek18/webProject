@@ -52,6 +52,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean delete(String login) throws DaoException {
+        boolean isDeleted = false;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -59,6 +60,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement = connection.prepareStatement(SQL_DELETE_USER);
             preparedStatement.setString(1,login);
             preparedStatement.executeUpdate();
+            isDeleted = true;
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
             Thread.currentThread().interrupt();
@@ -68,7 +70,7 @@ public class UserDaoImpl implements UserDao {
         close(preparedStatement);
         close(connection);
         }
-        return true;
+        return isDeleted;
     }
 
     @Override
@@ -80,12 +82,14 @@ public class UserDaoImpl implements UserDao {
     public boolean create(User user) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        boolean isChanged = false;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_INSERT_USER);
             preparedStatement.setString(1, user.getLogin());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.executeUpdate();
+            isChanged = true;
         } catch (SQLException e) {
             throw new DaoException(e);
         } catch (InterruptedException e) {
@@ -95,7 +99,7 @@ public class UserDaoImpl implements UserDao {
             close(preparedStatement);
             close(connection);
         }
-        return true;
+        return isChanged;
     }
 
     @Override
@@ -138,19 +142,21 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateUserPassword(String login, String password) throws DaoException {
+    public boolean updateUserPassword(String login, String newPassword) throws DaoException {
+        boolean isUpdated = false;
         try {
             Connection connection = ConnectionPool.getInstance().takeConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_PASSWORD);
-            preparedStatement.setString(1,password);
+            preparedStatement.setString(1,newPassword);
             preparedStatement.setString(2,login);
             preparedStatement.executeUpdate();
+            isUpdated = true;
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
             Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return true;
+        return isUpdated;
     }
 }

@@ -17,11 +17,22 @@ Hello, ${user}!
 <hr/>
 <form name="showUsers" method="post" action="controller">
     <input type="hidden" name="command" value="showUsers"/>
-    <input type="submit" value="Show users"/>
+    <input type="submit" value="Show users"/><br/>
 </form>
 <form name="logout" method="post" action="controller">
-    <input type="hidden" name="command" value="logout">
-    <input type="submit" value="log out"/>
+    <input type="hidden" name="command" value="logout"/>
+    <input type="submit" value="log out"/><br/>
+</form>
+<form name="changePassword" method="post" action="controller">
+    <input type="hidden" name="command" value="forwardChangePassword"/>
+    <input type="submit" value="Change password"/><br/>
+</form>
+<%--DOES NOT WORK WHITHOUT SESSIONS--%>
+<form name="deleteUser" method="post" action="controller">
+    <input type="hidden" name="command" value="deleteUser"/>
+    <input type="hidden" name="login" value=${user}/>
+    ${deleteError}<br/>
+    <input type="submit" value="Delete account"/><br/>
 </form>
 </body>
 </html>

@@ -7,7 +7,10 @@ public enum CommandType {
     LOGOUT(new LogoutCommand()),
     SIGNUP(new SignupCommand()),
     SHOWUSERS(new ShowUsersCommand()),
-    FORWARDSIGNUP(new ForwardSignUpCommand());
+    FORWARDSIGNUP(new ForwardSignUpCommand()),
+    FORWARDCHANGEPASSWORD(new ForwardChangePasswordCommand()),
+    DELETEUSER(new DeleteUserCommand()),
+    CHANGEPASSWORD(new ChangePasswordCommand());
     private Command command;
 
     CommandType(Command command) {

@@ -24,20 +24,24 @@ public class UserService {
             }
         } catch (DaoException e) {
             logger.log(Level.WARN, "Couldn't find login:" + e);
+            isValid = false;
         }
         return isValid;
     }
     public boolean addNewUser(String login, String password){
+        boolean added;
         if (validateNewUser(login, password)){
             User user = new User(login, password);
             try {
-                userDao.create(user);
+                added = userDao.create(user);
             } catch (DaoException e) {
                 logger.log(Level.WARN, e);
+                added = false;
             }
-            return true;
+        } else {
+            added = false;
         }
-        return false;
+        return added;
     }
     private boolean validateNewUser(String login, String password){
         return (validateLogin(login) && validatePassword(password));
@@ -60,5 +64,29 @@ public class UserService {
             logger.log(Level.WARN, "Couldn't find users: " + e);
         }
         return users;
+    }
+    public boolean deleteUser(String login){
+        boolean isDeleted;
+        try {
+            isDeleted = userDao.delete(login);
+        } catch (DaoException e) {
+            logger.log(Level.WARN,"Couldn't delete user " + login + ":" + e);
+            isDeleted = false;
+        }
+        return isDeleted;
+    }
+    public boolean changePassword(String login, String oldPassword, String newPassword){
+        boolean isChanged;
+        if (checkLogin(login, oldPassword)){
+            try {
+                isChanged = userDao.updateUserPassword(login, newPassword);
+            } catch (DaoException e) {
+                logger.log(Level.WARN, "Couldn't change password: "+ e);
+                isChanged = false;
+            }
+        } else {
+            isChanged = false;
+        }
+        return isChanged;
     }
 }
