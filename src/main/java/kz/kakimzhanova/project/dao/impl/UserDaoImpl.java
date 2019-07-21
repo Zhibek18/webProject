@@ -14,6 +14,7 @@ import java.util.Properties;
 public class UserDaoImpl implements UserDao {
     private static final String SQL_SELECT_ALL_USERS = "SELECT login, password FROM users";
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT login, password FROM users WHERE login=?";
+    private static final String SQL_INSERT_USER = "INSERT INTO users (login, password) VALUES (?,?)";
     @Override
     public List<User> findAll() throws DaoException {
         List<User> users = new ArrayList<>();
@@ -62,8 +63,36 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean create(User entity) {
-        throw new UnsupportedOperationException();
+    public boolean create(User user) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            logger.log(Level.WARN, e);
+        }
+        String url = "jdbc:mysql://localhost:3306/fooddelivery";
+        Properties properties = new Properties();
+        properties.put("user", "root");
+        properties.put("password", "root");
+        properties.put("autoReconnect", "true");
+        properties.put("characterEncoding", "UTF-8");
+        properties.put("useUnicode", "true");
+        try {
+            connection = DriverManager.getConnection(url, properties);
+            //connection = ConnectionDB.getConnection();
+
+            preparedStatement = connection.prepareStatement(SQL_INSERT_USER);
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }finally {
+            close(preparedStatement);
+            close(connection);
+        }
+        return true;
     }
 
     @Override

@@ -28,4 +28,19 @@ public class UserDaoImplTest {
         }
         Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
     }
+
+    @Test
+    public void create() {
+        UserDao userDao = new UserDaoImpl();
+        User user = new User("zhibek123", "zhibek123");
+        boolean expected = true;
+        boolean actual = false;
+        try {
+            actual = userDao.create(user);
+        } catch (DaoException e) {
+            logger.log(Level.WARN, e);
+        }
+        Assert.assertEquals(expected, actual);
+    }
+
 }

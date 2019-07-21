@@ -18,7 +18,7 @@ public interface BaseDao <K,T extends Entity>{
     T findById(K id);
     boolean delete(K id);
     boolean delete(T entity);
-    boolean create(T entity);
+    boolean create(T entity) throws DaoException;
     T update(T entity);
     default void close (Statement statement){
         try{
