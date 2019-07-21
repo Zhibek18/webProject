@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,11 +16,15 @@ public class UserDaoImplTest {
     private static Logger logger = LogManager.getLogger();
     private static final String USER_LOGIN ="user";
     private static final String USER_PASSWORD ="pass";
+    private static UserDao userDao;
+    @BeforeClass
+    public static void init(){
+        userDao = new UserDaoImpl();
+    }
     @Test
-    public void findByLogin() {
+    public void findById() {
         User expected = new User(USER_LOGIN, USER_PASSWORD);
         User actual = null;
-        UserDao userDao = new UserDaoImpl();
         try {
             actual = userDao.findById(USER_LOGIN);
 
@@ -31,7 +36,6 @@ public class UserDaoImplTest {
 
     @Test
     public void create() {
-        UserDao userDao = new UserDaoImpl();
         User user = new User("zhibek125", "zhibek125");
         boolean expected = true;
         boolean actual = false;
@@ -43,4 +47,27 @@ public class UserDaoImplTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void delete() {
+        boolean expected = true;
+        boolean actual = false;
+        try {
+            actual = userDao.delete("zhibek125");
+        } catch (DaoException e) {
+            logger.log(Level.WARN, e);
+        }
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void updateUserPassword() {
+        boolean expected = true;
+        boolean actual = false;
+        try {
+            actual = userDao.updateUserPassword("olzhas", "pass");
+        } catch (DaoException e) {
+            logger.log(Level.WARN, e);
+        }
+        Assert.assertEquals(expected, actual);
+    }
 }

@@ -20,5 +20,9 @@
         ${errorLoginPathMessage}<br/>
         <input type="submit" value="Log in"/>
     </form>
+    <form name="signUpLink" method="post" action="controller">
+        <input type="hidden" name="command" value="forwardSignUp"/>
+        <input type="submit" value="Sign Up"/>
+    </form>
 </body>
 </html>

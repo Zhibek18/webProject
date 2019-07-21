@@ -3,6 +3,8 @@
         <title>Title</title>
     </head>
     <body>
-        <jsp:forward page="jsp/signup.jsp"/>
+        <a href="jsp/login.jsp">Login</a><br/>
+
+        <jsp:forward page="jsp/login.jsp"/>
     </body>
 </html>

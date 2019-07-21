@@ -15,6 +15,13 @@
 <hr/>
 Hello, ${user}!
 <hr/>
-<a href="controller?command=logout">Logout</a>
+<form name="showUsers" method="post" action="controller">
+    <input type="hidden" name="command" value="showUsers"/>
+    <input type="submit" value="Show users"/>
+</form>
+<form name="logout" method="post" action="controller">
+    <input type="hidden" name="command" value="logout">
+    <input type="submit" value="log out"/>
+</form>
 </body>
 </html>

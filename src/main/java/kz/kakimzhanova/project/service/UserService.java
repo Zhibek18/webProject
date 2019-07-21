@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,5 +51,14 @@ public class UserService {
         Pattern pattern = Pattern.compile("[\\w\\d]{7,20}");
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+    public List<User> findAllUsers(){
+        List<User> users = null;
+        try {
+            users = userDao.findAll();
+        } catch (DaoException e) {
+            logger.log(Level.WARN, "Couldn't find users: " + e);
+        }
+        return users;
     }
 }

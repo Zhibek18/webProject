@@ -37,7 +37,7 @@ public class ConnectionPool {
         try {
             this.poolSize = Integer.valueOf(dbResourceManager.getValue(DBParameter.DB_POOL_SIZE.getName()));
         }catch (NumberFormatException e){
-            poolSize = 5;
+            poolSize = 2;
         }
         initPoolData();
     }
@@ -66,6 +66,12 @@ public class ConnectionPool {
     public boolean returnConnection(Connection connection){
         if (connection != null) {
             freeConnectionQueue.add(connection);
+
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.log(Level.WARN, e);
+            }
             return givenAwayConnectionQueue.remove(connection);
         }
         return false;

@@ -2,9 +2,10 @@ package kz.kakimzhanova.project.servlet;
 
 import kz.kakimzhanova.project.command.Command;
 import kz.kakimzhanova.project.command.CommandFactory;
-import kz.kakimzhanova.project.entity.Item;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.security.auth.login.Configuration;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,9 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 @WebServlet(urlPatterns = "/controller")
 public class Controller extends HttpServlet {
+    private static Logger logger = LogManager.getLogger();
     public Controller(){
         super();
     }
@@ -26,35 +29,31 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        processRequest(req, resp);
-        //resp.getWriter().print("This is " + this.getClass().getName() + ", using GET method");
+
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         resp.setContentType("text/html");
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        processRequest(req, resp);
-//        String input = req.getParameter("input1");
-//        input = input.toUpperCase();
-//        req.setAttribute("result", input);
-//        Item item = new Item(77);
-//        req.setAttribute("item1",item);
-//        req.getRequestDispatcher("jsp/main.jsp").forward(req, resp);
-        //resp.getWriter().print("This is " + this.getClass().getName() + ", using POST method");
+        try {
+            req.setCharacterEncoding("UTF-8");
+            resp.setCharacterEncoding("UTF-8");
+            processRequest(req, resp);
+        }catch (ServletException | IOException e){
+            logger.log(Level.WARN, e);
+        }
     }
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String page = null;
         Command command = CommandFactory.defineCommand(req.getParameter("command"));
+
         page = command.execute(req);
 
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(req, resp);
         } else{
-            page = "index.jsp";
+            page = "/index.jsp";
             req.getSession().setAttribute("nullPage", "Message nullpage");
             resp.sendRedirect(req.getContextPath() + page);
         }

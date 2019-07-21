@@ -5,36 +5,23 @@ import kz.kakimzhanova.project.dao.UserDao;
 import kz.kakimzhanova.project.entity.User;
 import kz.kakimzhanova.project.exception.DaoException;
 import org.apache.logging.log4j.Level;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class UserDaoImpl implements UserDao {
     private static final String SQL_SELECT_ALL_USERS = "SELECT login, password FROM users";
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT login, password FROM users WHERE login=?";
     private static final String SQL_INSERT_USER = "INSERT INTO users (login, password) VALUES (?,?)";
+    private static final String SQL_DELETE_USER = "DELETE FROM users WHERE login=?";
+    private static final String SQL_UPDATE_USER_PASSWORD = "UPDATE users SET password=? WHERE login=?";
     @Override
     public List<User> findAll() throws DaoException {
         List<User> users = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            logger.log(Level.WARN, e);
-//        }
-//        String url = "jdbc:mysql://localhost:3306/fooddelivery";
-//        Properties properties = new Properties();
-//        properties.put("user", "root");
-//        properties.put("password", "root");
-//        properties.put("autoReconnect", "true");
-//        properties.put("characterEncoding", "UTF-8");
-//        properties.put("useUnicode", "true");
         try{
-            //connection = DriverManager.getConnection(url, properties);
             connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             resultSet = statement.executeQuery(SQL_SELECT_ALL_USERS);
@@ -48,6 +35,7 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(e);
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
         } finally {
             close(statement);
             close(connection);
@@ -63,8 +51,24 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean delete(String id) {
-        throw new UnsupportedOperationException();
+    public boolean delete(String login) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            preparedStatement = connection.prepareStatement(SQL_DELETE_USER);
+            preparedStatement.setString(1,login);
+            preparedStatement.executeUpdate();
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+        close(preparedStatement);
+        close(connection);
+        }
+        return true;
     }
 
     @Override
@@ -76,20 +80,7 @@ public class UserDaoImpl implements UserDao {
     public boolean create(User user) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            logger.log(Level.WARN, e);
-//        }
-//        String url = "jdbc:mysql://localhost:3306/fooddelivery";
-//        Properties properties = new Properties();
-//        properties.put("user", "root");
-//        properties.put("password", "root");
-//        properties.put("autoReconnect", "true");
-//        properties.put("characterEncoding", "UTF-8");
-//        properties.put("useUnicode", "true");
         try {
-            //connection = DriverManager.getConnection(url, properties);
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_INSERT_USER);
             preparedStatement.setString(1, user.getLogin());
@@ -99,6 +90,7 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(e);
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
         } finally {
             close(preparedStatement);
             close(connection);
@@ -118,20 +110,7 @@ public class UserDaoImpl implements UserDao {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            logger.log(Level.WARN, e);
-//        }
-//        String url = "jdbc:mysql://localhost:3306/fooddelivery";
-//        Properties properties = new Properties();
-//        properties.put("user", "root");
-//        properties.put("password", "root");
-//        properties.put("autoReconnect", "true");
-//        properties.put("characterEncoding", "UTF-8");
-//        properties.put("useUnicode", "true");
         try{
-            //connection = DriverManager.getConnection(url, properties);
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
             preparedStatement.setString(1, login);
@@ -143,6 +122,7 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(e);
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
         } finally {
             close(preparedStatement);
             close(connection);
@@ -155,5 +135,22 @@ public class UserDaoImpl implements UserDao {
             }
         }
         return user;
+    }
+
+    @Override
+    public boolean updateUserPassword(String login, String password) throws DaoException {
+        try {
+            Connection connection = ConnectionPool.getInstance().takeConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_PASSWORD);
+            preparedStatement.setString(1,password);
+            preparedStatement.setString(2,login);
+            preparedStatement.executeUpdate();
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return true;
     }
 }
