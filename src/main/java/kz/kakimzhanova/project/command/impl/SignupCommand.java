@@ -14,10 +14,15 @@ public class SignupCommand  implements Command {
         String page = null;
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String password = request.getParameter(PARAM_NAME_PASSWORD);
-        if ((service.addNewUser(login, password))){
-            page = "/jsp/login.jsp";
-        } else {
-            request.setAttribute("errorSignUpMessage", "not valid login or password");
+        if(!service.checkLogin(login,password)) {
+            if ((service.addNewUser(login, password))) {
+                page = "/jsp/login.jsp";
+            } else {
+                request.setAttribute("errorSignUpMessage", "not valid login or password");
+                page = "/jsp/signup.jsp";
+            }
+        }else {
+            request.setAttribute("errorSignUpMessage", "login is already taken. Try again:");
             page = "/jsp/signup.jsp";
         }
         return page;

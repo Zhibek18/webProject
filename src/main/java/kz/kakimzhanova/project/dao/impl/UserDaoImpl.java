@@ -1,6 +1,6 @@
 package kz.kakimzhanova.project.dao.impl;
 
-import kz.kakimzhanova.project.connection.ConnectionDB;
+import kz.kakimzhanova.project.connection.ConnectionPool;
 import kz.kakimzhanova.project.dao.UserDao;
 import kz.kakimzhanova.project.entity.User;
 import kz.kakimzhanova.project.exception.DaoException;
@@ -21,8 +21,21 @@ public class UserDaoImpl implements UserDao {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            logger.log(Level.WARN, e);
+//        }
+//        String url = "jdbc:mysql://localhost:3306/fooddelivery";
+//        Properties properties = new Properties();
+//        properties.put("user", "root");
+//        properties.put("password", "root");
+//        properties.put("autoReconnect", "true");
+//        properties.put("characterEncoding", "UTF-8");
+//        properties.put("useUnicode", "true");
         try{
-            connection = ConnectionDB.getConnection();
+            //connection = DriverManager.getConnection(url, properties);
+            connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             resultSet = statement.executeQuery(SQL_SELECT_ALL_USERS);
             while (resultSet.next()){
@@ -33,7 +46,9 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+        } finally {
             close(statement);
             close(connection);
             try {
@@ -45,11 +60,6 @@ public class UserDaoImpl implements UserDao {
             }
         }
         return users;
-    }
-
-    @Override
-    public User findById(String id) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -66,29 +76,30 @@ public class UserDaoImpl implements UserDao {
     public boolean create(User user) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            logger.log(Level.WARN, e);
+//        }
+//        String url = "jdbc:mysql://localhost:3306/fooddelivery";
+//        Properties properties = new Properties();
+//        properties.put("user", "root");
+//        properties.put("password", "root");
+//        properties.put("autoReconnect", "true");
+//        properties.put("characterEncoding", "UTF-8");
+//        properties.put("useUnicode", "true");
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            logger.log(Level.WARN, e);
-        }
-        String url = "jdbc:mysql://localhost:3306/fooddelivery";
-        Properties properties = new Properties();
-        properties.put("user", "root");
-        properties.put("password", "root");
-        properties.put("autoReconnect", "true");
-        properties.put("characterEncoding", "UTF-8");
-        properties.put("useUnicode", "true");
-        try {
-            connection = DriverManager.getConnection(url, properties);
-            //connection = ConnectionDB.getConnection();
-
+            //connection = DriverManager.getConnection(url, properties);
+            connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_INSERT_USER);
             preparedStatement.setString(1, user.getLogin());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+        } finally {
             close(preparedStatement);
             close(connection);
         }
@@ -102,27 +113,26 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
-    public User findByLogin(String login) throws DaoException {
+    public User findById(String login) throws DaoException {
         User user = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            logger.log(Level.WARN, e);
-        }
-        String url = "jdbc:mysql://localhost:3306/fooddelivery";
-        Properties properties = new Properties();
-        properties.put("user", "root");
-        properties.put("password", "root");
-        properties.put("autoReconnect", "true");
-        properties.put("characterEncoding", "UTF-8");
-        properties.put("useUnicode", "true");
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            logger.log(Level.WARN, e);
+//        }
+//        String url = "jdbc:mysql://localhost:3306/fooddelivery";
+//        Properties properties = new Properties();
+//        properties.put("user", "root");
+//        properties.put("password", "root");
+//        properties.put("autoReconnect", "true");
+//        properties.put("characterEncoding", "UTF-8");
+//        properties.put("useUnicode", "true");
         try{
-            connection = DriverManager.getConnection(url, properties);
-            //connection = ConnectionDB.getConnection();
-
+            //connection = DriverManager.getConnection(url, properties);
+            connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
             preparedStatement.setString(1, login);
             resultSet = preparedStatement.executeQuery();
@@ -131,7 +141,9 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+        } finally {
             close(preparedStatement);
             close(connection);
             try {

@@ -17,7 +17,7 @@ public class UserService {
     public boolean checkLogin(String login, String password){
         boolean isValid = false;
         try {
-            User user = userDao.findByLogin(login);
+            User user = userDao.findById(login);
             if (user != null) {
                 isValid = (user.getPassword().equals(password));
             }
@@ -38,7 +38,7 @@ public class UserService {
         }
         return false;
     }
-    public boolean validateNewUser(String login, String password){
+    private boolean validateNewUser(String login, String password){
         return (validateLogin(login) && validatePassword(password));
     }
     private boolean validateLogin(String login){

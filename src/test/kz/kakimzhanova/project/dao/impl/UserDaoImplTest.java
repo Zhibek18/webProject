@@ -21,7 +21,7 @@ public class UserDaoImplTest {
         User actual = null;
         UserDao userDao = new UserDaoImpl();
         try {
-            actual = userDao.findByLogin(USER_LOGIN);
+            actual = userDao.findById(USER_LOGIN);
 
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
@@ -32,7 +32,7 @@ public class UserDaoImplTest {
     @Test
     public void create() {
         UserDao userDao = new UserDaoImpl();
-        User user = new User("zhibek123", "zhibek123");
+        User user = new User("zhibek125", "zhibek125");
         boolean expected = true;
         boolean actual = false;
         try {

@@ -1,5 +1,11 @@
 
-Ksquid:S1989"(Add a "try/catch" block for "getWriter".(©¢šĞûÿÿÿÿ8¯ÍåßÀ-
-Fsquid:S1185""(Remove this method to simply inherit it.(‚“¶î8¯ÍåßÀ-
-Fsquid:S1989"(Add a "try/catch" block for "getWriter".(†Š›8¯ÍåßÀ-
-¤squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¡’…ùüÿÿÿÿ8¯ÍåßÀ-
+osquid:UselessImportCheck"DRemove this unused import 'javax.security.auth.login.Configuration'.(ÜÃ„ò8Ã³º…Á-
+Ksquid:S1989"-Add a "try/catch" block for "processRequest".(Æ‘ŞÕ8Ã³º…Á-
+Ksquid:S1989'"-Add a "try/catch" block for "processRequest".(Æ‘ŞÕ8Ã³º…Á-
+isquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(’‹¡¶8Ã³º…Á-
+Ksquid:S1989'"-Add a "try/catch" block for "processRequest".(Æ‘ŞÕ8Ã³º…Á-
+¤squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¡’…ùüÿÿÿÿ8Ã³º…Á-
+Fsquid:S1185?"(Remove this method to simply inherit it.(‚“¶î8Ã³º…Á-
+nsquid:CommentedOutCodeLine("<This block of commented-out lines of code should be removed.(™×íÄøÿÿÿÿ8Ã³º…Á-
+Ksquid:S1989"-Add a "try/catch" block for "processRequest".(Æ‘ŞÕ8Ã³º…Á-
+Qsquid:S1989%"3Add a "try/catch" block for "setCharacterEncoding".(±Œ©À8Ã³º…Á-

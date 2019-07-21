@@ -1,5 +1,6 @@
 package kz.kakimzhanova.project.dao;
 
+import kz.kakimzhanova.project.connection.ConnectionPool;
 import kz.kakimzhanova.project.entity.Entity;
 import kz.kakimzhanova.project.exception.DaoException;
 import org.apache.logging.log4j.Level;
@@ -15,7 +16,7 @@ public interface BaseDao <K,T extends Entity>{
     Logger logger = LogManager.getLogger();
 
     List<T> findAll() throws DaoException;
-    T findById(K id);
+    T findById(K id) throws DaoException;
     boolean delete(K id);
     boolean delete(T entity);
     boolean create(T entity) throws DaoException;
@@ -30,12 +31,8 @@ public interface BaseDao <K,T extends Entity>{
         }
     }
     default void close(Connection connection){
-        try {
-            if (connection != null){
-                connection.close();
-            }
-        } catch (SQLException e) {
-            logger.log(Level.WARN, e);
+        if (connection != null){
+            ConnectionPool.getInstance().returnConnection(connection);
         }
     }
 }
