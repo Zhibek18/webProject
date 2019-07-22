@@ -13,7 +13,7 @@ public class LoginCommand implements Command {
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String pass = request.getParameter(PARAM_NAME_PASSWORD);
         if (service.checkLogin(login, pass)){
-            request.setAttribute("user", login);
+            request.getSession().setAttribute("login", login);
             page = "/jsp/main.jsp";
         } else {
             request.setAttribute("errorLoginPathMessage", "Incorrect login or password");

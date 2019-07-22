@@ -11,7 +11,7 @@ public class DeleteUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String page;
-        String login = request.getParameter(PARAM_NAME_LOGIN);
+        String login = request.getSession().getAttribute(PARAM_NAME_LOGIN).toString();
         if (service.deleteUser(login)){
             page = "/index.jsp";
         } else {

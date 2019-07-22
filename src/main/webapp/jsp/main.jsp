@@ -13,7 +13,7 @@
 <body>
 <h3>Welcome!</h3>
 <hr/>
-Hello, ${user}!
+Hello, ${login}!
 <hr/>
 <form name="showUsers" method="post" action="controller">
     <input type="hidden" name="command" value="showUsers"/>
@@ -26,13 +26,12 @@ Hello, ${user}!
 <form name="changePassword" method="post" action="controller">
     <input type="hidden" name="command" value="forwardChangePassword"/>
     <input type="submit" value="Change password"/><br/>
-<%--</form>--%>
-<%--DOES NOT WORK WHITHOUT SESSIONS--%>
-<%--<form name="deleteUser" method="post" action="controller">--%>
-<%--    <input type="hidden" name="command" value="deleteUser"/>--%>
-<%--    <input type="hidden" name="login" value=${user}/>--%>
-<%--    ${deleteError}<br/>--%>
-<%--    <input type="submit" value="Delete account"/><br/>--%>
-<%--</form>--%>
+</form>
+
+<form name="deleteUser" method="post" action="controller">
+    <input type="hidden" name="command" value="deleteUser"/>
+    ${deleteError}<br/>
+    <input type="submit" value="Delete account"/><br/>
+</form>
 </body>
 </html>

@@ -18,6 +18,7 @@
         Password:<br/>
         <input type="password" name="password" value=""/><br/>
         ${errorLoginPathMessage}<br/>
+        ${nullpage}<br/>
         <input type="submit" value="Log in"/>
     </form>
     <form name="signUpLink" method="post" action="controller">
