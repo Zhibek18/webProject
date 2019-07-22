@@ -1,11 +1,5 @@
 
-osquid:UselessImportCheck"DRemove this unused import 'javax.security.auth.login.Configuration'.(‹√ÑÚ8√≥∫Ö¡-
-Ksquid:S1989"-Add a "try/catch" block for "processRequest".(∆ëﬁ’8√≥∫Ö¡-
-Ksquid:S1989'"-Add a "try/catch" block for "processRequest".(∆ëﬁ’8√≥∫Ö¡-
-isquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(íã°∂8√≥∫Ö¡-
-Ksquid:S1989'"-Add a "try/catch" block for "processRequest".(∆ëﬁ’8√≥∫Ö¡-
-§squid:S1186"ÄAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(°íÖ˘¸ˇˇˇˇ8√≥∫Ö¡-
-Fsquid:S1185?"(Remove this method to simply inherit it.(Çì∂Ó8√≥∫Ö¡-
-nsquid:CommentedOutCodeLine("<This block of commented-out lines of code should be removed.(ô◊Ìƒ¯ˇˇˇˇ8√≥∫Ö¡-
-Ksquid:S1989"-Add a "try/catch" block for "processRequest".(∆ëﬁ’8√≥∫Ö¡-
-Qsquid:S1989%"3Add a "try/catch" block for "setCharacterEncoding".(±å©¿8√≥∫Ö¡-
+üsquid:S1186"ÄAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(π¬∑ä8‚Ÿæß¡-
+jsquid:UselessImportCheck":Remove this unused import 'java.net.UnknownHostException'.(⁄∑¨ò˙ˇˇˇˇ8˘Å€ß¡-
+§squid:S1186"ÄAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(°íÖ˘¸ˇˇˇˇ8√≥∫Ö¡-
+Fsquid:S1185>"(Remove this method to simply inherit it.(Çì∂Ó8√≥∫Ö¡-

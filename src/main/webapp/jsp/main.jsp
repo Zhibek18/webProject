@@ -26,13 +26,13 @@ Hello, ${user}!
 <form name="changePassword" method="post" action="controller">
     <input type="hidden" name="command" value="forwardChangePassword"/>
     <input type="submit" value="Change password"/><br/>
-</form>
+<%--</form>--%>
 <%--DOES NOT WORK WHITHOUT SESSIONS--%>
-<form name="deleteUser" method="post" action="controller">
-    <input type="hidden" name="command" value="deleteUser"/>
-    <input type="hidden" name="login" value=${user}/>
-    ${deleteError}<br/>
-    <input type="submit" value="Delete account"/><br/>
-</form>
+<%--<form name="deleteUser" method="post" action="controller">--%>
+<%--    <input type="hidden" name="command" value="deleteUser"/>--%>
+<%--    <input type="hidden" name="login" value=${user}/>--%>
+<%--    ${deleteError}<br/>--%>
+<%--    <input type="submit" value="Delete account"/><br/>--%>
+<%--</form>--%>
 </body>
 </html>

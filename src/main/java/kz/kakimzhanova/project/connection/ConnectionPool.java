@@ -1,5 +1,6 @@
 package kz.kakimzhanova.project.connection;
 
+import kz.kakimzhanova.project.exception.ConnectionPoolException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +29,7 @@ public class ConnectionPool {
     private String password;
     private int poolSize;
 
-    private ConnectionPool(){
+    private ConnectionPool() {
         DBResourceManager dbResourceManager = DBResourceManager.getInstance();
         this.driver = dbResourceManager.getValue(DBParameter.DB_DRIVER.getName());
         this.url = dbResourceManager.getValue(DBParameter.DB_URL.getName());
@@ -37,24 +38,28 @@ public class ConnectionPool {
         try {
             this.poolSize = Integer.valueOf(dbResourceManager.getValue(DBParameter.DB_POOL_SIZE.getName()));
         }catch (NumberFormatException e){
-            poolSize = 2;
+            poolSize = 5;
         }
-        initPoolData();
     }
 
-    public void initPoolData(){
+    public void initPoolData() throws ConnectionPoolException {
         try {
             Class.forName(driver);
-            freeConnectionQueue = new ArrayBlockingQueue<>(poolSize);
-            givenAwayConnectionQueue = new ArrayBlockingQueue<>(poolSize);
-            for (int i = 0; i < poolSize; i++) {
+        } catch (ClassNotFoundException e) {
+            throw new ConnectionPoolException(e);
+        }
+        freeConnectionQueue = new ArrayBlockingQueue<>(poolSize);
+        givenAwayConnectionQueue = new ArrayBlockingQueue<>(poolSize);
+        for (int i = 0; i < poolSize; i++) {
+            try {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 connection.setAutoCommit(true);
                 freeConnectionQueue.add(connection);
+            } catch ( SQLException e) {
+                throw new ConnectionPoolException(e);
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            logger.log(Level.WARN, e);
         }
+        logger.log(Level.INFO, "Connection pool initialized");
     }
 
     public Connection takeConnection() throws InterruptedException {
@@ -64,37 +69,33 @@ public class ConnectionPool {
     }
 
     public boolean returnConnection(Connection connection){
+        boolean isReturned = false;
         if (connection != null) {
             freeConnectionQueue.add(connection);
-
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.log(Level.WARN, e);
-            }
-            return givenAwayConnectionQueue.remove(connection);
+            isReturned = givenAwayConnectionQueue.remove(connection);
         }
-        return false;
+        return isReturned;
     }
-    public void dispose(){
+    public void dispose() throws ConnectionPoolException {
         clearConnectionQueues();
+        logger.log(Level.INFO, "Connection pool disposed");
     }
 
-    private void clearConnectionQueues(){
+    private void clearConnectionQueues() throws ConnectionPoolException {
         closeConnectionQueue(freeConnectionQueue);
         closeConnectionQueue(givenAwayConnectionQueue);
     }
-    private void closeConnectionQueue(BlockingQueue<Connection> queue){
-        try{
-            Connection connection;
-            while ((connection = queue.poll()) != null){
+    private void closeConnectionQueue(BlockingQueue<Connection> queue) throws ConnectionPoolException {
+        Connection connection;
+        while ((connection = queue.poll()) != null){
+            try{
                 if (!connection.getAutoCommit()){
                     connection.commit();
                 }
                 connection.close();
+            } catch (SQLException e) {
+                throw new ConnectionPoolException(e);
             }
-        } catch (SQLException e) {
-            logger.log(Level.WARN, e);
         }
     }
     public static ConnectionPool getInstance() {
@@ -105,8 +106,6 @@ public class ConnectionPool {
                     instance = new ConnectionPool();
                     created.set(true);
                 }
-            }catch (Exception e){ //specify exception!!!
-                logger.log(Level.WARN, e);
             }finally {
                 lock.unlock();
             }

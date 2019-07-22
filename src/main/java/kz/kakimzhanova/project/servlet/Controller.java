@@ -2,6 +2,8 @@ package kz.kakimzhanova.project.servlet;
 
 import kz.kakimzhanova.project.command.Command;
 import kz.kakimzhanova.project.command.CommandFactory;
+import kz.kakimzhanova.project.connection.ConnectionPool;
+import kz.kakimzhanova.project.exception.ConnectionPoolException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +26,11 @@ public class Controller extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        try {
+            ConnectionPool.getInstance().initPoolData();
+        } catch (ConnectionPoolException e) {
+            logger.log(Level.WARN, e);
+        }
 
     }
 
@@ -61,6 +68,11 @@ public class Controller extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
+        try {
+            ConnectionPool.getInstance().dispose();
+        } catch (ConnectionPoolException e) {
+            logger.log(Level.WARN, e);
+        }
     }
 }
 
