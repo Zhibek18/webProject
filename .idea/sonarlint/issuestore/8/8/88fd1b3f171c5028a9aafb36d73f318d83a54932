@@ -1,5 +1,3 @@
 
-Ÿsquid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¹Â·Š8âÙ¾§Á-
-jsquid:UselessImportCheck":Remove this unused import 'java.net.UnknownHostException'.(Ú·¬˜úÿÿÿÿ8ùÛ§Á-
-¤squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¡’…ùüÿÿÿÿ8Ã³º…Á-
-Fsquid:S1185>"(Remove this method to simply inherit it.(‚“¶î8Ã³º…Á-
+Ÿsquid:S1186&"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¹Â·Š8âÙ¾§Á-
+jsquid:UselessImportCheck":Remove this unused import 'java.net.UnknownHostException'.(Ú·¬˜úÿÿÿÿ8ùÛ§Á-

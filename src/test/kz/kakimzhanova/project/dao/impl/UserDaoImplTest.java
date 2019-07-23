@@ -1,11 +1,14 @@
 package kz.kakimzhanova.project.dao.impl;
 
+import kz.kakimzhanova.project.connection.ConnectionPool;
 import kz.kakimzhanova.project.dao.UserDao;
 import kz.kakimzhanova.project.entity.User;
+import kz.kakimzhanova.project.exception.ConnectionPoolException;
 import kz.kakimzhanova.project.exception.DaoException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,14 +19,24 @@ public class UserDaoImplTest {
     private static Logger logger = LogManager.getLogger();
     private static final String USER_LOGIN ="user";
     private static final String USER_PASSWORD ="pass";
+    private static final String USER_FIRST_NAME = "User";
+    private static final String USER_STREET = "A1";
+    private static final int USER_HOUSE = 2;
+    private static final int USER_APPARTMENT = 3;
+    private static final String USER_PHONE = "123333";
     private static UserDao userDao;
     @BeforeClass
     public static void init(){
         userDao = new UserDaoImpl();
+        try {
+            ConnectionPool.getInstance().initPoolData();
+        } catch (ConnectionPoolException e) {
+            logger.log(Level.WARN, e);
+        }
     }
     @Test
     public void findById() {
-        User expected = new User(USER_LOGIN, USER_PASSWORD);
+        User expected = new User(USER_LOGIN, USER_PASSWORD, USER_FIRST_NAME, USER_STREET, USER_HOUSE, USER_APPARTMENT, USER_PHONE);
         User actual = null;
         try {
             actual = userDao.findById(USER_LOGIN);
@@ -36,7 +49,7 @@ public class UserDaoImplTest {
 
     @Test
     public void create() {
-        User user = new User("zhibek125", "zhibek125");
+        User user = new User("zhibek125", "zhibek125", "Zhibek", "B1", 4, 5, "123556");
         boolean expected = true;
         boolean actual = false;
         try {
@@ -64,10 +77,30 @@ public class UserDaoImplTest {
         boolean expected = true;
         boolean actual = false;
         try {
-            actual = userDao.updateUserPassword("olzhas", "pass");
+            actual = userDao.updateUserPassword("user", "p");
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
         }
         Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void updateUserAddress() {
+        boolean expected = true;
+        boolean actual = false;
+        try{
+            actual = userDao.updateUserAddress("user", "myStreet", 55, 12);
+        } catch (DaoException e) {
+            logger.log(Level.WARN, e);
+        }
+        Assert.assertEquals(expected, actual);
+    }
+    @AfterClass
+    public static void dispose() {
+        try {
+            ConnectionPool.getInstance().dispose();
+        } catch (ConnectionPoolException e) {
+            logger.log(Level.WARN, e);
+        }
     }
 }

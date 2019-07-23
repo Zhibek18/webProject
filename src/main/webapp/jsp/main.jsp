@@ -15,17 +15,12 @@
 <hr/>
 Hello, ${login}!
 <hr/>
-<form name="showUsers" method="post" action="controller">
-    <input type="hidden" name="command" value="showUsers"/>
-    <input type="submit" value="Show users"/><br/>
-</form>
+<a href="controller?command=showUsers">Show users</a><br/>
+<a href="controller?command=forwardChangePassword">Change password</a><br/>
+<a href="controller?command=forwardChangeAddress">Change address</a><br/>
 <form name="logout" method="post" action="controller">
     <input type="hidden" name="command" value="logout"/>
     <input type="submit" value="log out"/><br/>
-</form>
-<form name="changePassword" method="post" action="controller">
-    <input type="hidden" name="command" value="forwardChangePassword"/>
-    <input type="submit" value="Change password"/><br/>
 </form>
 
 <form name="deleteUser" method="post" action="controller">

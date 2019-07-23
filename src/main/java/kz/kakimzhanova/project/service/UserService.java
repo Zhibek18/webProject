@@ -28,10 +28,10 @@ public class UserService {
         }
         return isValid;
     }
-    public boolean addNewUser(String login, String password){
+    public boolean addNewUser(String login, String password, String firstname, String street, int house, int apartment, String phone){
         boolean added;
         if (validateNewUser(login, password)){
-            User user = new User(login, password);
+            User user = new User(login, password, firstname, street, house, apartment, phone);
             try {
                 added = userDao.create(user);
             } catch (DaoException e) {
@@ -85,6 +85,16 @@ public class UserService {
                 isChanged = false;
             }
         } else {
+            isChanged = false;
+        }
+        return isChanged;
+    }
+    public boolean changeAddress(String login, String street, int house, int apartment){
+        boolean isChanged;
+        try{
+            isChanged = userDao.updateUserAddress(login, street, house, apartment);
+        } catch (DaoException e) {
+            logger.log(Level.WARN, "Couldn't change address: "+ e);
             isChanged = false;
         }
         return isChanged;

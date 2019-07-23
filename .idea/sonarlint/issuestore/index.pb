@@ -75,3 +75,5 @@ P
  src/main/resources/db.properties,7/7/779348f654a78c25c1b2a58c09d119b35347dc0d
 V
 &src/main/webapp/jsp/changePassword.jsp,e/0/e0e15fb1148a77dc8c00ec1586dd50063b6c1678
+|
+Lsrc/main/java/kz/kakimzhanova/project/exception/ConnectionPoolException.java,3/d/3d2dcaacdd9ea76b3a15c61d14b2dd76e8574716

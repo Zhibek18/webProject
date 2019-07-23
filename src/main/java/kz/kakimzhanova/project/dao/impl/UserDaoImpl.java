@@ -10,11 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
-    private static final String SQL_SELECT_ALL_USERS = "SELECT login, password FROM users";
-    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT login, password FROM users WHERE login=?";
-    private static final String SQL_INSERT_USER = "INSERT INTO users (login, password) VALUES (?,?)";
+    private static final String SQL_SELECT_ALL_USERS = "SELECT login FROM users";
+    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT login, password, firstname, street, house, apartment, phone FROM users WHERE login=?";
+    private static final String SQL_INSERT_USER = "INSERT INTO users (login, password, firstname, street, house, apartment, phone ) VALUES (?,?,?,?,?,?,?)";
     private static final String SQL_DELETE_USER = "DELETE FROM users WHERE login=?";
     private static final String SQL_UPDATE_USER_PASSWORD = "UPDATE users SET password=? WHERE login=?";
+    private static final String SQL_UPDATE_USER_ADDRESS = "UPDATE users SET street=?, house=?, apartment=? WHERE login=?";
+
+    private static final String PARAM_NAME_LOGIN = "login";
+    private static final String PARAM_NAME_PASSWORD = "password";
+    private static final String PARAM_FIRST_NAME = "firstname";
+    private static final String PARAM_STREET = "street";
+    private static final String PARAM_HOUSE = "house";
+    private static final String PARAM_APARTMENT = "apartment";
+    private static final String PARAM_PHONE = "phone";
     @Override
     public List<User> findAll() throws DaoException {
         List<User> users = new ArrayList<>();
@@ -27,8 +36,7 @@ public class UserDaoImpl implements UserDao {
             resultSet = statement.executeQuery(SQL_SELECT_ALL_USERS);
             while (resultSet.next()){
                 User user = new User();
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
+                user.setLogin(resultSet.getString(PARAM_NAME_LOGIN));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -88,6 +96,11 @@ public class UserDaoImpl implements UserDao {
             preparedStatement = connection.prepareStatement(SQL_INSERT_USER);
             preparedStatement.setString(1, user.getLogin());
             preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getFirstname());
+            preparedStatement.setString(4,user.getStreet());
+            preparedStatement.setInt(5, user.getHouse());
+            preparedStatement.setInt(6, user.getApartment());
+            preparedStatement.setString(7, user.getPhone());
             preparedStatement.executeUpdate();
             isChanged = true;
         } catch (SQLException e) {
@@ -120,7 +133,13 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(1, login);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
-                user = new User(login, resultSet.getString("password"));
+                user = new User(login,
+                                resultSet.getString(PARAM_NAME_PASSWORD),
+                                resultSet.getString(PARAM_FIRST_NAME),
+                                resultSet.getString(PARAM_STREET),
+                                resultSet.getInt(PARAM_HOUSE),
+                                resultSet.getInt(PARAM_APARTMENT),
+                                resultSet.getString(PARAM_PHONE));
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -144,9 +163,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean updateUserPassword(String login, String newPassword) throws DaoException {
         boolean isUpdated = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
         try {
-            Connection connection = ConnectionPool.getInstance().takeConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_PASSWORD);
+            connection = ConnectionPool.getInstance().takeConnection();
+            preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_PASSWORD);
             preparedStatement.setString(1,newPassword);
             preparedStatement.setString(2,login);
             preparedStatement.executeUpdate();
@@ -156,6 +177,35 @@ public class UserDaoImpl implements UserDao {
             Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            close(preparedStatement);
+            close(connection);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateUserAddress(String login, String street, int house, int apartment) throws DaoException {
+        boolean isUpdated = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection = ConnectionPool.getInstance().takeConnection();
+            preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_ADDRESS);
+            preparedStatement.setString(1, street);
+            preparedStatement.setInt(2, house);
+            preparedStatement.setInt(3, apartment);
+            preparedStatement.setString(4, login);
+            preparedStatement.executeUpdate();
+            isUpdated = true;
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }finally {
+            close(preparedStatement);
+            close(connection);
         }
         return isUpdated;
     }

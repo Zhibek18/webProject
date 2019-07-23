@@ -18,6 +18,16 @@
     <input type="text" name="login" value=""/><br/>
     Password:<br/>
     <input type="password" name="password" value=""/><br/>
+    First name:
+    <input type="text" name="firstname" value=""><br/>
+    Street:
+    <input type="text" name="street" value=""><br/>
+    House:
+    <input type="number" name="house" value=""><br/>
+    Apartment:
+    <input type="number" name="apartment" value=""><br/>
+    Phone:
+    <input type="text" name="phone" value=""><br/>
     ${errorSignUpMessage}<br/>
     <input type="submit" value="Sign up"></form>
 
