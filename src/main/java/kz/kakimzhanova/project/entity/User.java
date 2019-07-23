@@ -3,16 +3,16 @@ package kz.kakimzhanova.project.entity;
 public class User extends Entity{
     private String login;
     private String password;
-    private String firstname;
+    private String firstName;
     private String street;
     private int house;
     private int apartment;
     private String phone;
 
-    public User(String login, String password, String firstname, String street,int house, int apartment, String phone ) {
+    public User(String login, String password, String firstName, String street,int house, int apartment, String phone ) {
         this.login = login;
         this.password = password;
-        this.firstname = firstname;
+        this.firstName = firstName;
         this.street = street;
         this.house = house;
         this.apartment = apartment;
@@ -23,12 +23,12 @@ public class User extends Entity{
 
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getStreet() {
@@ -84,7 +84,7 @@ public class User extends Entity{
         final StringBuilder sb = new StringBuilder("User{");
         sb.append("login='").append(login).append('\'');
         sb.append(", password='").append(password).append('\'');
-        sb.append(", firstname='").append(firstname).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", street='").append(street).append('\'');
         sb.append(", house=").append(house);
         sb.append(", apartment=").append(apartment);

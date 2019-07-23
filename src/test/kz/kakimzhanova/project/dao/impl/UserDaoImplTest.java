@@ -20,8 +20,8 @@ public class UserDaoImplTest {
     private static final String USER_LOGIN ="user";
     private static final String USER_PASSWORD ="pass";
     private static final String USER_FIRST_NAME = "User";
-    private static final String USER_STREET = "A1";
-    private static final int USER_HOUSE = 2;
+    private static final String USER_STREET = "Aaaa";
+    private static final int USER_HOUSE = 1;
     private static final int USER_APPARTMENT = 3;
     private static final String USER_PHONE = "123333";
     private static UserDao userDao;

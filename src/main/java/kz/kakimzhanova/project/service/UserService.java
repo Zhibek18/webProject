@@ -28,10 +28,10 @@ public class UserService {
         }
         return isValid;
     }
-    public boolean addNewUser(String login, String password, String firstname, String street, int house, int apartment, String phone){
+    public boolean addNewUser(String login, String password, String firstName, String street, int house, int apartment, String phone){
         boolean added;
         if (validateNewUser(login, password)){
-            User user = new User(login, password, firstname, street, house, apartment, phone);
+            User user = new User(login, password, firstName, street, house, apartment, phone);
             try {
                 added = userDao.create(user);
             } catch (DaoException e) {

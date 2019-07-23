@@ -1,8 +1,9 @@
 package kz.kakimzhanova.project.dao.impl;
 
 import kz.kakimzhanova.project.connection.ConnectionPool;
-import kz.kakimzhanova.project.dao.DishDao;
+import kz.kakimzhanova.project.dao.OrderListDao;
 import kz.kakimzhanova.project.entity.Dish;
+import kz.kakimzhanova.project.entity.OrderList;
 import kz.kakimzhanova.project.exception.ConnectionPoolException;
 import kz.kakimzhanova.project.exception.DaoException;
 import org.apache.logging.log4j.Level;
@@ -17,26 +18,25 @@ import java.math.BigDecimal;
 
 import static org.junit.Assert.*;
 
-public class DishDaoImplTest {
-    private static final Logger logger = LogManager.getLogger();
-    private static DishDao dishDao;
+public class OrderListDaoImplTest {
+    private static Logger logger = LogManager.getLogger();
+    private static OrderListDao orderListDao;
     @BeforeClass
     public static void init(){
-        dishDao = new DishDaoImpl();
+        orderListDao = new OrderListDaoImpl();
         try {
             ConnectionPool.getInstance().initPoolData();
         } catch (ConnectionPoolException e) {
             logger.log(Level.WARN, e);
         }
     }
-
-
     @Test
     public void findById() {
-        Dish expected = new Dish("rice", BigDecimal.valueOf(500.0));
-        Dish actual = new Dish();
+        OrderList expected = new OrderList(1,1, "rice", 1);
+        OrderList actual = new OrderList();
         try {
-            actual = dishDao.findById("rice");
+            actual = orderListDao.findById(1);
+
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
         }
@@ -51,13 +51,12 @@ public class DishDaoImplTest {
             logger.log(Level.WARN, e);
         }
     }
-
     @Test
     public void create() {
         boolean expected = true;
         boolean actual = false;
         try {
-            actual = dishDao.create(new Dish("spaghetti", BigDecimal.valueOf(13.5)));
+            actual = orderListDao.create(new OrderList(5, 1, "fried potato", 1));
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
         }
@@ -69,7 +68,7 @@ public class DishDaoImplTest {
         boolean expected = true;
         boolean actual = false;
         try {
-            actual = dishDao.delete("spaghetti");
+            actual = orderListDao.delete(4);
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
         }
@@ -77,16 +76,4 @@ public class DishDaoImplTest {
     }
 
 
-
-    @Test
-    public void updatePrice() {
-        boolean expected = true;
-        boolean actual = false;
-        try{
-            actual = dishDao.updatePrice("rice", new BigDecimal(400.0));
-        } catch (DaoException e) {
-            logger.log(Level.WARN, e);
-        }
-        Assert.assertEquals(expected, actual);
-    }
 }
