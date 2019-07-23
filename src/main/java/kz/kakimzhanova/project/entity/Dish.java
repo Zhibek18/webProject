@@ -13,11 +13,11 @@ public class Dish extends Entity {
         this.price = price;
     }
 
-    public String getDish() {
+    public String getDishname() {
         return dishname;
     }
 
-    public void setDish(String dishname) {
+    public void setDishname(String dishname) {
         this.dishname = dishname;
     }
 
@@ -27,5 +27,14 @@ public class Dish extends Entity {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Dish{");
+        sb.append("dishname='").append(dishname).append('\'');
+        sb.append(", price=").append(price);
+        sb.append('}');
+        return sb.toString();
     }
 }

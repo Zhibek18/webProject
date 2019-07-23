@@ -12,7 +12,8 @@ public enum CommandType {
     DELETEUSER(new DeleteUserCommand()),
     CHANGEPASSWORD(new ChangePasswordCommand()),
     FORWARDCHANGEADDRESS(new ForwardChangeAddressCommand()),
-    CHANGEADDRESS(new ChangeAddressCommand());
+    CHANGEADDRESS(new ChangeAddressCommand()),
+    SHOWMENU(new ShowMenuCommand());
     private Command command;
 
     CommandType(Command command) {

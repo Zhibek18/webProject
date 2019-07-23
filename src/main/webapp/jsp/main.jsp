@@ -15,9 +15,11 @@
 <hr/>
 Hello, ${login}!
 <hr/>
+<a href="controller?command=showMenu">Menu</a><br/>
 <a href="controller?command=showUsers">Show users</a><br/>
 <a href="controller?command=forwardChangePassword">Change password</a><br/>
 <a href="controller?command=forwardChangeAddress">Change address</a><br/>
+
 <form name="logout" method="post" action="controller">
     <input type="hidden" name="command" value="logout"/>
     <input type="submit" value="log out"/><br/>
@@ -28,5 +30,7 @@ Hello, ${login}!
     ${deleteError}<br/>
     <input type="submit" value="Delete account"/><br/>
 </form>
+
+
 </body>
 </html>
