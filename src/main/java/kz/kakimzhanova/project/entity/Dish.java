@@ -3,22 +3,22 @@ package kz.kakimzhanova.project.entity;
 import java.math.BigDecimal;
 
 public class Dish extends Entity {
-    private String dishname;
+    private String dishName;
     private BigDecimal price;
 
     public Dish(){
     }
-    public Dish(String dishname, BigDecimal price) {
-        this.dishname = dishname;
+    public Dish(String dishName, BigDecimal price) {
+        this.dishName = dishName;
         this.price = price;
     }
 
-    public String getDishname() {
-        return dishname;
+    public String getDishName() {
+        return dishName;
     }
 
-    public void setDishname(String dishname) {
-        this.dishname = dishname;
+    public void setDishName(String dishName) {
+        this.dishName = dishName;
     }
 
     public BigDecimal getPrice() {
@@ -32,7 +32,7 @@ public class Dish extends Entity {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Dish{");
-        sb.append("dishname='").append(dishname).append('\'');
+        sb.append("dishName='").append(dishName).append('\'');
         sb.append(", price=").append(price);
         sb.append('}');
         return sb.toString();

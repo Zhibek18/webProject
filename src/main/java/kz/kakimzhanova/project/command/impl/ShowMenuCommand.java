@@ -12,7 +12,7 @@ public class ShowMenuCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         List<Dish> dishes = service.findAllDishes();
-        request.setAttribute("menu", dishes);
+        request.getSession().setAttribute("menu", dishes);
         return "/jsp/menu.jsp";
     }
 }

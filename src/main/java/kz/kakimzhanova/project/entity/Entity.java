@@ -1,4 +1,6 @@
 package kz.kakimzhanova.project.entity;
 
-public abstract class Entity {
+import java.io.Serializable;
+
+public abstract class Entity implements Serializable, Cloneable {
 }

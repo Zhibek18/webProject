@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DishDaoImpl implements DishDao {
-    private static final String SQL_SELECT_ALL_DISHES = "SELECT dishname, price FROM menu";
-    private static final String SQL_SELECT_DISH_BY_DISHNAME = "SELECT dishname, price FROM menu WHERE dishname=?";
-    private static final String SQL_DELETE_DISH = "DELETE FROM menu WHERE dishname=?";
-    private static final String SQL_INSERT_DISH = "INSERT INTO menu (dishname, price) VALUES (?,?)";
-    private static final String SQL_UPDATE_DISH = "UPDATE menu SET price=? WHERE dishname=?";
+    private static final String SQL_SELECT_ALL_DISHES = "SELECT dish_name, price FROM menu";
+    private static final String SQL_SELECT_DISH_BY_DISHNAME = "SELECT dish_name, price FROM menu WHERE dish_name=?";
+    private static final String SQL_DELETE_DISH = "DELETE FROM menu WHERE dish_name=?";
+    private static final String SQL_INSERT_DISH = "INSERT INTO menu (dish_name, price) VALUES (?,?)";
+    private static final String SQL_UPDATE_DISH = "UPDATE menu SET price=? WHERE dish_name=?";
     @Override
     public List<Dish> findAll() throws DaoException {
         List<Dish> dishes = null;
@@ -30,7 +30,7 @@ public class DishDaoImpl implements DishDao {
             dishes = new ArrayList<>();
             while (resultSet.next()){
                 Dish dish = new Dish();
-                dish.setDishname(resultSet.getString("dishname"));
+                dish.setDishName(resultSet.getString("dish_name"));
                 dish.setPrice(resultSet.getBigDecimal("price"));
                 dishes.add(dish);
             }
@@ -54,7 +54,7 @@ public class DishDaoImpl implements DishDao {
     }
 
     @Override
-    public Dish findById(String dishname) throws DaoException {
+    public Dish findById(String dish_name) throws DaoException {
         Dish dish = null;
         Connection connection = null;
         ResultSet resultSet = null;
@@ -62,11 +62,11 @@ public class DishDaoImpl implements DishDao {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_SELECT_DISH_BY_DISHNAME);
-            preparedStatement.setString(1, dishname);
+            preparedStatement.setString(1, dish_name);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
                 dish = new Dish();
-                dish.setDishname(resultSet.getString("dishname"));
+                dish.setDishName(resultSet.getString("dish_name"));
                 dish.setPrice(BigDecimal.valueOf(resultSet.getFloat("price")));
             }
         } catch (InterruptedException e) {
@@ -124,7 +124,7 @@ public class DishDaoImpl implements DishDao {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_INSERT_DISH);
-            preparedStatement.setString(1, dish.getDishname());
+            preparedStatement.setString(1, dish.getDishName());
             preparedStatement.setFloat(2, Float.valueOf(dish.getPrice().toString()));///TODO:Check BigDecimal to float
             preparedStatement.executeUpdate();
             isCreated = true;

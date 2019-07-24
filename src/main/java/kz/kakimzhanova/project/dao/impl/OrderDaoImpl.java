@@ -113,20 +113,31 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public boolean delete(Order entity) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean create(Order order) throws DaoException {
+    public boolean create(Order entity) {
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public Order create(String login) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        boolean isCreated = false;
+        Order order = null;
+        ResultSet resultSet = null;
+        int orderId;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
-            preparedStatement = connection.prepareStatement(SQL_INSERT_ORDER);
-            preparedStatement.setString(1, order.getLogin());
+            preparedStatement = connection.prepareStatement(SQL_INSERT_ORDER,Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, login);
             preparedStatement.executeUpdate();
-            isCreated = true;
+            resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()){
+                orderId = resultSet.getInt(1);
+                order = findById(orderId);
+            }
+
         } catch (SQLException e) {
             throw new DaoException(e);
         } catch (InterruptedException e) {
@@ -135,8 +146,15 @@ public class OrderDaoImpl implements OrderDao {
         } finally {
             close(preparedStatement);
             close(connection);
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                logger.log(Level.WARN, e);
+            }
         }
-        return isCreated;
+        return order;
     }
 
     @Override

@@ -53,14 +53,14 @@ public class OrderDaoImplTest {
     }
     @Test
     public void create() {
-        boolean expected = true;
-        boolean actual = false;
+        Order expected = new Order(1,"user",null);
+        Order actual = null;
         try {
-            actual = orderDao.create(new Order(1, "user", null));
+             actual = orderDao.create("user");
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
         }
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(expected.getOrderId(), actual.getOrderId());
     }
 
     @Test

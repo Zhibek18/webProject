@@ -33,7 +33,7 @@ public class DishDaoImplTest {
 
     @Test
     public void findById() {
-        Dish expected = new Dish("rice", BigDecimal.valueOf(500.0));
+        Dish expected = new Dish("rice", BigDecimal.valueOf(400.0));
         Dish actual = new Dish();
         try {
             actual = dishDao.findById("rice");

@@ -13,7 +13,11 @@ public enum CommandType {
     CHANGEPASSWORD(new ChangePasswordCommand()),
     FORWARDCHANGEADDRESS(new ForwardChangeAddressCommand()),
     CHANGEADDRESS(new ChangeAddressCommand()),
-    SHOWMENU(new ShowMenuCommand());
+    SHOWMENU(new ShowMenuCommand()),
+    ADDDISH(new AddDishCommand()),
+    SHOWORDER(new ShowOrderCommand()),
+    DELETEORDEREDDISH(new DeleteOrderedDishCommand()),
+    DELETEORDER(new DeleteOrderCommand());
     private Command command;
 
     CommandType(Command command) {

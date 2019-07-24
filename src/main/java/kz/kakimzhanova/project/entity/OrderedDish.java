@@ -1,33 +1,17 @@
 package kz.kakimzhanova.project.entity;
 
-public class OrderList extends Entity {
-    private int orderListId;
+public class OrderedDish extends Entity{
     private int orderId;
     private String dishName;
     private int quantity;
 
-    public OrderList(int orderListId, int orderId, String dishName, int quantity) {
-        this.orderListId = orderListId;
+    public OrderedDish(int orderId, String dishName, int quantity) {
         this.orderId = orderId;
         this.dishName = dishName;
         this.quantity = quantity;
     }
 
-    public OrderList(int orderId, String dishName, int quantity) {
-        this.orderId = orderId;
-        this.dishName = dishName;
-        this.quantity = quantity;
-    }
-
-    public OrderList() {
-    }
-
-    public int getOrderListId() {
-        return orderListId;
-    }
-
-    public void setOrderListId(int orderListId) {
-        this.orderListId = orderListId;
+    public OrderedDish() {
     }
 
     public int getOrderId() {
@@ -56,9 +40,8 @@ public class OrderList extends Entity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("OrderList{");
-        sb.append("orderListId=").append(orderListId);
-        sb.append(", orderId=").append(orderId);
+        final StringBuilder sb = new StringBuilder("OrderedDish{");
+        sb.append("  orderId=").append(orderId);
         sb.append(", dishName='").append(dishName).append('\'');
         sb.append(", quantity=").append(quantity);
         sb.append('}');

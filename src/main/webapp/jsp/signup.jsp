@@ -5,7 +5,7 @@
   Time: 12:33 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language %>
 <html>
 <head>
     <title>Sign up</title>
@@ -19,7 +19,7 @@
     Password:<br/>
     <input type="password" name="password" value=""/><br/>
     First name:
-    <input type="text" name="firstname" value=""><br/>
+    <input type="text" name="first_name" value=""><br/>
     Street:
     <input type="text" name="street" value=""><br/>
     House:
@@ -29,8 +29,9 @@
     Phone:
     <input type="text" name="phone" value=""><br/>
     ${errorSignUpMessage}<br/>
-    <input type="submit" value="Sign up"></form>
-
+    <input type="submit" value="Sign up">
 </form>
+
+
 </body>
 </html>

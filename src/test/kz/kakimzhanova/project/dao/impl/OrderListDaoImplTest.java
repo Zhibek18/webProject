@@ -2,8 +2,7 @@ package kz.kakimzhanova.project.dao.impl;
 
 import kz.kakimzhanova.project.connection.ConnectionPool;
 import kz.kakimzhanova.project.dao.OrderListDao;
-import kz.kakimzhanova.project.entity.Dish;
-import kz.kakimzhanova.project.entity.OrderList;
+import kz.kakimzhanova.project.entity.OrderedDish;
 import kz.kakimzhanova.project.exception.ConnectionPoolException;
 import kz.kakimzhanova.project.exception.DaoException;
 import org.apache.logging.log4j.Level;
@@ -13,10 +12,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.math.BigDecimal;
-
-import static org.junit.Assert.*;
 
 public class OrderListDaoImplTest {
     private static Logger logger = LogManager.getLogger();
@@ -31,11 +26,11 @@ public class OrderListDaoImplTest {
         }
     }
     @Test
-    public void findById() {
-        OrderList expected = new OrderList(1,1, "rice", 1);
-        OrderList actual = new OrderList();
+    public void findByIdAndDishName() {
+        OrderedDish expected = new OrderedDish(1, "rice", 1);
+        OrderedDish actual = new OrderedDish();
         try {
-            actual = orderListDao.findById(1);
+            actual = orderListDao.findByOrderIdAndDishName(1, "rice");
 
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
@@ -56,7 +51,7 @@ public class OrderListDaoImplTest {
         boolean expected = true;
         boolean actual = false;
         try {
-            actual = orderListDao.create(new OrderList(5, 1, "fried potato", 1));
+            actual = orderListDao.create(1, "fried chicken");
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
         }
@@ -68,12 +63,21 @@ public class OrderListDaoImplTest {
         boolean expected = true;
         boolean actual = false;
         try {
-            actual = orderListDao.delete(4);
+            actual = orderListDao.delete(1, "fried potato");
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
         }
         Assert.assertEquals(expected, actual);
     }
-
-
+    @Test
+    public void updateQuantity(){
+        boolean expected = true;
+        boolean actual = false;
+        try {
+            actual = orderListDao.quantityIncrement(1, "rice");
+        } catch (DaoException e) {
+            logger.log(Level.WARN, e);
+        }
+        Assert.assertEquals(expected, actual);
+    }
 }
