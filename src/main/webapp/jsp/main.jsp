@@ -17,6 +17,7 @@ Hello, ${login}!
 <hr/>
 <a href="controller?command=showMenu">Menu</a><br/>
 <a href="controller?command=showUsers">Show users</a><br/>
+<a href="controller?command=showOrders">Show orders</a><br/>
 <a href="controller?command=forwardChangePassword">Change password</a><br/>
 <a href="controller?command=forwardChangeAddress">Change address</a><br/>
 

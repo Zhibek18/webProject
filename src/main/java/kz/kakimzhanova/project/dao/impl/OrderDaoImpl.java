@@ -2,6 +2,7 @@ package kz.kakimzhanova.project.dao.impl;
 
 import kz.kakimzhanova.project.connection.ConnectionPool;
 import kz.kakimzhanova.project.dao.OrderDao;
+import kz.kakimzhanova.project.dao.OrderListDao;
 import kz.kakimzhanova.project.entity.Order;
 import kz.kakimzhanova.project.exception.DaoException;
 import org.apache.logging.log4j.Level;
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
-    private static final String SQL_SELECT_ALL_ORDERS = "SELECT order_id, login, timestamp FROM orders";
-    private static final String SQL_SELECT_ORDER_BY_ID = "SELECT order_id, login, timestamp FROM orders WHERE order_id=?";
+    private static final String SQL_SELECT_ALL_ORDERS = "select orders.order_id, orders.timestamp, orders.total_cost, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login)";
+    private static final String SQL_SELECT_ORDER_BY_ID = "select orders.order_id, orders.timestamp, orders.total_cost, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login) and orders.order_id=?";
     private static final String SQL_DELETE_ORDER = "DELETE FROM orders WHERE order_id=?";
     private static final String SQL_INSERT_ORDER = "INSERT INTO orders (login) VALUES (?)";
+    private static final String SQL_UPDATE_TOTAL_COST = "UPDATE orders SET total_cost=? WHERE order_id=?";
+    private OrderListDao orderListDao = new OrderListDaoImpl();
     @Override
     public List<Order> findAll() throws DaoException {
         List<Order> orders = null;
@@ -27,9 +30,16 @@ public class OrderDaoImpl implements OrderDao {
             orders = new ArrayList<>();
             while(resultSet.next()){
                 Order order = new Order();
-                order.setOrderId(resultSet.getInt("order_id"));
-                order.setLogin(resultSet.getString("login"));
+                int orderId = resultSet.getInt("order_id");
+                order.setOrderId(orderId);
                 order.setTimestamp(resultSet.getTimestamp("timestamp"));
+                order.setFirstName(resultSet.getString("first_name"));
+                order.setStreet(resultSet.getString("street"));
+                order.setHouse(resultSet.getInt("house"));
+                order.setApartment(resultSet.getInt("apartment"));
+                order.setPhone(resultSet.getString("phone"));
+                order.setOrderList(orderListDao.findByOrderId(orderId));
+                order.setTotalCost(resultSet.getFloat("total_cost"));
                 orders.add(order);
             }
         } catch (InterruptedException e) {
@@ -66,8 +76,14 @@ public class OrderDaoImpl implements OrderDao {
             if (resultSet.next()){
                 order = new Order();
                 order.setOrderId(orderId);
-                order.setLogin(resultSet.getString("login"));
                 order.setTimestamp(resultSet.getTimestamp("timestamp"));
+                order.setFirstName(resultSet.getString("first_name"));
+                order.setStreet(resultSet.getString("street"));
+                order.setHouse(resultSet.getInt("house"));
+                order.setApartment(resultSet.getInt("apartment"));
+                order.setPhone(resultSet.getString("phone"));
+                order.setOrderList(orderListDao.findByOrderId(orderId));
+                order.setTotalCost(resultSet.getFloat("total_cost"));
             }
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
@@ -161,4 +177,29 @@ public class OrderDaoImpl implements OrderDao {
     public Order update(Order entity) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public boolean updateTotalCost(int orderId, float totalCost) throws DaoException {
+        boolean isUpdated = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection = ConnectionPool.getInstance().takeConnection();
+            preparedStatement = connection.prepareStatement(SQL_UPDATE_TOTAL_COST);
+            preparedStatement.setFloat(1, totalCost);
+            preparedStatement.setInt(2, orderId);
+            preparedStatement.executeUpdate();
+            isUpdated = true;
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }finally {
+            close(preparedStatement);
+            close(connection);
+        }
+        return isUpdated;
+    }
+    //select orders.order_id, orders.timestamp, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login)
 }

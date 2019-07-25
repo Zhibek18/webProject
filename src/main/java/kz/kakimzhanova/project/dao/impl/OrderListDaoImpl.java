@@ -16,7 +16,7 @@ public class OrderListDaoImpl implements OrderListDao {
     private static final String SQL_DELETE_ORDER_LIST = "DELETE FROM order_list WHERE order_id =? AND dish_name=?";
     private static final String SQL_INSERT_ORDER_LIST = "INSERT INTO order_list (order_id, dish_name) VALUES (?,?)";
     private static final String SQL_UPDATE_QUANTITY = "UPDATE order_list SET quantity=? WHERE order_id=? AND dish_name=?";
-    private static final String SQL_SELECT_BY_ORDER_ID = "SELECT order_id, dish_name, quantity FROM order_list WHERE order_id=?";
+    private static final String SQL_SELECT_BY_ORDER_ID = "SELECT order_list.order_id, order_list.dish_name, menu.price, order_list.quantity FROM order_list INNER JOIN menu ON order_list.dish_name=menu.dish_name AND order_list.order_id=?";
     @Override
     public List<OrderedDish> findAll() throws DaoException {
         List<OrderedDish> orderedDishes = null;
@@ -69,6 +69,7 @@ public class OrderListDaoImpl implements OrderListDao {
                 OrderedDish orderedDish = new OrderedDish();
                 orderedDish.setOrderId(resultSet.getInt("order_id"));
                 orderedDish.setDishName(resultSet.getString("dish_name"));
+                orderedDish.setPrice(resultSet.getFloat("price"));
                 orderedDish.setQuantity(resultSet.getInt("quantity"));
                 orderedDishes.add(orderedDish);
             }
@@ -226,4 +227,29 @@ public class OrderListDaoImpl implements OrderListDao {
         }
         return isUpdated;
     }
+    @Override
+    public boolean updateQuantity(int orderId, String dishName, int quantity) throws DaoException {
+        boolean isUpdated = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection = ConnectionPool.getInstance().takeConnection();
+            preparedStatement = connection.prepareStatement(SQL_UPDATE_QUANTITY);
+            preparedStatement.setInt(1, quantity);
+            preparedStatement.setInt(2, orderId);
+            preparedStatement.setString(3, dishName);
+            preparedStatement.executeUpdate();
+            isUpdated = true;
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }finally {
+            close(preparedStatement);
+            close(connection);
+        }
+        return isUpdated;
+    }
+
 }

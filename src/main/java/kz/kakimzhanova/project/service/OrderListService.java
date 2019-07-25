@@ -47,4 +47,15 @@ public class OrderListService {
         }
         return isDeleted;
     }
+    public boolean changeDishQuantity(int orderId, String dishName, int newQuantity){
+        boolean isChanged = false;
+        if (newQuantity > 0) {
+            try {
+                isChanged = orderListDao.updateQuantity(orderId, dishName, newQuantity);
+            } catch (DaoException e) {
+                logger.log(Level.WARN, e);
+            }
+        }
+        return isChanged;
+    }
 }

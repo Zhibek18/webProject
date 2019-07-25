@@ -4,7 +4,7 @@ public class OrderedDish extends Entity{
     private int orderId;
     private String dishName;
     private int quantity;
-
+    private float price; //TODO: check float or bigDecimal
     public OrderedDish(int orderId, String dishName, int quantity) {
         this.orderId = orderId;
         this.dishName = dishName;
@@ -12,6 +12,14 @@ public class OrderedDish extends Entity{
     }
 
     public OrderedDish() {
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public int getOrderId() {

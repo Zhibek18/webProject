@@ -17,7 +17,11 @@ public enum CommandType {
     ADDDISH(new AddDishCommand()),
     SHOWORDER(new ShowOrderCommand()),
     DELETEORDEREDDISH(new DeleteOrderedDishCommand()),
-    DELETEORDER(new DeleteOrderCommand());
+    DELETEORDER(new DeleteOrderCommand()),
+    SHOWORDERS(new ShowOrdersCommand()),
+    CHANGEDISHQUANTITY(new ChangeDishQuantityCommand()),
+    UPDATEORDERTOTALCOST(new UpdateOrderTotalCostCommand());
+
     private Command command;
 
     CommandType(Command command) {

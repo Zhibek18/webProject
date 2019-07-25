@@ -13,6 +13,7 @@ public class DeleteOrderCommand implements Command {
         if (orderService.deleteOrder(orderId)){
             request.getSession().setAttribute("orderList", null);
             request.getSession().setAttribute("orderId", null);
+            request.getSession().setAttribute("order", null);
         } else {
             request.setAttribute("deleteOrderError", "Delete order error");
         }

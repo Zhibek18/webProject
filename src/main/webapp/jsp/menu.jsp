@@ -14,6 +14,10 @@
 <body>
 Menu:
 <table>
+    <tr>
+        <td>Dish name</td>
+        <td>Dish price</td>
+    </tr>
     <c:forEach var="dish" items="${menu}" varStatus="status">
         <tr>
             <td><c:out value="${dish.dishName}"/></td>
@@ -25,12 +29,10 @@ Menu:
                     <input type="submit" value="add"/>
                 </form>
             </td>
-            <td>
-                ${addingStatus}
-            </td>
         </tr>
     </c:forEach>
 </table>
+${addingStatus}<br/>
 <a href="controller?command=showOrder">Show order</a><br/>
 
 </body>

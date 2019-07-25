@@ -1,18 +1,23 @@
 package kz.kakimzhanova.project.command.impl;
 
 import kz.kakimzhanova.project.command.Command;
-import kz.kakimzhanova.project.entity.OrderedDish;
-import kz.kakimzhanova.project.service.OrderListService;
+import kz.kakimzhanova.project.entity.Order;
+import kz.kakimzhanova.project.service.OrderService;
+
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+
 
 public class ShowOrderCommand implements Command {
-    private OrderListService service = new OrderListService();
+    private OrderService orderService = new OrderService();
+
     @Override
     public String execute(HttpServletRequest request) {
-        int orderId = Integer.parseInt(request.getSession().getAttribute("orderId").toString());
-        List<OrderedDish> orderList = service.showOrderList(orderId);
-        request.getSession().setAttribute("orderList", orderList);
+        Object orderIdObject = request.getSession().getAttribute("orderId");
+        if (orderIdObject != null) {
+            int orderId = Integer.parseInt(orderIdObject.toString());
+            Order order = orderService.findOrderById(orderId);
+            request.getSession().setAttribute("order", order);
+        }
         return "/jsp/order.jsp";
     }
 }

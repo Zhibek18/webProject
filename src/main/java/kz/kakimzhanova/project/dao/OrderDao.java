@@ -5,4 +5,5 @@ import kz.kakimzhanova.project.exception.DaoException;
 
 public interface OrderDao extends BaseDao<Integer, Order>{
     Order create(String login) throws DaoException;
+    boolean updateTotalCost(int orderId, float totalCost) throws DaoException;
 }
