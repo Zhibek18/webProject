@@ -7,12 +7,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:bundle basename="pagecontent" prefix = "label." >
+
 <html>
 <head>
-    <title>Users</title>
+    <title><fmt:message key="users.title"/></title>
 </head>
 <body>
-<h3>Users</h3><br/>
+<h3><fmt:message key="users.title"/></h3><br/>
 <table>
     <c:forEach var="userName" items="${userNames}" varStatus="status">
         <tr>
@@ -23,3 +26,4 @@
 
 </body>
 </html>
+</fmt:bundle>

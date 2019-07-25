@@ -7,24 +7,29 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:bundle basename="pagecontent" prefix = "label." >
 <html>
 <head>
-    <title>Orders</title>
+    <title><fmt:message key="orders.title"/></title>
 </head>
 <body>
-<h3>Orders</h3><br/>
+<h3><fmt:message key="order.title"/></h3><br/>
 <c:forEach var="order" items="${orders}">
 
-    Order id: ${order.orderId}<br/>
-    Created: ${order.timestamp}<br/>
-    Recipient: ${order.firstName}<br/>
-    Address: ${order.street} street ${order.house}, apartment number ${order.apartment}.<br/>
+    <fmt:message key="OrderId"/>: ${order.orderId}<br/>
+    <fmt:message key="Created"/>: ${order.timestamp}<br/>
+    <fmt:message key="Recipient"/>: ${order.firstName}<br/>
+    <fmt:message key="Address"/>:<br/>
+    <fmt:message key="Street"/>: ${order.street}<br/>
+    <fmt:message key="House"/>: ${order.house}<br/>
+    <fmt:message key="Apartment"/>: ${order.apartment}<br/>
 
     <table>
         <tr>
-            <td>name</td>
-            <td>quantity</td>
-            <td>price</td>
+            <td><fmt:message key="DishName"/></td>
+            <td><fmt:message key="DishQuantity"/></td>
+            <td><fmt:message key="DishPrice"/></td>
         </tr>
         <c:forEach var="orderedDish" items="${order.orderList}" varStatus="status">
             <tr>
@@ -34,7 +39,9 @@
             </tr>
         </c:forEach>
     </table>
-    Total cost:${order.totalCost}<br/>
+    <fmt:message key="TotalCost"/>:${order.totalCost}<br/>
+    <br/>
 </c:forEach>
 </body>
 </html>
+</fmt:bundle>

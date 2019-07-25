@@ -6,21 +6,25 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:bundle basename="pagecontent" prefix = "label." >
+
 <html>
 <head>
-    <title>Title</title>
+    <title><fmt:message key="changeAddress.title"/></title>
 </head>
 <body>
 <form name="changeAddress" method="post" action="controller">
     <input type="hidden" name="command" value="changeAddress"/>
-    Street:
+    <fmt:message key="Street"/>:
     <input type="text" name="street" value=""/><br/>
-    House:
+    <fmt:message key="House"/>:
     <input type="number" name="house" value=""/><br/>
-    Apartment:
+    <fmt:message key="Apartment"/>:
     <input type="number" name="apartment" value=""/><br/>
     ${changeAddressError}<br/>
-    <input type="submit" value="Change address"><br/>
+    <input type="submit" value="<fmt:message key="Save"/>"><br/>
 </form>
 </body>
 </html>
+</fmt:bundle>

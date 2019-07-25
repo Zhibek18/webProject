@@ -8,8 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<fmt:setLocale value="ru_RU" scope="session" />
 <fmt:bundle basename="pagecontent" prefix = "label." >
 
 <html>
@@ -50,7 +48,7 @@
                             <input type="hidden" name="dishName" value="${orderedDish.dishName}"/>
                             <input type="number" name="quantity" value="${orderedDish.quantity}" min="1" onchange="this.form.submit()"/>
                         </form>
-                    <td>
+                    </td>
                     <td><c:out value="${orderedDish.price}"/></td>
                     <td>
                         <c:set var="cost" value="${orderedDish.quantity * orderedDish.price}" scope="request"/>

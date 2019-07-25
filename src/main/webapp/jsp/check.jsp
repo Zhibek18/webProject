@@ -8,13 +8,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="ru_RU" scope="session" />
 <fmt:bundle basename="pagecontent" prefix = "label." >
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title><fmt:message key="check.title"/>Check</title>
+    <title><fmt:message key="check.title"/></title>
 </head>
 <body>
 <fmt:message key="OrderId"/>: ${confirmedOrder.orderId}<br/>

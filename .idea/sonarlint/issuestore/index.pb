@@ -135,3 +135,7 @@ y
 Isrc/main/java/kz/kakimzhanova/project/command/impl/ShowOrdersCommand.java,c/b/cbfc7e279ccfb9cd48999f19ae876c03f3f6b250
 N
 src/main/webapp/jsp/orders.jsp,2/e/2e484babd42b88bfdea1f4f90d6b44edd12a0be9
+_
+/src/main/resources/pagecontent_en_US.properties,b/3/b390c8e47f7371572f4003d42f90b2701436048f
+_
+/src/main/resources/pagecontent_ru_RU.properties,9/e/9ecab3762e9d6903e21ba47208d220573feb7abc

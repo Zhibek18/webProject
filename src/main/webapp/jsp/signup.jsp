@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="ru_RU" scope="session" />
 <fmt:bundle basename="pagecontent" prefix = "label." >
 <html>
 <head>
@@ -33,7 +32,7 @@
     <fmt:message key="Phone"/>:<br/>
     <input type="text" name="phone" value=""><br/>
     ${errorSignUpMessage}<br/>
-    <input type="submit" value="<fmt:message key="signUp"/>">
+    <input type="submit" value="<fmt:message key="SignUp"/>">
 </form>
 
 
