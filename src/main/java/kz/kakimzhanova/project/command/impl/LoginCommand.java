@@ -12,8 +12,10 @@ public class LoginCommand implements Command {
         String page = null;
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String pass = request.getParameter(PARAM_NAME_PASSWORD);
+        boolean isAdmin = service.isAdmin(login);
         if (service.checkLogin(login, pass)){
             request.getSession().setAttribute("login", login);
+            request.getSession().setAttribute("isAdmin",isAdmin);
             page = "/jsp/main.jsp";
         } else {
             request.setAttribute("errorLoginPathMessage", "Incorrect login or password");

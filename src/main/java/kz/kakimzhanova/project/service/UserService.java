@@ -17,16 +17,28 @@ public class UserService {
     private UserDao userDao = new UserDaoImpl();
     public boolean checkLogin(String login, String password){
         boolean isValid = false;
-        try {
-            User user = userDao.findById(login);
-            if (user != null) {
-                isValid = (user.getPassword().equals(password));
-            }
-        } catch (DaoException e) {
-            logger.log(Level.WARN, "Couldn't find login:" + e);
-            isValid = false;
+        User user = findById(login);
+        if (user != null) {
+            isValid = (user.getPassword().equals(password));
         }
         return isValid;
+    }
+    public boolean isAdmin(String login){
+        boolean isAdmin = false;
+        User user = findById(login);
+        if (user != null) {
+            isAdmin = user.isAdmin();
+        }
+        return isAdmin;
+    }
+    private User findById(String login){
+        User user = null;
+        try {
+            user = userDao.findById(login);
+        } catch (DaoException e) {
+            logger.log(Level.WARN, e);
+        }
+        return user;
     }
     public boolean addNewUser(String login, String password, String firstName, String street, int house, int apartment, String phone){
         boolean added;

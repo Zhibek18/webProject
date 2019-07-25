@@ -125,3 +125,13 @@ m
 =src/main/java/kz/kakimzhanova/project/entity/OrderedDish.java,f/7/f738d7b750a492b76ed9075d520d29d1dedcbd8d
 x
 Hsrc/main/java/kz/kakimzhanova/project/command/impl/ShowOrderCommand.java,0/7/07a69dffc9b746a318ff04b6cda7843c8fb8995a
+Å
+Qsrc/main/java/kz/kakimzhanova/project/command/impl/ChangeDishQuantityCommand.java,d/a/dac247f1f2501cc3f25f2522adddd44358c9b6ce
+É
+Ssrc/main/java/kz/kakimzhanova/project/command/impl/UpdateOrderTotalCostCommand.java,3/5/3508e91d858913258b7ec93c2ff1161b2b2634b8
+M
+src/main/webapp/jsp/check.jsp,5/1/517de150769618fae62d07447a51b568d77cf7f4
+y
+Isrc/main/java/kz/kakimzhanova/project/command/impl/ShowOrdersCommand.java,c/b/cbfc7e279ccfb9cd48999f19ae876c03f3f6b250
+N
+src/main/webapp/jsp/orders.jsp,2/e/2e484babd42b88bfdea1f4f90d6b44edd12a0be9

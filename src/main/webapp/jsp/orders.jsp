@@ -12,6 +12,7 @@
     <title>Orders</title>
 </head>
 <body>
+<h3>Orders</h3><br/>
 <c:forEach var="order" items="${orders}">
 
     Order id: ${order.orderId}<br/>

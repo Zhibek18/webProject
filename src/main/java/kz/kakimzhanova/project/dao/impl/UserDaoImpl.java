@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     private static final String SQL_SELECT_ALL_USERS = "SELECT login FROM users";
-    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT login, password, first_name, street, house, apartment, phone FROM users WHERE login=?";
+    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT login, password, is_admin, first_name, street, house, apartment, phone FROM users WHERE login=?";
     private static final String SQL_INSERT_USER = "INSERT INTO users (login, password, first_name, street, house, apartment, phone ) VALUES (?,?,?,?,?,?,?)";
     private static final String SQL_DELETE_USER = "DELETE FROM users WHERE login=?";
     private static final String SQL_UPDATE_USER_PASSWORD = "UPDATE users SET password=? WHERE login=?";
@@ -24,6 +24,7 @@ public class UserDaoImpl implements UserDao {
     private static final String PARAM_HOUSE = "house";
     private static final String PARAM_APARTMENT = "apartment";
     private static final String PARAM_PHONE = "phone";
+    private static final String PARAM_IS_ADMIIN = "is_admin";
     @Override
     public List<User> findAll() throws DaoException {
         List<User> users = null;
@@ -134,13 +135,15 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(1, login);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
-                user = new User(login,
-                                resultSet.getString(PARAM_NAME_PASSWORD),
-                                resultSet.getString(PARAM_FIRST_NAME),
-                                resultSet.getString(PARAM_STREET),
-                                resultSet.getInt(PARAM_HOUSE),
-                                resultSet.getInt(PARAM_APARTMENT),
-                                resultSet.getString(PARAM_PHONE));
+                user = new User();
+                user.setLogin(login);
+                user.setPassword(resultSet.getString(PARAM_NAME_PASSWORD));
+                user.setFirstName(resultSet.getString(PARAM_FIRST_NAME));
+                user.setStreet(resultSet.getString(PARAM_STREET));
+                user.setHouse(resultSet.getInt(PARAM_HOUSE));
+                user.setApartment(resultSet.getInt(PARAM_APARTMENT));
+                user.setPhone(resultSet.getString(PARAM_PHONE));
+                user.setAdmin(resultSet.getBoolean(PARAM_IS_ADMIIN));
             }
         } catch (SQLException e) {
             throw new DaoException(e);

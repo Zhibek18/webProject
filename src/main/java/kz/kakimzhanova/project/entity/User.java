@@ -8,6 +8,7 @@ public class User extends Entity{
     private int house;
     private int apartment;
     private String phone;
+    private boolean isAdmin;
 
     public User(String login, String password, String firstName, String street,int house, int apartment, String phone ) {
         this.login = login;
@@ -21,6 +22,14 @@ public class User extends Entity{
 
     public User(){
 
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public String getFirstName() {

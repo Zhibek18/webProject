@@ -7,33 +7,38 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="ru_RU" scope="session" />
+<fmt:bundle basename="pagecontent" prefix = "label." >
 <html>
 <head>
-    <title>Menu</title>
+    <title><fmt:message key="menu.title"/></title>
 </head>
 <body>
-Menu:
+<fmt:message key="Menu"/>:
 <table>
     <tr>
-        <td>Dish name</td>
-        <td>Dish price</td>
+        <td><fmt:message key="DishName"/></td>
+        <td><fmt:message key="DishPrice"/></td>
     </tr>
     <c:forEach var="dish" items="${menu}" varStatus="status">
         <tr>
-            <td><c:out value="${dish.dishName}"/></td>
+            <td><c:out value="<fmt:message key=${dish.dishName}"/>"/></td>
             <td><c:out value="${dish.price}"/></td>
             <td>
                 <form name="addDish" method="post" action="controller">
                     <input type="hidden" name="command" value="addDish"/>
                     <input type="hidden" name="dishName" value="${dish.dishName}"/>
-                    <input type="submit" value="add"/>
+                    <input type="submit" value="<fmt:message key="add"/>"/>
                 </form>
             </td>
         </tr>
     </c:forEach>
 </table>
 ${addingStatus}<br/>
-<a href="controller?command=showOrder">Show order</a><br/>
+<a href="controller?command=showOrder"><fmt:message key="ShowOrder"/></a><br/>
 
 </body>
 </html>
+</fmt:bundle>
