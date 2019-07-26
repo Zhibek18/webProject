@@ -20,7 +20,8 @@ public enum CommandType {
     DELETEORDER(new DeleteOrderCommand()),
     SHOWORDERS(new ShowOrdersCommand()),
     CHANGEDISHQUANTITY(new ChangeDishQuantityCommand()),
-    UPDATEORDERTOTALCOST(new UpdateOrderTotalCostCommand());
+    UPDATEORDERTOTALCOST(new UpdateOrderTotalCostCommand()),
+    CHANGELANGUAGE(new ChangeLanguageCommand());
 
     private Command command;
 

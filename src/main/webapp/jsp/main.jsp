@@ -8,13 +8,21 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${language}" scope="session"/>
 <fmt:bundle basename="pagecontent" prefix = "label." >
-
 <html>
 <head>
     <title><fmt:message key="main.title" /></title>
 </head>
 <body>
+<form name="changeLanguage" method="post" action="controller">
+    <input type="hidden" name="command" value="changeLanguage">
+    <input type="hidden" name="page" value="/jsp/main.jsp">
+    <select id="language" name="language" onchange="this.form.submit()">
+        <option value="en_US" ${language == 'en_US' ? 'selected' : ''}>English</option>
+        <option value="ru_RU" ${language == 'ru_RU' ? 'selected' : ''}>Русский</option>
+    </select>
+</form>
 <h3><fmt:message key="welcome" /></h3>
 <hr/>
 <fmt:message key="hello"/>, ${login}!

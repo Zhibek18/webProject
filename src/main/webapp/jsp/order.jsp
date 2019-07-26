@@ -41,7 +41,7 @@
             </tr>
             <c:forEach var="orderedDish" items="${order.orderList}" varStatus="status">
                 <tr>
-                    <td><c:out value="<fmt:message key=${orderedDish.dishName}/>"/></td>
+                    <td><fmt:message key="${orderedDish.dishName}"/></td>
                     <td>
                         <form name="changeDishQuantity" method="post" action="controller">
                             <input type="hidden" name="command" value="changeDishQuantity"/>

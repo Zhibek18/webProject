@@ -8,7 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <fmt:bundle basename="pagecontent" prefix = "label." >
+    <fmt:setLocale value="${language}" scope="session"/>
 <html>
 <head>
     <title><fmt:message key="menu.title"/></title>
@@ -22,7 +24,7 @@
     </tr>
     <c:forEach var="dish" items="${menu}" varStatus="status">
         <tr>
-            <td><c:out value="<fmt:message key=${dish.dishName}"/>"/></td>
+            <td><fmt:message key="${dish.dishName}"/></td>
             <td><c:out value="${dish.price}"/></td>
             <td>
                 <form name="addDish" method="post" action="controller">
