@@ -9,7 +9,7 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:bundle basename="pagecontent" prefix = "label." >
+<fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
     <fmt:setLocale value="${language}" scope="session"/>
 <html>
 <head>
@@ -28,7 +28,7 @@
             <td><c:out value="${dish.price}"/></td>
             <td>
                 <form name="addDish" method="post" action="controller">
-                    <input type="hidden" name="command" value="addDish"/>
+                    <input type="hidden" name="command" value="add_dish"/>
                     <input type="hidden" name="dishName" value="${dish.dishName}"/>
                     <input type="submit" value="<fmt:message key="add"/>"/>
                 </form>
@@ -36,8 +36,10 @@
         </tr>
     </c:forEach>
 </table>
-${addingStatus}<br/>
-<a href="controller?command=showOrder"><fmt:message key="ShowOrder"/></a><br/>
+<c:if test="${not empty addingStatus}">
+    <fmt:message key="${addingStatus}" /><br/>
+</c:if>
+<a href="controller?command=show_order"><fmt:message key="ShowOrder"/></a><br/>
 
 </body>
 </html>

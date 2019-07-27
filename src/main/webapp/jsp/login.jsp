@@ -11,7 +11,7 @@
 
 <c:set var="language" value="ru_RU" scope="session"/>
 <fmt:setLocale value="${language}" scope="session"/>
-<fmt:bundle basename="pagecontent" prefix = "label." >
+<fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
 
 <html>
 <head>
@@ -24,12 +24,16 @@
         <input type="text" name="login" value=""/><br/>
         <fmt:message key="Password" /><br/>
         <input type="password" name="password" value=""/><br/>
-        ${errorLoginPathMessage}<br/>
-        ${nullpage}<br/>
+        <c:if test="${not empty errorLogin}">
+            <fmt:message key="${errorLogin}" /><br/>
+        </c:if>
+        <c:if test="${not empty nullpage}">
+            <fmt:message key="${nullpage}" /><br/>
+        </c:if>
         <input type="submit" value="<fmt:message key="logIn" />"/>
     </form>
     <form name="signUpLink" method="post" action="controller">
-        <input type="hidden" name="command" value="forwardSignUp"/>
+        <input type="hidden" name="command" value="forward_signup"/>
         <input type="submit" value="<fmt:message key="SignUp"/>"/>
     </form>
 </body>

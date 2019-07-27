@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: sam
@@ -8,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:bundle basename="pagecontent" prefix = "label." >
+<fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -20,8 +19,8 @@
 <fmt:message key="Created"/>: ${confirmedOrder.timestamp}<br/>
 <fmt:message key="Recipient"/>: ${confirmedOrder.firstName}<br/>
 <fmt:message key="Address"/>:<br/>
-<fmt:message key="Street"/>: ${confirmedOrder.street}
-<fmt:message key="House"/>: ${confirmedOrder.house}
+<fmt:message key="Street"/>: ${confirmedOrder.street}<br/>
+<fmt:message key="House"/>: ${confirmedOrder.house}<br/>
 <fmt:message key="Apartment"/>: ${confirmedOrder.apartment}.<br/>
 
 <table>
@@ -32,7 +31,7 @@
     </tr>
     <c:forEach var="orderedDish" items="${confirmedOrder.orderList}" varStatus="status">
         <tr>
-            <td><c:out value="<fmt:message key=${orderedDish.dishName}/>"/></td>
+            <td><fmt:message key="${orderedDish.dishName}"/></td>
             <td><c:out value="${orderedDish.quantity}"/></td>
             <td><c:out value="${orderedDish.price}"/></td>
             <td><c:out value="${orderedDish.price * orderedDish.quantity}"/></td>
@@ -42,7 +41,7 @@
 
 <fmt:message key="TotalCost"/>: ${confirmedOrder.totalCost}<br/>
 </body>
-<a href="controller?command=showMenu"><fmt:message key="BackToMenu"/></a><br/>
+<a href="controller?command=show_menu"><fmt:message key="BackToMenu"/></a><br/>
 
 </html>
 </fmt:bundle>

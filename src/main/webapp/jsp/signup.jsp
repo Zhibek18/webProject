@@ -7,8 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<fmt:bundle basename="pagecontent" prefix = "label." >
+<fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
 <html>
 <head>
     <title><fmt:message key="signUp.title"/></title>
@@ -31,7 +32,9 @@
     <input type="number" name="apartment" value=""><br/>
     <fmt:message key="Phone"/>:<br/>
     <input type="text" name="phone" value=""><br/>
-    ${errorSignUpMessage}<br/>
+    <c:if test="${not empty errorSignUpMessage}">
+        <fmt:message key="${errorSignUpMessage}" /><br/>
+    </c:if>
     <input type="submit" value="<fmt:message key="SignUp"/>">
 </form>
 

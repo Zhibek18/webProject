@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:bundle basename="pagecontent" prefix = "label." >
+<fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
 
 <html>
 <head>
@@ -27,9 +27,11 @@
     <fmt:message key="House"/>: ${order.house}<br/>
     <fmt:message key="Apartment"/>: ${order.apartment}<br/>
     <form name="deleteOrder" method="post" action="controller">
-        <input type="hidden" name="command" value="deleteOrder"/>
+        <input type="hidden" name="command" value="delete_order"/>
         <input type="submit" value="<fmt:message key="CancelOrder"/>"/>
-        ${deleteOrderError}
+        <c:if test="${not empty deleteOrderError}">
+            <fmt:message key="${deleteOrderError}" />
+        </c:if>
     </form>
         <c:set var="totalCost" value="0" scope="request"/>
         <table>
@@ -44,7 +46,7 @@
                     <td><fmt:message key="${orderedDish.dishName}"/></td>
                     <td>
                         <form name="changeDishQuantity" method="post" action="controller">
-                            <input type="hidden" name="command" value="changeDishQuantity"/>
+                            <input type="hidden" name="command" value="change_dish_quantity"/>
                             <input type="hidden" name="dishName" value="${orderedDish.dishName}"/>
                             <input type="number" name="quantity" value="${orderedDish.quantity}" min="1" onchange="this.form.submit()"/>
                         </form>
@@ -57,7 +59,7 @@
                     </td>
                     <td>
                         <form name="deleteOrderedDish" method="post" action="controller">
-                            <input type="hidden" name="command" value="deleteOrderedDish"/>
+                            <input type="hidden" name="command" value="delete_ordered_dish"/>
                             <input type="hidden" name="dishName" value="${orderedDish.dishName}"/>
                             <input type="submit" value="<fmt:message key="Delete"/>"/>
                         </form>
@@ -65,18 +67,22 @@
                 </tr>
             </c:forEach>
         </table>
-    ${deleteDishError}<br/>
-    ${changeQuantityError}<br/>
+    <c:if test="${not empty deleteDishError}">
+        <fmt:message key="${deleteDishError}" /><br/>
+    </c:if>
+    <c:if test="${not empty changeQuantityError}">
+        <fmt:message key="${changeQuantityError}" /><br/>
+    </c:if>
     <fmt:message key="TotalCost"/>: ${totalCost}<br/>
     <form name="updateOrderTotalCost" method="post" action="controller">
-        <input type="hidden" name="command" value="updateOrderTotalCost"/>
+        <input type="hidden" name="command" value="update_order_total_cost"/>
         <input type="hidden" name="orderId" value="${order.orderId}"/>
         <input type="hidden" name="totalCost" value="${totalCost}"/>
         <input type="submit" value="<fmt:message key="Confirm"/>"/>
     </form>
 </c:if>
 
-<a href="controller?command=showMenu"><fmt:message key="BackToMenu"/></a><br/>
+<a href="controller?command=show_menu"><fmt:message key="BackToMenu"/></a><br/>
 </body>
 </html>
 </fmt:bundle>

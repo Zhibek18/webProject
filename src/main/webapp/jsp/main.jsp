@@ -9,15 +9,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${language}" scope="session"/>
-<fmt:bundle basename="pagecontent" prefix = "label." >
+<fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
 <html>
 <head>
     <title><fmt:message key="main.title" /></title>
 </head>
 <body>
 <form name="changeLanguage" method="post" action="controller">
-    <input type="hidden" name="command" value="changeLanguage">
-    <input type="hidden" name="page" value="/jsp/main.jsp">
+    <input type="hidden" name="command" value="change_language">
+    <input type="hidden" name="page" value="path.page.main">
     <select id="language" name="language" onchange="this.form.submit()">
         <option value="en_US" ${language == 'en_US' ? 'selected' : ''}>English</option>
         <option value="ru_RU" ${language == 'ru_RU' ? 'selected' : ''}>Русский</option>
@@ -27,15 +27,18 @@
 <hr/>
 <fmt:message key="hello"/>, ${login}!
 <hr/>
-<a href="controller?command=showMenu"><fmt:message key="Menu"/></a><br/>
+<a href="controller?command=show_menu"><fmt:message key="Menu"/></a><br/>
+    <c:if test="${not empty showMenuError}">
+        <fmt:message key="${showMenuError}"/><br/>
+    </c:if>
 <c:if test="${isAdmin}">
-    <a href="controller?command=showUsers"><fmt:message key="ShowUsers"/></a><br/>
-    <a href="controller?command=showOrders"><fmt:message key="ShowOrders"/></a><br/>
+    <a href="controller?command=show_users"><fmt:message key="ShowUsers"/></a><br/>
+    <a href="controller?command=show_orders"><fmt:message key="ShowOrders"/></a><br/>
 </c:if>
 
-<a href="controller?command=forwardChangePassword"><fmt:message key="ChangePassword"/></a><br/>
+<a href="controller?command=forward_change_password"><fmt:message key="ChangePassword"/></a><br/>
 <c:if test="${not isAdmin}">
-<a href="controller?command=forwardChangeAddress"><fmt:message key="ChangeAddress"/></a><br/>
+    <a href="controller?command=forward_change_address"><fmt:message key="ChangeAddress"/></a><br/>
 </c:if>
 <form name="logout" method="post" action="controller">
     <input type="hidden" name="command" value="logout"/>
@@ -43,8 +46,10 @@
 </form>
 
 <form name="deleteUser" method="post" action="controller">
-    <input type="hidden" name="command" value="deleteUser"/>
-    ${deleteError}<br/>
+    <input type="hidden" name="command" value="delete_user"/>
+    <c:if test="${not empty deleteUserError}">
+        <fmt:message key="${deleteUserError}" /><br/>
+    </c:if>
     <input type="submit" value="<fmt:message key="deleteAccount"/>"/><br/>
 </form>
 

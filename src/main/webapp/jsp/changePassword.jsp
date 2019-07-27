@@ -5,9 +5,10 @@
   Time: 12:52 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:bundle basename="pagecontent" prefix = "label." >
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
 
 <html>
 <head>
@@ -15,14 +16,16 @@
 </head>
 <body>
 <form name="changePasswordForm" method="post" action="controller">
-    <input type="hidden" name="command" value="changePassword"/>
+    <input type="hidden" name="command" value="change_password"/>
     <fmt:message key="Login"/>:<br/>
     <input type="text" name="login" value=""/><br/>
     <fmt:message key="CurrentPassword"/>:<br/>
     <input type="password" name="oldPassword" value=""/><br/>
     <fmt:message key="NewPassword"/>:<br/>
     <input type="password" name="newPassword" value=""/><br/>
-    ${updateError}<br/>
+    <c:if test="${not empty updateError}">
+        <fmt:message key="${updateError}"/><br/>
+    </c:if>
     <input type="submit" value="<fmt:message key="Save"/>"/>
 </form>
 </body>
