@@ -39,8 +39,11 @@
 <c:if test="${not empty addingStatus}">
     <fmt:message key="${addingStatus}" /><br/>
 </c:if>
-<a href="controller?command=show_order"><fmt:message key="ShowOrder"/></a><br/>
 
+<a href="controller?command=show_order"><fmt:message key="ShowOrder"/></a><br/>
+<c:if test="${not empty nullpage}">
+    <fmt:message key="${nullpage}" /><br/>
+</c:if>
 </body>
 </html>
 </fmt:bundle>

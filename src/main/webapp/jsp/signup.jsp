@@ -32,12 +32,14 @@
     <input type="number" name="apartment" value=""><br/>
     <fmt:message key="Phone"/>:<br/>
     <input type="text" name="phone" value=""><br/>
-    <c:if test="${not empty errorSignUpMessage}">
-        <fmt:message key="${errorSignUpMessage}" /><br/>
-    </c:if>
     <input type="submit" value="<fmt:message key="SignUp"/>">
 </form>
-
+<c:if test="${not empty errorSignUpMessage}">
+    <fmt:message key="${errorSignUpMessage}" /><br/>
+</c:if>
+<c:if test="${not empty nullpage}">
+    <fmt:message key="${nullpage}" /><br/>
+</c:if>
 
 </body>
 </html>

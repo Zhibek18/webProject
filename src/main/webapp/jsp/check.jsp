@@ -42,6 +42,9 @@
 <fmt:message key="TotalCost"/>: ${confirmedOrder.totalCost}<br/>
 </body>
 <a href="controller?command=show_menu"><fmt:message key="BackToMenu"/></a><br/>
+<c:if test="${not empty nullpage}">
+    <fmt:message key="${nullpage}" /><br/>
+</c:if>
 
 </html>
 </fmt:bundle>

@@ -23,11 +23,14 @@
     <input type="number" name="house" value=""/><br/>
     <fmt:message key="Apartment"/>:
     <input type="number" name="apartment" value=""/><br/>
-    <c:if test="${not empty changeAddressError}">
-        <fmt:message key="${changeAddressError}"/><br/>
-    </c:if>
     <input type="submit" value="<fmt:message key="Save"/>"><br/>
 </form>
+<c:if test="${not empty changeAddressError}">
+    <fmt:message key="${changeAddressError}"/><br/>
+</c:if>
+<c:if test="${not empty nullpage}">
+    <fmt:message key="${nullpage}" /><br/>
+</c:if>
 </body>
 </html>
 </fmt:bundle>

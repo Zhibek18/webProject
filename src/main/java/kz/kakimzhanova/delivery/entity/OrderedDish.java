@@ -1,10 +1,12 @@
 package kz.kakimzhanova.delivery.entity;
 
+import java.math.BigDecimal;
+
 public class OrderedDish extends Entity{
     private int orderId;
     private String dishName;
     private int quantity;
-    private float price; //TODO: check float or bigDecimal
+    private BigDecimal price;
     public OrderedDish(int orderId, String dishName, int quantity) {
         this.orderId = orderId;
         this.dishName = dishName;
@@ -14,11 +16,11 @@ public class OrderedDish extends Entity{
     public OrderedDish() {
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

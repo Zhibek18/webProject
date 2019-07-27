@@ -64,7 +64,7 @@ public class OrderListDaoImpl implements OrderListDao {
                 OrderedDish orderedDish = new OrderedDish();
                 orderedDish.setOrderId(resultSet.getInt(DaoParameterHolder.PARAM_ORDER_ID.getName()));
                 orderedDish.setDishName(resultSet.getString(DaoParameterHolder.PARAM_DISH_NAME.getName()));
-                orderedDish.setPrice(resultSet.getFloat(DaoParameterHolder.PARAM_PRICE.getName()));
+                orderedDish.setPrice(resultSet.getBigDecimal(DaoParameterHolder.PARAM_PRICE.getName()));
                 orderedDish.setQuantity(resultSet.getInt(DaoParameterHolder.PARAM_QUANTITY.getName()));
                 orderedDishes.add(orderedDish);
             }

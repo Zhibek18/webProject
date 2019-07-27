@@ -23,10 +23,14 @@
     <input type="password" name="oldPassword" value=""/><br/>
     <fmt:message key="NewPassword"/>:<br/>
     <input type="password" name="newPassword" value=""/><br/>
+    <input type="submit" value="<fmt:message key="Save"/>"/>
     <c:if test="${not empty updateError}">
         <fmt:message key="${updateError}"/><br/>
     </c:if>
-    <input type="submit" value="<fmt:message key="Save"/>"/>
+    <c:if test="${not empty nullpage}">
+        <fmt:message key="${nullpage}" /><br/>
+    </c:if>
+
 </form>
 </body>
 </html>

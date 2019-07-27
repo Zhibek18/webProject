@@ -62,7 +62,7 @@ public class DishDaoImpl implements DishDao {
             if (resultSet.next()){
                 dish = new Dish();
                 dish.setDishName(resultSet.getString(DaoParameterHolder.PARAM_DISH_NAME.getName()));
-                dish.setPrice(BigDecimal.valueOf(resultSet.getFloat(DaoParameterHolder.PARAM_PRICE.getName())));
+                dish.setPrice(resultSet.getBigDecimal(DaoParameterHolder.PARAM_PRICE.getName()));
             }
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
@@ -114,7 +114,7 @@ public class DishDaoImpl implements DishDao {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_INSERT_DISH);
             preparedStatement.setString(1, dish.getDishName());
-            preparedStatement.setFloat(2, Float.valueOf(dish.getPrice().toString()));///TODO:Check BigDecimal to float
+            preparedStatement.setBigDecimal(2, dish.getPrice());
             preparedStatement.executeUpdate();
             isCreated = true;
         } catch (SQLException e) {
@@ -137,7 +137,7 @@ public class DishDaoImpl implements DishDao {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_UPDATE_DISH);
-            preparedStatement.setFloat(1, Float.valueOf(newPrice.toString())); //TODO:Check BigDecimal
+            preparedStatement.setBigDecimal(1,newPrice);
             preparedStatement.setString(2,dishName);
             preparedStatement.executeUpdate();
             isUpdated = true;

@@ -47,12 +47,14 @@
 
 <form name="deleteUser" method="post" action="controller">
     <input type="hidden" name="command" value="delete_user"/>
-    <c:if test="${not empty deleteUserError}">
-        <fmt:message key="${deleteUserError}" /><br/>
-    </c:if>
     <input type="submit" value="<fmt:message key="deleteAccount"/>"/><br/>
 </form>
-
+<c:if test="${not empty deleteUserError}">
+    <fmt:message key="${deleteUserError}" /><br/>
+</c:if>
+<c:if test="${not empty nullpage}">
+    <fmt:message key="${nullpage}" /><br/>
+</c:if>
 
 </body>
 </html>

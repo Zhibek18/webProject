@@ -1,5 +1,6 @@
 package kz.kakimzhanova.delivery.entity;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -13,16 +14,16 @@ public class Order extends Entity {
     private int apartment;
     private String phone;
     private List<OrderedDish> orderList;
-    private float totalCost;
+    private BigDecimal totalCost;
     public List<OrderedDish> getOrderList() {
         return orderList;
     }
 
-    public float getTotalCost() {
+    public BigDecimal getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(float totalCost) {
+    public void setTotalCost(BigDecimal totalCost) {
         this.totalCost = totalCost;
     }
 

@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 
 public class UpdateOrderTotalCostCommand implements Command {
     private static Logger logger = LogManager.getLogger();
@@ -24,8 +25,8 @@ public class UpdateOrderTotalCostCommand implements Command {
         String page;
         Order order = (Order)request.getSession().getAttribute(CommandParameterHolder.PARAM_ORDER.getName());
         int orderId = order.getOrderId();
-        float totalCost = Float.parseFloat(request.getParameter(CommandParameterHolder.PARAM_TOTAL_COST.getName()));
-        if (totalCost != 0.0){
+        BigDecimal totalCost = new BigDecimal(request.getParameter(CommandParameterHolder.PARAM_TOTAL_COST.getName()));
+        if (totalCost.compareTo(BigDecimal.ZERO) != 0){
             try {
                 if (orderService.updateTotalCost(orderId, totalCost)) {
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_ID.getName(), null);
@@ -33,6 +34,7 @@ public class UpdateOrderTotalCostCommand implements Command {
                     request.setAttribute(CommandParameterHolder.PARAM_CONFIRMED_ORDER.getName(), orderService.findOrderById(orderId));
                     page = CHECK_PATH;
                 } else {
+                    logger.log(Level.ERROR, "order service returned false");
                     request.setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), TOTAL_COST_ERROR_MESSAGE);
                     page = ORDER_PATH;
                 }
@@ -42,6 +44,7 @@ public class UpdateOrderTotalCostCommand implements Command {
                 page = ORDER_PATH;
             }
         } else {
+            logger.log(Level.WARN, "totalCost equals 0");
             request.setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), EMPTY_ORDER_ERROR_MESSAGE);
             page = ORDER_PATH;
         }

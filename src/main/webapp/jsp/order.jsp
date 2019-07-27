@@ -74,6 +74,10 @@
         <fmt:message key="${changeQuantityError}" /><br/>
     </c:if>
     <fmt:message key="TotalCost"/>: ${totalCost}<br/>
+    <c:if test="${not empty orderConfirmError}">
+        <fmt:message key="${orderConfirmError}" /><br/>
+    </c:if>
+
     <form name="updateOrderTotalCost" method="post" action="controller">
         <input type="hidden" name="command" value="update_order_total_cost"/>
         <input type="hidden" name="orderId" value="${order.orderId}"/>
@@ -83,6 +87,9 @@
 </c:if>
 
 <a href="controller?command=show_menu"><fmt:message key="BackToMenu"/></a><br/>
+<c:if test="${not empty nullpage}">
+    <fmt:message key="${nullpage}" /><br/>
+</c:if>
 </body>
 </html>
 </fmt:bundle>

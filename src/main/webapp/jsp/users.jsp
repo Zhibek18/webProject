@@ -23,7 +23,9 @@
         </tr>
     </c:forEach>
 </table>
-
+<c:if test="${not empty nullpage}">
+    <fmt:message key="${nullpage}" /><br/>
+</c:if>
 </body>
 </html>
 </fmt:bundle>

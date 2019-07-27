@@ -7,6 +7,8 @@ import kz.kakimzhanova.delivery.dao.OrderListDao;
 import kz.kakimzhanova.delivery.entity.Order;
 import kz.kakimzhanova.delivery.exception.DaoException;
 import org.apache.logging.log4j.Level;
+
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
                 order.setOrderList(orderListDao.findByOrderId(orderId));
-                order.setTotalCost(resultSet.getFloat(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
+                order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
                 orders.add(order);
             }
         } catch (InterruptedException e) {
@@ -78,7 +80,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
                 order.setOrderList(orderListDao.findByOrderId(orderId));
-                order.setTotalCost(resultSet.getFloat(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
+                order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
             }
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
@@ -162,14 +164,14 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean updateTotalCost(int orderId, float totalCost) throws DaoException {
+    public boolean updateTotalCost(int orderId, BigDecimal totalCost) throws DaoException {
         boolean isUpdated = false;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_UPDATE_TOTAL_COST);
-            preparedStatement.setFloat(1, totalCost);
+            preparedStatement.setBigDecimal(1, totalCost);
             preparedStatement.setInt(2, orderId);
             preparedStatement.executeUpdate();
             isUpdated = true;

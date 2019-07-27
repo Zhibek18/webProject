@@ -9,6 +9,7 @@ import kz.kakimzhanova.delivery.service.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
@@ -57,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
     @Override
-    public boolean updateTotalCost(int orderId, float totalCost) throws ServiceException {
+    public boolean updateTotalCost(int orderId, BigDecimal totalCost) throws ServiceException {
         boolean isUpadted;
         try{
             isUpadted = orderDao.updateTotalCost(orderId, totalCost);

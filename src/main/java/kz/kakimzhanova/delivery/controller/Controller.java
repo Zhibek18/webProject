@@ -20,6 +20,10 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/controller")
 public class Controller extends HttpServlet {
     private static Logger logger = LogManager.getLogger();
+    private static final String INDEX_PATH = "path.page.index";
+    private static final String PARAM_COMMAND = "command";
+    private static final String PARAM_NULL_PAGE_ERROR = "nullPage";
+    private static final String PARAM_NULL_PAGE_ERROR_MESSAGE = "nullPage.error";
     public Controller(){
         super();
     }
@@ -37,7 +41,7 @@ public class Controller extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         try {
-            processRequest(req, resp);
+            processGetRequest(req, resp);
         }catch (ServletException | IOException e){
             logger.log(Level.ERROR, e);
         }
@@ -47,15 +51,15 @@ public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         resp.setContentType("text/html");
         try {
-            processRequest(req, resp);
+            processPostRequest(req, resp);
         }catch (ServletException | IOException e){
             logger.log(Level.ERROR, e);
         }
     }
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void processGetRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pagePath;
         String page;
-        Command command = CommandFactory.defineCommand(req.getParameter("command"));
+        Command command = CommandFactory.defineCommand(req.getParameter(PARAM_COMMAND));
 
         pagePath = command.execute(req);
 
@@ -64,8 +68,25 @@ public class Controller extends HttpServlet {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(req, resp);
         } else{
-            page = ConfigurationManager.getString("path.page.index");
-            req.getSession().setAttribute("nullPage", "Message nullpage");
+            page = ConfigurationManager.getString(INDEX_PATH);
+            req.getSession().setAttribute(PARAM_NULL_PAGE_ERROR,PARAM_NULL_PAGE_ERROR_MESSAGE );
+            resp.sendRedirect(req.getContextPath() + page);
+        }
+    }
+    private void processPostRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String pagePath;
+        String page;
+        Command command = CommandFactory.defineCommand(req.getParameter(PARAM_COMMAND));
+
+        pagePath = command.execute(req);
+
+        if (pagePath != null) {
+            page = ConfigurationManager.getString(pagePath);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+            dispatcher.forward(req, resp);
+        } else{
+            page = ConfigurationManager.getString(INDEX_PATH);
+            req.getSession().setAttribute(PARAM_NULL_PAGE_ERROR,PARAM_NULL_PAGE_ERROR_MESSAGE );
             resp.sendRedirect(req.getContextPath() + page);
         }
     }

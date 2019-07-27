@@ -24,18 +24,18 @@
         <input type="text" name="login" value=""/><br/>
         <fmt:message key="Password" /><br/>
         <input type="password" name="password" value=""/><br/>
-        <c:if test="${not empty errorLogin}">
-            <fmt:message key="${errorLogin}" /><br/>
-        </c:if>
-        <c:if test="${not empty nullpage}">
-            <fmt:message key="${nullpage}" /><br/>
-        </c:if>
         <input type="submit" value="<fmt:message key="logIn" />"/>
     </form>
     <form name="signUpLink" method="post" action="controller">
         <input type="hidden" name="command" value="forward_signup"/>
         <input type="submit" value="<fmt:message key="SignUp"/>"/>
     </form>
+    <c:if test="${not empty errorLogin}">
+        <fmt:message key="${errorLogin}" /><br/>
+    </c:if>
+    <c:if test="${not empty nullpage}">
+        <fmt:message key="${nullpage}" /><br/>
+    </c:if>
 </body>
 
 </html>

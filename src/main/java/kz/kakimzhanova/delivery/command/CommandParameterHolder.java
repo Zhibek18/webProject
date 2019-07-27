@@ -26,7 +26,7 @@ public enum CommandParameterHolder {
     PARAM_CHANGE_ADDRESS_ERROR("changeAddressError"),
     PARAM_CHANGE_QUANTITY_ERROR("changeQuantityError"),
     PARAM_UPDATE_ERROR("updateError"),
-    PARAM_DELETE_ORDER_ERROR("deleteOrederError"),
+    PARAM_DELETE_ORDER_ERROR("deleteOrderError"),
     PARAM_DELETE_DISH_ERROR("deleteDishOrder"),
     PARAM_DELETE_USER_ERROR("deleteUserError"),
     PARAM_LOGIN_ERROR("errorLogin"),
