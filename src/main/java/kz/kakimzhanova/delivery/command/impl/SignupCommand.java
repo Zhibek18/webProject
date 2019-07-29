@@ -34,23 +34,24 @@ public class SignupCommand  implements Command {
             if(!service.checkLogin(login,password)) {
                 if ((service.addNewUser(login, password, firstName, street, house, apartment, phone))) {
                     page = LOGIN_PATH;
+                    request.getSession().removeAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName());
                 } else {
-                    logger.log(Level.ERROR, "not valid login or password");
-                    request.setAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName(), LOGIN_NOT_VALID_ERROR_MESSAGE);
+                    logger.log(Level.ERROR, "not valid input data");
+                    request.getSession().setAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName(), LOGIN_NOT_VALID_ERROR_MESSAGE);
                     page = SIGNUP_PATH;
                 }
             }else {
                 logger.log(Level.ERROR, "login already taken");
-                request.setAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName(), LOGIN_TAKEN_ERROR_MESSAGE);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName(), LOGIN_TAKEN_ERROR_MESSAGE);
                 page = SIGNUP_PATH;
             }
         } catch (NumberFormatException e){
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName(), WRONG_INPUT_ERROR_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName(), WRONG_INPUT_ERROR_MESSAGE);
             page = SIGNUP_PATH;
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName(), SIGNUP_ERROR_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName(), SIGNUP_ERROR_MESSAGE);
             page = SIGNUP_PATH;
         }
         return page;

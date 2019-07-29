@@ -23,13 +23,14 @@ public class DeleteOrderCommand implements Command {
             if (orderService.deleteOrder(orderId)) {
                 request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_ID.getName(), null);
                 request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER.getName(), null);
+                request.removeAttribute(CommandParameterHolder.PARAM_DELETE_ORDER_ERROR.getName());
             } else {
                 logger.log(Level.ERROR, "deleteOrder returned false");
-                request.setAttribute(CommandParameterHolder.PARAM_DELETE_ORDER_ERROR.getName(), DELETE_ORDER_ERROR);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_DELETE_ORDER_ERROR.getName(), DELETE_ORDER_ERROR);
             }
         }catch (NumberFormatException | ServiceException e){
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_DELETE_ORDER_ERROR.getName(), DELETE_ORDER_ERROR);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_DELETE_ORDER_ERROR.getName(), DELETE_ORDER_ERROR);
         }
         return MENU_PATH;
     }

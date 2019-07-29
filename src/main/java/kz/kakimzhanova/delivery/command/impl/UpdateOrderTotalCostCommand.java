@@ -31,21 +31,22 @@ public class UpdateOrderTotalCostCommand implements Command {
                 if (orderService.updateTotalCost(orderId, totalCost)) {
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_ID.getName(), null);
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER.getName(), null);
-                    request.setAttribute(CommandParameterHolder.PARAM_CONFIRMED_ORDER.getName(), orderService.findOrderById(orderId));
+                    request.getSession().setAttribute(CommandParameterHolder.PARAM_CONFIRMED_ORDER.getName(), orderService.findOrderById(orderId));
                     page = CHECK_PATH;
+                    request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName());
                 } else {
                     logger.log(Level.ERROR, "order service returned false");
-                    request.setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), TOTAL_COST_ERROR_MESSAGE);
+                    request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), TOTAL_COST_ERROR_MESSAGE);
                     page = ORDER_PATH;
                 }
             }catch (ServiceException e){
                 logger.log(Level.ERROR, e);
-                request.setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), TOTAL_COST_ERROR_MESSAGE);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), TOTAL_COST_ERROR_MESSAGE);
                 page = ORDER_PATH;
             }
         } else {
             logger.log(Level.WARN, "totalCost equals 0");
-            request.setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), EMPTY_ORDER_ERROR_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), EMPTY_ORDER_ERROR_MESSAGE);
             page = ORDER_PATH;
         }
         return page;

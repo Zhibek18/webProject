@@ -15,6 +15,15 @@
     <title><fmt:message key="order.title"/></title>
 </head>
 <body>
+<c:import url="navbar.jsp"/>
+<form name="changeLanguage" method="post" action="controller">
+    <input type="hidden" name="command" value="change_language">
+    <input type="hidden" name="page" value="path.page.order" >
+    <select id="language" name="language" onchange="this.form.submit()">
+        <option value="en_US" ${language == 'en_US' ? 'selected' : ''}>English</option>
+        <option value="ru_RU" ${language == 'ru_RU' ? 'selected' : ''}>Русский</option>
+    </select>
+</form>
 <h3><fmt:message key="OrderList"/>:</h3>
 <c:if test="${empty orderId}">
     <fmt:message key="EmptyMessage"/><br/>

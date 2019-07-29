@@ -34,13 +34,14 @@ public class ChangeDishQuantityCommand implements Command {
                         dish.setQuantity(quantity);
                     }
                 }
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_CHANGE_QUANTITY_ERROR.getName());
             } else {
                 logger.log(Level.WARN, "changeDishQuantity returned false");
-                request.setAttribute(CommandParameterHolder.PARAM_CHANGE_QUANTITY_ERROR.getName(), CHANGE_QUANTITY_ERROR_MESSAGE);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_QUANTITY_ERROR.getName(), CHANGE_QUANTITY_ERROR_MESSAGE);
             }
         } catch (ServiceException e) {
             logger.log(Level.WARN, e);
-            request.setAttribute(CommandParameterHolder.PARAM_CHANGE_QUANTITY_ERROR.getName(), CHANGE_QUANTITY_ERROR_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_QUANTITY_ERROR.getName(), CHANGE_QUANTITY_ERROR_MESSAGE);
         }
         return ORDER_PATH;
     }

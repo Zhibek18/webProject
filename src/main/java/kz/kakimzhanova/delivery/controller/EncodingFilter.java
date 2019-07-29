@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import java.io.IOException;
 
-//@WebFilter(urlPatterns = {"/*"}, initParams = { @WebInitParam(name = "encoding", value = "UTF-8", description = "Encoding Param") })
+@WebFilter(urlPatterns = {"/*"}, initParams = { @WebInitParam(name = "encoding", value = "UTF-8", description = "Encoding Param") })
 public class EncodingFilter implements Filter {
     private String encoding;
     @Override
@@ -15,8 +15,8 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String currentEncoding = servletRequest.getCharacterEncoding();
-        if ((encoding != null)&&(!currentEncoding.equals(encoding))) {
+        if (encoding != null) {
+            servletResponse.setContentType("text/html; charset=UTF-8");
             servletRequest.setCharacterEncoding(encoding);
             servletResponse.setCharacterEncoding(encoding);
         }

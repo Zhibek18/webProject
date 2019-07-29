@@ -27,14 +27,15 @@ public class ChangePasswordCommand implements Command {
         try {
             if (service.changePassword(login, oldPassword, newPassword)) {
                 page = MAIN_PATH;
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_UPDATE_ERROR.getName());
             } else {
                 logger.log(Level.WARN, "changePassword returned false");
-                request.setAttribute(CommandParameterHolder.PARAM_UPDATE_ERROR.getName(), NOT_VALID_ERROR);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_ERROR.getName(), NOT_VALID_ERROR);
                 page = CHANGE_PASSWORD_PATH;
             }
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_UPDATE_ERROR.getName(), CHANGE_PASSWORD_ERROR);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_ERROR.getName(), CHANGE_PASSWORD_ERROR);
             page = CHANGE_PASSWORD_PATH;
         }
         return page;

@@ -15,8 +15,7 @@ import java.util.List;
 
 public class ShowOrdersCommand implements Command {
     private static Logger logger = LogManager.getLogger();
-    private static final String ORDERS_PATH = "path.page.orders";
-    private static final String MAIN_PATH = "path.page.main";
+    private static final String ADMIN_PATH = "path.page.admin";
     private static final String SHOW_ORDERS_ERROR_MESSAGE = "showOrders.error";
     private OrderService service = new OrderServiceImpl();
     @Override
@@ -28,16 +27,14 @@ public class ShowOrdersCommand implements Command {
             try {
                 orders = service.findAllOrders();
                 request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDERS.getName(), orders);
-                page = ORDERS_PATH;
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_SHOW_ORDERS_ERROR.getName());
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
-                request.setAttribute(CommandParameterHolder.PARAM_SHOW_ORDERS_ERROR.getName(), SHOW_ORDERS_ERROR_MESSAGE);
-                page = MAIN_PATH;
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_SHOW_ORDERS_ERROR.getName(), SHOW_ORDERS_ERROR_MESSAGE);
             }
         } else {
             logger.log(Level.WARN, "Not admin user tried to see all orders. Login = " + request.getSession().getAttribute(CommandParameterHolder.PARAM_LOGIN.getName()));
-            page = MAIN_PATH;
         }
-        return page;
+        return ADMIN_PATH;
     }
 }

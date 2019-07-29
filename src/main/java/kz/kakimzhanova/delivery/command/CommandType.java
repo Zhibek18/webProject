@@ -21,8 +21,9 @@ public enum CommandType {
     SHOW_ORDERS(new ShowOrdersCommand()),
     CHANGE_DISH_QUANTITY(new ChangeDishQuantityCommand()),
     UPDATE_ORDER_TOTAL_COST(new UpdateOrderTotalCostCommand()),
-    CHANGE_LANGUAGE(new ChangeLanguageCommand());
-
+    CHANGE_LANGUAGE(new ChangeLanguageCommand()),
+    FORWARD_MAIN(new ForwardMainCommand()),
+    FORWARD_ADMIN(new ForwardAdminCommand());
     private Command command;
 
     CommandType(Command command) {

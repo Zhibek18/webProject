@@ -15,6 +15,7 @@
     <title><fmt:message key="users.title"/></title>
 </head>
 <body>
+<c:import url="adminNavbar.jsp" charEncoding="utf-8"/>
 <h3><fmt:message key="users.title"/></h3><br/>
 <table>
     <c:forEach var="userName" items="${userNames}" varStatus="status">

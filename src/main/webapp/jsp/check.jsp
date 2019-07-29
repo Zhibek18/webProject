@@ -15,6 +15,7 @@
     <title><fmt:message key="check.title"/></title>
 </head>
 <body>
+<c:import url="/jsp/navbar.jsp" charEncoding="utf-8"/>
 <fmt:message key="OrderId"/>: ${confirmedOrder.orderId}<br/>
 <fmt:message key="Created"/>: ${confirmedOrder.timestamp}<br/>
 <fmt:message key="Recipient"/>: ${confirmedOrder.firstName}<br/>

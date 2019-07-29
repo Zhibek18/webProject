@@ -9,7 +9,7 @@ public class CommandFactory {
     private static Logger logger = LogManager.getLogger();
     private CommandFactory(){}
     public static Command defineCommand(String action){
-        Command current = null;
+        Command current;
         if ((action == null)||(action.isEmpty())){
             return new EmptyCommand();
         }
@@ -19,6 +19,7 @@ public class CommandFactory {
             current = currentType.getCommand();
         } catch (IllegalArgumentException e) {
             logger.log(Level.ERROR, "Command not found" + e);
+            current = new EmptyCommand();
         }
         return current;
     }

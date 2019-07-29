@@ -27,9 +27,11 @@ public class ShowMenuCommand implements Command {
             dishes = service.findAllDishes();
             request.getSession().setAttribute(CommandParameterHolder.PARAM_MENU.getName(), dishes);
             page = MENU_PATH;
+            request.getSession().removeAttribute(CommandParameterHolder.PARAM_SHOW_MENU_ERROR.getName());
+            request.getSession().removeAttribute(CommandParameterHolder.PARAM_CONFIRMED_ORDER.getName());
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_SHOW_MENU_ERROR.getName(), MENU_ERROR_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_SHOW_MENU_ERROR.getName(), MENU_ERROR_MESSAGE);
             page = MAIN_PATH;
         }
         return page;

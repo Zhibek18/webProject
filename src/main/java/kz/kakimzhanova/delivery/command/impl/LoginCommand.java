@@ -2,37 +2,63 @@ package kz.kakimzhanova.delivery.command.impl;
 
 import kz.kakimzhanova.delivery.command.Command;
 import kz.kakimzhanova.delivery.command.CommandParameterHolder;
+import kz.kakimzhanova.delivery.entity.Order;
 import kz.kakimzhanova.delivery.exception.ServiceException;
+import kz.kakimzhanova.delivery.service.OrderService;
+import kz.kakimzhanova.delivery.service.impl.OrderServiceImpl;
 import kz.kakimzhanova.delivery.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public class LoginCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String LOGIN_ERROR_MESSAGE = "login.error";
     private static final String MAIN_PATH = "path.page.main";
     private static final String LOGIN_PATH = "path.page.login";
-    private UserServiceImpl service = new UserServiceImpl();
+    private static final String ADMIN_PATH = "path.page.admin";
+    private static final String SHOW_ORDERS_ERROR_MESSAGE = "showOrders.error";
+    private UserServiceImpl userService = new UserServiceImpl();
+    private OrderService orderService = new OrderServiceImpl();
     public String execute(HttpServletRequest request){
         String page = null;
         String login = request.getParameter(CommandParameterHolder.PARAM_LOGIN.getName());
         String password = request.getParameter(CommandParameterHolder.PARAM_PASSWORD.getName());
+        request.removeAttribute(CommandParameterHolder.PARAM_LOGIN.getName());
+        request.removeAttribute(CommandParameterHolder.PARAM_PASSWORD.getName());
         if ((login != null)&&(password != null)) {
             try {
-                boolean isAdmin = service.isAdmin(login);
-                if (service.checkLogin(login, password)) {
+
+                if (userService.checkLogin(login, password)) {
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_LOGIN.getName(), login);
+                    boolean isAdmin = userService.isAdmin(login);
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_IS_ADMIN.getName(), isAdmin);
-                    page = MAIN_PATH;
+                    if (isAdmin){
+                        List<Order> orders;
+                        try {
+                            orders = orderService.findAllOrders();
+                            request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDERS.getName(), orders);
+                            request.getSession().removeAttribute(CommandParameterHolder.PARAM_SHOW_ORDERS_ERROR.getName());
+                        } catch (ServiceException e) {
+                            logger.log(Level.ERROR, e);
+                            request.getSession().setAttribute(CommandParameterHolder.PARAM_SHOW_ORDERS_ERROR.getName(), SHOW_ORDERS_ERROR_MESSAGE);
+                        }
+                        page = ADMIN_PATH;
+                    } else {
+                        page = MAIN_PATH;
+                    }
+                    request.getSession().removeAttribute(CommandParameterHolder.PARAM_LOGIN_ERROR.getName());
                 } else {
                     logger.log(Level.WARN, "checkLogin returned false");
-                    request.setAttribute(CommandParameterHolder.PARAM_LOGIN_ERROR.getName(), LOGIN_ERROR_MESSAGE);
+                    request.getSession().setAttribute(CommandParameterHolder.PARAM_LOGIN_ERROR.getName(), LOGIN_ERROR_MESSAGE);
                     page = LOGIN_PATH;
                 }
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_LOGIN_ERROR.getName(), LOGIN_ERROR_MESSAGE);
+                page = LOGIN_PATH;
             }
         }
         return page;

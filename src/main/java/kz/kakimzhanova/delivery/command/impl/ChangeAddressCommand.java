@@ -28,18 +28,19 @@ public class ChangeAddressCommand implements Command {
             int apartment = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_APARTMENT.getName()));
             if (service.changeAddress(login, street, house, apartment)) {
                 page = MAIN_PATH;
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName());
             } else {
                 logger.log(Level.WARN, "changeAddress returned false");
-                request.setAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName(), CHANGE_ADDRESS_ERROR_MESSAGE);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName(), CHANGE_ADDRESS_ERROR_MESSAGE);
                 page = CHANGE_ADDRESS_PATH;
             }
         }catch (NumberFormatException e){
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName(), WRONG_INPUT_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName(), WRONG_INPUT_MESSAGE);
             page = CHANGE_ADDRESS_PATH;
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName(), CHANGE_ADDRESS_ERROR_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName(), CHANGE_ADDRESS_ERROR_MESSAGE);
             page = CHANGE_ADDRESS_PATH;
         }
         return page;

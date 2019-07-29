@@ -59,10 +59,12 @@ public class Controller extends HttpServlet {
     private void processGetRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pagePath;
         String page;
-        Command command = CommandFactory.defineCommand(req.getParameter(PARAM_COMMAND));
-
-        pagePath = command.execute(req);
-
+        if (req.getParameterMap().containsKey("pagePath")) {
+            pagePath = req.getParameter("pagePath");
+        } else {
+            Command command = CommandFactory.defineCommand(req.getParameter(PARAM_COMMAND));
+            pagePath = command.execute(req);
+        }
         if (pagePath != null) {
             page = ConfigurationManager.getString(pagePath);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
@@ -77,13 +79,9 @@ public class Controller extends HttpServlet {
         String pagePath;
         String page;
         Command command = CommandFactory.defineCommand(req.getParameter(PARAM_COMMAND));
-
         pagePath = command.execute(req);
-
         if (pagePath != null) {
-            page = ConfigurationManager.getString(pagePath);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-            dispatcher.forward(req, resp);
+            resp.sendRedirect("controller?pagePath=" + pagePath);
         } else{
             page = ConfigurationManager.getString(INDEX_PATH);
             req.getSession().setAttribute(PARAM_NULL_PAGE_ERROR,PARAM_NULL_PAGE_ERROR_MESSAGE );

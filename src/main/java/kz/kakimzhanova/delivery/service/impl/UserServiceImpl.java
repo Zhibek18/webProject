@@ -17,6 +17,10 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
     private static final String LOGIN_VALIDATE_REGEX = "[\\w]{5,20}";
     private static final String PASSWORD_VALIDATE_REGEX = "[\\w]{5,20}";
+    private static final String NAME_VALIDATE_REGEX = "(?U)[\\w]{2,20}";
+    private static final String STREET_VALIDATE_REGEX = "(?U)[\\w]{2,20}";
+    private static final String PHONE_VALIDATE_REGEX = "[+\\d]{6,12}";
+    private static final String PHONE_REPLACE_SYMBOLS_REGEX = "[\\D&&[^+]]";
     private static Logger logger = LogManager.getLogger();
     private UserDao userDao = new UserDaoImpl();
 
@@ -50,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean addNewUser(String login, String password, String firstName, String street, int house, int apartment, String phone) throws ServiceException {
         boolean added = false;
-        if (validateNewUser(login, password)){
+        if (validateNewUser(login, password, firstName, street, phone)){
             User user = new User(login, password, firstName, street, house, apartment, phone);
             try {
                 added = userDao.create(user);
@@ -60,8 +64,9 @@ public class UserServiceImpl implements UserService {
         }
         return added;
     }
-    private boolean validateNewUser(String login, String password){
-        return (validateLogin(login) && validatePassword(password));
+    private boolean validateNewUser(String login, String password, String firstName, String street, String phone){
+        logger.log(Level.DEBUG, login+" "+password +" "+firstName+" " + street+ " " +phone);
+        return (validateLogin(login) && validatePassword(password) && validateStreet(street) && validatePhone(phone) && (validateFirstName(firstName)));
     }
     private boolean validateLogin(String login){
         Pattern loginPattern = Pattern.compile(LOGIN_VALIDATE_REGEX);
@@ -72,6 +77,21 @@ public class UserServiceImpl implements UserService {
         Pattern passwordPattern = Pattern.compile(PASSWORD_VALIDATE_REGEX);
         Matcher passwordMatcher = passwordPattern.matcher(password);
         return passwordMatcher.matches();
+    }
+    private boolean validateFirstName(String firstName){
+        Pattern namePattern = Pattern.compile(NAME_VALIDATE_REGEX);
+        Matcher nameMatcher = namePattern.matcher(firstName);
+        return nameMatcher.matches();
+    }
+    private boolean validateStreet(String street){
+        Pattern streetPattern = Pattern.compile(STREET_VALIDATE_REGEX);
+        Matcher streetMatcher = streetPattern.matcher(street);
+        return streetMatcher.matches();
+    }
+    private boolean validatePhone(String phone){
+        Pattern phonePattern = Pattern.compile(PHONE_VALIDATE_REGEX);
+        Matcher phoneMatcher = phonePattern.matcher(phone.replaceAll(PHONE_REPLACE_SYMBOLS_REGEX, ""));
+        return phoneMatcher.matches();
     }
     @Override
     public List<User> findAllUsers() throws ServiceException {

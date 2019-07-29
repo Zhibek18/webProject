@@ -26,10 +26,12 @@ public class ShowOrderCommand implements Command {
                 int orderId = Integer.parseInt(orderIdObject.toString());
                 Order order = orderService.findOrderById(orderId);
                 request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER.getName(), order);
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER_ERROR.getName());
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_ADDING_STATUS.getName());
             }
         }catch (NumberFormatException | ServiceException e){
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_ORDER_ERROR.getName(),ORDER_ERROR);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_ERROR.getName(),ORDER_ERROR);
         }
         return ORDER_PATH;
     }

@@ -16,26 +16,37 @@
 <html>
 <head>
     <title><fmt:message key="login.title" /></title>
+    <link href="${pageContext.request.contextPath}/css/login.css" rel="stylesheet" type="text/css" >
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/messages_ru.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/login-form.js"></script>
 </head>
 <body>
-    <form name="loginForm" method="post" action="controller">
-        <input type="hidden" name="command" value="login"/>
-        <fmt:message key="Login" /><br/>
-        <input type="text" name="login" value=""/><br/>
-        <fmt:message key="Password" /><br/>
-        <input type="password" name="password" value=""/><br/>
-        <input type="submit" value="<fmt:message key="logIn" />"/>
-    </form>
-    <form name="signUpLink" method="post" action="controller">
-        <input type="hidden" name="command" value="forward_signup"/>
-        <input type="submit" value="<fmt:message key="SignUp"/>"/>
-    </form>
-    <c:if test="${not empty errorLogin}">
-        <fmt:message key="${errorLogin}" /><br/>
-    </c:if>
-    <c:if test="${not empty nullpage}">
-        <fmt:message key="${nullpage}" /><br/>
-    </c:if>
+    <div class = "container">
+        <div class = "form">
+            <form name="loginForm" method="post" action="controller" id="loginForm">
+                <input type="hidden" name="command" value="login"/>
+                <h1 class="header"><fmt:message key="logIn" /></h1>
+                <div class="inputs">
+                    <input class="input" type="text" name="login" value="" placeholder="<fmt:message key="Login" />"/>
+                    <input class="input" type="password" name="password" value="" placeholder="<fmt:message key="Password" />"/>
+                </div>
+                    <input class="button" type="submit" value="<fmt:message key="logIn" />"/>
+
+            </form>
+            <form name="signUpLink" method="post" action="controller">
+                <input type="hidden" name="command" value="forward_signup"/>
+                <input class="button" type="submit" value="<fmt:message key="SignUp"/>"/>
+            </form>
+            <c:if test="${not empty errorLogin}">
+                <fmt:message key="${errorLogin}" /><br/>
+            </c:if>
+            <c:if test="${not empty nullpage}">
+                <fmt:message key="${nullpage}" /><br/>
+            </c:if>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -37,13 +37,14 @@ public class DeleteOrderedDishCommand implements Command {
                 orderedDishes.remove(deletedDish);
                 order.setOrderList(orderedDishes);
                 request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER.getName(), order);
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_DELETE_DISH_ERROR.getName());
             } else {
                 logger.log(Level.ERROR, "delete dish returned false");
-                request.setAttribute(CommandParameterHolder.PARAM_DELETE_DISH_ERROR.getName(), DELETE_DISH_ERROR_MESSAGE);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_DELETE_DISH_ERROR.getName(), DELETE_DISH_ERROR_MESSAGE);
             }
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_DELETE_DISH_ERROR.getName(), DELETE_DISH_ERROR_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_DELETE_DISH_ERROR.getName(), DELETE_DISH_ERROR_MESSAGE);
         }
         return ORDER_PATH;
     }

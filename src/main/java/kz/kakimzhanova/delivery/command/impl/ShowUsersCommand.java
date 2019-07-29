@@ -30,15 +30,16 @@ public class ShowUsersCommand implements Command {
                 for (User user : users) {
                     userNames.add(user.getLogin());
                 }
-                request.setAttribute(CommandParameterHolder.PARAM_USER_NAMES.getName(), userNames);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_USER_NAMES.getName(), userNames);
                 page = USERS_PATH;
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_SHOW_USERS_ERROR.getName());
             } else {
                 logger.log(Level.WARN, "Not admin user tried to see all users. Login = " + request.getSession().getAttribute(CommandParameterHolder.PARAM_LOGIN.getName()));
                 page = MAIN_PATH;
             }
         }catch (ServiceException e){
             logger.log(Level.ERROR, e);
-            request.setAttribute(CommandParameterHolder.PARAM_SHOW_USERS_ERROR.getName(), SHOW_USERS_ERROR_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_SHOW_USERS_ERROR.getName(), SHOW_USERS_ERROR_MESSAGE);
             page = MAIN_PATH;
         }
         return page;

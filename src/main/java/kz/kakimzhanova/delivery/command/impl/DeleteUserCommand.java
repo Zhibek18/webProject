@@ -24,15 +24,16 @@ public class DeleteUserCommand implements Command {
         try {
             if (service.deleteUser(login)) {
                 page = INDEX_PATH;
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_DELETE_USER_ERROR.getName());
             } else {
                 logger.log(Level.ERROR, "deleteUser returned false");
                 page = MAIN_PATH;
-                request.setAttribute(CommandParameterHolder.PARAM_DELETE_USER_ERROR.getName(), DELETE_USER_ERROR_MESSAGE);
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_DELETE_USER_ERROR.getName(), DELETE_USER_ERROR_MESSAGE);
             }
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
             page = MAIN_PATH;
-            request.setAttribute(CommandParameterHolder.PARAM_DELETE_USER_ERROR.getName(), DELETE_USER_ERROR_MESSAGE);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_DELETE_USER_ERROR.getName(), DELETE_USER_ERROR_MESSAGE);
         }
         return page;
     }
