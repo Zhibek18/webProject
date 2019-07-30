@@ -16,36 +16,30 @@
     <title><fmt:message key="main.title" /></title>
 </head>
 <body>
+<c:set var="currentPage" value="path.page.main"/>
 <c:import url="/jsp/navbar.jsp" charEncoding="utf-8"/>
-<form name="changeLanguage" method="post" action="controller">
-    <input type="hidden" name="command" value="change_language">
-    <input type="hidden" name="page" value="path.page.main" >
-    <select id="language" name="language" onchange="this.form.submit()">
-        <option value="en_US" ${language == 'en_US' ? 'selected' : ''}>English</option>
-        <option value="ru_RU" ${language == 'ru_RU' ? 'selected' : ''}>Русский</option>
-    </select>
-</form>
-<h3><fmt:message key="welcome" /></h3>
-<hr/>
-<fmt:message key="hello"/>, ${login}!
-<hr/>
-    <c:if test="${not empty showMenuError}">
-        <fmt:message key="${showMenuError}"/><br/>
+<div class="jumbotron">
+    <h3><fmt:message key="welcome" /></h3>
+    <hr/>
+    <fmt:message key="hello"/>, ${login}!
+    <hr/>
+        <c:if test="${not empty showMenuError}">
+            <fmt:message key="${showMenuError}"/><br/>
+        </c:if>
+
+    <a href="controller?command=forward_change_address"><fmt:message key="ChangeAddress"/></a><br/>
+
+    <form name="deleteUser" method="post" action="controller">
+        <input type="hidden" name="command" value="delete_user"/>
+        <input type="submit" value="<fmt:message key="deleteAccount"/>"/><br/>
+    </form>
+    <c:if test="${not empty deleteUserError}">
+        <fmt:message key="${deleteUserError}" /><br/>
     </c:if>
-
-<a href="controller?command=forward_change_address"><fmt:message key="ChangeAddress"/></a><br/>
-
-<form name="deleteUser" method="post" action="controller">
-    <input type="hidden" name="command" value="delete_user"/>
-    <input type="submit" value="<fmt:message key="deleteAccount"/>"/><br/>
-</form>
-<c:if test="${not empty deleteUserError}">
-    <fmt:message key="${deleteUserError}" /><br/>
-</c:if>
-<c:if test="${not empty nullpage}">
-    <fmt:message key="${nullpage}" /><br/>
-</c:if>
-
+    <c:if test="${not empty nullpage}">
+        <fmt:message key="${nullpage}" /><br/>
+    </c:if>
+</div>
 </body>
 </html>
 </fmt:bundle>

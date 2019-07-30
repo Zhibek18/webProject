@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<fmt:setLocale value="${language}" scope="session"/>
 <fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
 
 <html>
@@ -15,6 +16,11 @@
     <title><fmt:message key="changeAddress.title"/></title>
 </head>
 <body>
+<c:set var="currentPage" value="path.page.changeAddress" scope="session"/>
+<c:import url="navbar.jsp" charEncoding="utf-8"/>
+
+
+
 <form name="changeAddress" method="post" action="controller">
     <input type="hidden" name="command" value="change_address"/>
     <fmt:message key="Street"/>:

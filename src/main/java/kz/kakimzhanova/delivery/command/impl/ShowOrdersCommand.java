@@ -20,7 +20,6 @@ public class ShowOrdersCommand implements Command {
     private OrderService service = new OrderServiceImpl();
     @Override
     public String execute(HttpServletRequest request) {
-        String page;
         Object isAdminObject = request.getSession().getAttribute(CommandParameterHolder.PARAM_IS_ADMIN.getName());
         if ((Boolean)isAdminObject) {
             List<Order> orders;

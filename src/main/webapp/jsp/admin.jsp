@@ -13,45 +13,91 @@
 
 <html>
 <head>
-    <title>Admin</title>
-<%--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous"/>--%>
-<%--    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>--%>
-<%--    <link href="${pageContext.request.contextPath}/css/order.css" rel="stylesheet" type="text/css" >--%>
+    <title><fmt:message key="admin.title"/> </title>
+    <link href="${pageContext.request.contextPath}/css/order.css" rel="stylesheet" type="text/css" >
 </head>
 <body>
-
+    <c:set var="currentPage" value="path.page.admin" scope="session"/>
     <c:import url="adminNavbar.jsp" charEncoding="utf-8"/>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-centered">
+                    <h2 align="center"><fmt:message key="orders.title"/></h2>
+                </div>
+            </div>
+            <c:forEach var="order" items="${orders}">
+                <div class="row">
+                    <div class="col-md-6 col-centered">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card-body">
+                                            <div class="news-content">
+                                                <a href="#"><h6><fmt:message key="OrderId"/>: ${order.orderId}  </h6></a>
+                                                <p><fmt:message key="Created"/>: ${order.timestamp}</p>
 
+                                                <table class="table">
 
-    <a href="controller?command=forward_change_password"><fmt:message key="ChangePassword"/></a><br/>
-    <h3><fmt:message key="orders.title"/></h3><br/>
-    <c:forEach var="order" items="${orders}">
+                                                    <tbody>
 
-        <fmt:message key="OrderId"/>: ${order.orderId}<br/>
-        <fmt:message key="Created"/>: ${order.timestamp}<br/>
-        <fmt:message key="Recipient"/>: ${order.firstName}<br/>
-        <fmt:message key="Address"/>:<br/>
-        <fmt:message key="Street"/>: ${order.street}<br/>
-        <fmt:message key="House"/>: ${order.house}<br/>
-        <fmt:message key="Apartment"/>: ${order.apartment}<br/>
+                                                        <tr>
+                                                            <th scope="row"><fmt:message key="Recipient"/></th>
+                                                            <td><c:out value="${order.firstName}"/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"><fmt:message key="Street"/></th>
+                                                            <td><c:out value="${order.street}"/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"><fmt:message key="House"/></th>
+                                                            <td><c:out value="${order.house}"/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"><fmt:message key="Apartment"/></th>
+                                                            <td><c:out value="${order.apartment}"/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"><fmt:message key="Phone"/></th>
+                                                            <td><c:out value="${order.phone}"/></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col"><fmt:message key="DishName"/></th>
+                                                        <th scope="col"><fmt:message key="DishQuantity"/></th>
+                                                        <th scope="col"><fmt:message key="DishPrice"/></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <c:forEach var="orderedDish" items="${order.orderList}" varStatus="status">
+                                                        <tr>
+                                                            <th scope="row"><fmt:message key="${orderedDish.dishName}"/></th>
+                                                            <td><c:out value="${orderedDish.quantity}"/></td>
+                                                            <td><c:out value="${orderedDish.price}"/></td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                                <div class="news-footer" align="right">
+                                                    <fmt:message key="TotalCost"/>:${order.totalCost}<br/>
+                                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                                </div>
+                                            </div>
+                                        </div>
 
-        <table>
-            <tr>
-                <td><fmt:message key="DishName"/></td>
-                <td><fmt:message key="DishQuantity"/></td>
-                <td><fmt:message key="DishPrice"/></td>
-            </tr>
-            <c:forEach var="orderedDish" items="${order.orderList}" varStatus="status">
-                <tr>
-                    <td><fmt:message key="${orderedDish.dishName}"/></td>
-                    <td><c:out value="${orderedDish.quantity}"/></td>
-                    <td><c:out value="${orderedDish.price}"/></td>
-                </tr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </c:forEach>
-        </table>
-        <fmt:message key="TotalCost"/>:${order.totalCost}<br/>
-        <br/>
-    </c:forEach>
+        </div>
+    </div>
 </body>
 </html>
 </fmt:bundle>

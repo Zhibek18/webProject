@@ -31,8 +31,6 @@ M
 src/main/webapp/jsp/order.jsp,8/6/869c892dd66f5e9b39b0c11674f0e776b6823d63
 M
 src/main/webapp/jsp/check.jsp,5/1/517de150769618fae62d07447a51b568d77cf7f4
-N
-src/main/webapp/jsp/orders.jsp,2/e/2e484babd42b88bfdea1f4f90d6b44edd12a0be9
 }
 Msrc/main/java/kz/kakimzhanova/delivery/command/impl/ChangeAddressCommand.java,8/8/88dc9033d2a7ef99f4beaccff930d522abc7695d
 ‚
@@ -171,3 +169,25 @@ Q
 !src/main/webapp/js/signup-form.js,4/3/4330a321961802f5c4642f882831a83c5a6f89ca
 N
 src/main/webapp/css/signup.css,5/d/5d1ee1e21eb86207163cfec93b1688f3d5605a1a
+{
+Ksrc/main/java/kz/kakimzhanova/delivery/command/impl/ForwardMainCommand.java,d/1/d18d86ce0f5c2646158a0a0d9429adba181a271c
+K
+src/main/resources/test.txt,6/2/62f9c8e15ca6e1d8bf6897044c31640668e0b28f
+L
+src/main/webapp/css/menu.css,0/1/016f3ff0f136fa5322a96b7da4c5f42da343d1c2
+M
+src/main/webapp/css/order.css,5/6/5640d7e6979c9a084cd86cf2b4711bb5ccb80ed6
+V
+&src/main/webapp/js/jquery-3.4.1.min.js,6/7/67d4c90679f8f71bcdeeaa28f502966c9b547796
+U
+%src/main/webapp/js/jquery.validate.js,0/1/01d2a9d7f63f21e7132114a81adafee1f0dddec5
+|
+Lsrc/main/java/kz/kakimzhanova/delivery/command/impl/ForwardAdminCommand.java,6/e/6e7957580769b9f402ddddcf4cf8ebfeaab2bc34
+N
+src/main/webapp/css/navbar.css,1/a/1a85d740048114131414bcf7d21bb901ddb49d0e
+M
+src/main/webapp/jsp/admin.jsp,b/b/bbeff794419a490fd553aa3150d4e23edd83c880
+S
+#src/main/webapp/jsp/adminNavbar.jsp,9/7/975436b97451570dadf37b493fd521b625e45168
+N
+src/main/webapp/jsp/navbar.jsp,b/2/b288b7753666e3e8dcda157797131ceeb3483a57

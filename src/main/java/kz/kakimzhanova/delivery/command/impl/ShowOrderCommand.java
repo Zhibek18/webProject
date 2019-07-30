@@ -27,7 +27,8 @@ public class ShowOrderCommand implements Command {
                 Order order = orderService.findOrderById(orderId);
                 request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER.getName(), order);
                 request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER_ERROR.getName());
-                request.getSession().removeAttribute(CommandParameterHolder.PARAM_ADDING_STATUS.getName());
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_ADDED.getName());
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_NOT_ADDED.getName());
             }
         }catch (NumberFormatException | ServiceException e){
             logger.log(Level.ERROR, e);

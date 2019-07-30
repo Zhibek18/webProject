@@ -7,45 +7,97 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${language}" scope="session"/>
 <fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title><fmt:message key="check.title"/></title>
+    <link href="${pageContext.request.contextPath}/css/order.css" rel="stylesheet" type="text/css" >
 </head>
 <body>
+<c:set var="currentPage" value="path.page.check" scope="session"/>
 <c:import url="/jsp/navbar.jsp" charEncoding="utf-8"/>
-<fmt:message key="OrderId"/>: ${confirmedOrder.orderId}<br/>
-<fmt:message key="Created"/>: ${confirmedOrder.timestamp}<br/>
-<fmt:message key="Recipient"/>: ${confirmedOrder.firstName}<br/>
-<fmt:message key="Address"/>:<br/>
-<fmt:message key="Street"/>: ${confirmedOrder.street}<br/>
-<fmt:message key="House"/>: ${confirmedOrder.house}<br/>
-<fmt:message key="Apartment"/>: ${confirmedOrder.apartment}.<br/>
+    <div class="jumbotron">
+        <c:if test="${not empty nullpage}">
+            <div class="alert alert-danger" role="alert">
+            <fmt:message key="${nullpage}" />
+            </div>
+        </c:if>
 
-<table>
-    <tr>
-        <td><fmt:message key="DishName"/></td>
-        <td><fmt:message key="DishQuantity"/></td>
-        <td><fmt:message key="DishPrice"/></td>
-    </tr>
-    <c:forEach var="orderedDish" items="${confirmedOrder.orderList}" varStatus="status">
-        <tr>
-            <td><fmt:message key="${orderedDish.dishName}"/></td>
-            <td><c:out value="${orderedDish.quantity}"/></td>
-            <td><c:out value="${orderedDish.price}"/></td>
-            <td><c:out value="${orderedDish.price * orderedDish.quantity}"/></td>
-        </tr>
-    </c:forEach>
-</table>
+        <div class="row">
+            <div class="col-md-6 col-centered">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <div class="news-content">
+                                        <a href="#"><h6><fmt:message key="OrderId"/>: ${confirmedOrder.orderId}  </h6></a>
+                                        <p><fmt:message key="Created"/>: ${confirmedOrder.timestamp}</p>
 
-<fmt:message key="TotalCost"/>: ${confirmedOrder.totalCost}<br/>
+                                        <table class="table">
+
+                                            <tbody>
+
+                                            <tr>
+                                                <th scope="row"><fmt:message key="Recipient"/></th>
+                                                <td><c:out value="${confirmedOrder.firstName}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><fmt:message key="Street"/></th>
+                                                <td><c:out value="${confirmedOrder.street}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><fmt:message key="House"/></th>
+                                                <td><c:out value="${confirmedOrder.house}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><fmt:message key="Apartment"/></th>
+                                                <td><c:out value="${confirmedOrder.apartment}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><fmt:message key="Phone"/></th>
+                                                <td><c:out value="${confirmedOrder.phone}"/></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col"><fmt:message key="DishName"/></th>
+                                                <th scope="col"><fmt:message key="DishQuantity"/></th>
+                                                <th scope="col"><fmt:message key="DishPrice"/></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach var="orderedDish" items="${confirmedOrder.orderList}" varStatus="status">
+                                                <tr>
+                                                    <th scope="row"><fmt:message key="${orderedDish.dishName}"/></th>
+                                                    <td><c:out value="${orderedDish.quantity}"/></td>
+                                                    <td><c:out value="${orderedDish.price}"/></td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                        <div class="news-footer" align="right">
+                                            <fmt:message key="TotalCost"/>:${confirmedOrder.totalCost}<br/>
+                                            <a class="btn btn-primary" href="controller?command=show_menu"><fmt:message key="BackToMenu"/></a><br/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </body>
-<a href="controller?command=show_menu"><fmt:message key="BackToMenu"/></a><br/>
-<c:if test="${not empty nullpage}">
-    <fmt:message key="${nullpage}" /><br/>
-</c:if>
 
 </html>
 </fmt:bundle>

@@ -36,14 +36,14 @@ public class AddDishCommand implements Command {
             }
             String dishName = request.getParameter(CommandParameterHolder.PARAM_DISH_NAME.getName());
             if (orderListService.addDish(orderId, dishName)) {
-                request.getSession().setAttribute(CommandParameterHolder.PARAM_ADDING_STATUS.getName(), CommandParameterHolder.PARAM_STATUS_ADDED.getName());
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_ADDED.getName(), CommandParameterHolder.PARAM_STATUS_ADDED.getName());
             } else {
                 logger.log(Level.ERROR, "addDish returned false");
-                request.getSession().setAttribute(CommandParameterHolder.PARAM_ADDING_STATUS.getName(), CommandParameterHolder.PARAM_STATUS_NOT_ADDED.getName());
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_NOT_ADDED.getName(), CommandParameterHolder.PARAM_STATUS_NOT_ADDED.getName());
             }
         }catch (NumberFormatException | ServiceException e){
             logger.log(Level.ERROR, e);
-            request.getSession().setAttribute(CommandParameterHolder.PARAM_ADDING_STATUS.getName(), CommandParameterHolder.PARAM_STATUS_NOT_ADDED.getName());
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_NOT_ADDED.getName(), CommandParameterHolder.PARAM_STATUS_NOT_ADDED.getName());
         }
         return MENU_PATH;
     }
