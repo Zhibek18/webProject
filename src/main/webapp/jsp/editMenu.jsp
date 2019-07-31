@@ -24,18 +24,19 @@
             <div class="alert alert-danger" role="alert">
                 <fmt:message key="${editMenuError}" />
             </div>
-            <c:if test="${not empty added}">
-                <div class="alert alert-success" role="alert">
-                    <fmt:message key="${added}" />
-                </div>
-            </c:if>
-
-            <c:if test="${not empty notAdded}">
-                <div class="alert alert-danger" role="alert">
-                    <fmt:message key="${notAdded}" />
-                </div>
-            </c:if>
         </c:if>
+        <c:if test="${not empty added}">
+            <div class="alert alert-success" role="alert">
+                <fmt:message key="${added}" />
+            </div>
+        </c:if>
+
+        <c:if test="${not empty notAdded}">
+            <div class="alert alert-danger" role="alert">
+                <fmt:message key="${notAdded}" />
+            </div>
+        </c:if>
+
         <form name="addDishToMenu" method="post" action="controller">
             <input type="hidden" name="command" value="add_dish_to_menu"/>
             <div class="col-md-4 mb-3">
