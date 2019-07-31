@@ -37,11 +37,8 @@
                                             <div class="news-content">
                                                 <a href="#"><h6><fmt:message key="OrderId"/>: ${order.orderId}  </h6></a>
                                                 <p><fmt:message key="Created"/>: ${order.timestamp}</p>
-
                                                 <table class="table">
-
                                                     <tbody>
-
                                                         <tr>
                                                             <th scope="row"><fmt:message key="Recipient"/></th>
                                                             <td><c:out value="${order.firstName}"/></td>
@@ -88,7 +85,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

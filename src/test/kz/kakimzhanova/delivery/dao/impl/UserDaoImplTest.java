@@ -84,17 +84,6 @@ public class UserDaoImplTest {
         Assert.assertEquals(expected, actual);
     }
 
-    @Test
-    public void updateUserAddress() {
-        boolean expected = true;
-        boolean actual = false;
-        try{
-            actual = userDao.updateUserAddress("user", "myStreet", 55, 12);
-        } catch (DaoException e) {
-            logger.log(Level.WARN, e);
-        }
-        Assert.assertEquals(expected, actual);
-    }
     @AfterClass
     public static void dispose() {
         try {

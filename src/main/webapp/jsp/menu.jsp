@@ -31,13 +31,16 @@
             <fmt:message key="${notAdded}" />
         </div>
     </c:if>
+
+    <c:if test="${not empty nullpage}">
+        <div class="alert alert-danger" role="alert">
+            <fmt:message key="${nullpage}" />
+        </div>
+    </c:if>
 <div class="jumbotron">
         <h1><fmt:message key="Menu"/>:</h1>
-    <a href="controller?command=show_order"><fmt:message key="ShowOrder"/></a><br/>
-    <c:if test="${not empty nullpage}">
-        <fmt:message key="${nullpage}" /><br/>
-    </c:if>
 
+    <a href="controller?command=show_order"><fmt:message key="ShowOrder"/></a><br/>
 
     <div class="card-deck">
         <c:forEach var="dish" items="${menu}" varStatus="status" step="1">

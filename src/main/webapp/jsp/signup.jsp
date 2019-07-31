@@ -33,7 +33,7 @@
                     <input class="input" type="password" name="password" value=""/>
 
                     <div class="text"><fmt:message key="Name"/>:</div>
-                    <input class="input" type="text" name="first_name" value="">
+                    <input class="input" type="text" name="firstName" value="">
 
 
                     <div class="text"><fmt:message key="Street"/>:</div>

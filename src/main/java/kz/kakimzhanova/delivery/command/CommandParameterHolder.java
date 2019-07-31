@@ -3,7 +3,7 @@ package kz.kakimzhanova.delivery.command;
 public enum CommandParameterHolder {
     PARAM_LOGIN("login"),
     PARAM_PASSWORD("password"),
-    PARAM_FIRST_NAME("first_name"),
+    PARAM_FIRST_NAME("firstName"),
     PARAM_STREET("street"),
     PARAM_HOUSE("house"),
     PARAM_APARTMENT("apartment"),
@@ -26,7 +26,7 @@ public enum CommandParameterHolder {
     PARAM_NOT_ADDED("notAdded"),
     PARAM_CHANGE_ADDRESS_ERROR("changeAddressError"),
     PARAM_CHANGE_QUANTITY_ERROR("changeQuantityError"),
-    PARAM_UPDATE_ERROR("updateError"),
+    PARAM_UPDATE_USER_ERROR("updateUserError"),
     PARAM_DELETE_ORDER_ERROR("deleteOrderError"),
     PARAM_DELETE_DISH_ERROR("deleteDishOrder"),
     PARAM_DELETE_USER_ERROR("deleteUserError"),
@@ -38,8 +38,11 @@ public enum CommandParameterHolder {
     PARAM_SIGNUP_ERROR("errorSignUpMessage"),
     PARAM_ORDER_CONFIRM_ERROR("orderConfirmError"),
     PARAM_STATUS_NOT_ADDED("addingStatus.notAdded"),
-    PARAM_STATUS_ADDED("addingStatus.added");
-
+    PARAM_STATUS_ADDED("addingStatus.added"),
+    PARAM_USER("user"),
+    PARAM_UPDATE_PASSWORD_ERROR("updatePasswordError"),
+    PARAM_EDIT_MENU_ERROR("editMenuError"),
+    PARAM_DISH_PRICE("dishPrice");
     private String name;
 
     CommandParameterHolder(String name) {

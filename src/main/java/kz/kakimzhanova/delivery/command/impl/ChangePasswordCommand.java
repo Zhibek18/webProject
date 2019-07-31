@@ -13,31 +13,26 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ChangePasswordCommand implements Command {
     private static Logger logger = LogManager.getLogger();
-    private static final String MAIN_PATH = "path.page.main";
-    private static final String CHANGE_PASSWORD_PATH = "path.page.changePassword";
+    private static final String UPDATE_USER_PATH = "path.page.updateUser";
     private static final String NOT_VALID_ERROR = "notValidLogin.error";
     private static final String CHANGE_PASSWORD_ERROR = "changePassword.error";
     private UserService service = new UserServiceImpl();
     @Override
     public String execute(HttpServletRequest request) {
-        String page;
-        String login = request.getParameter(CommandParameterHolder.PARAM_LOGIN.getName());
+        String login = request.getSession().getAttribute(CommandParameterHolder.PARAM_LOGIN.getName()).toString();
         String oldPassword = request.getParameter(CommandParameterHolder.PARAM_OLD_PASSWORD.getName());
         String newPassword = request.getParameter(CommandParameterHolder.PARAM_NEW_PASSWORD.getName());
         try {
             if (service.changePassword(login, oldPassword, newPassword)) {
-                page = MAIN_PATH;
-                request.getSession().removeAttribute(CommandParameterHolder.PARAM_UPDATE_ERROR.getName());
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_UPDATE_PASSWORD_ERROR.getName());
             } else {
                 logger.log(Level.WARN, "changePassword returned false");
-                request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_ERROR.getName(), NOT_VALID_ERROR);
-                page = CHANGE_PASSWORD_PATH;
+                request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_PASSWORD_ERROR.getName(), NOT_VALID_ERROR);
             }
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_ERROR.getName(), CHANGE_PASSWORD_ERROR);
-            page = CHANGE_PASSWORD_PATH;
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_PASSWORD_ERROR.getName(), CHANGE_PASSWORD_ERROR);
         }
-        return page;
+        return UPDATE_USER_PATH;
     }
 }

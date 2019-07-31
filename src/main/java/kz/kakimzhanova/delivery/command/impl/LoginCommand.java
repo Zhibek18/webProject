@@ -33,6 +33,7 @@ public class LoginCommand implements Command {
 
                 if (userService.checkLogin(login, password)) {
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_LOGIN.getName(), login);
+                    request.getSession().setAttribute(CommandParameterHolder.PARAM_USER.getName(), userService.findById(login));
                     boolean isAdmin = userService.isAdmin(login);
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_IS_ADMIN.getName(), isAdmin);
                     if (isAdmin){

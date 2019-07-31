@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AddDishCommand implements Command {
+public class AddDishToOrderCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String MENU_PATH = "path.page.menu";
     private OrderListService orderListService = new OrderListServiceImpl();
@@ -37,13 +37,16 @@ public class AddDishCommand implements Command {
             String dishName = request.getParameter(CommandParameterHolder.PARAM_DISH_NAME.getName());
             if (orderListService.addDish(orderId, dishName)) {
                 request.getSession().setAttribute(CommandParameterHolder.PARAM_ADDED.getName(), CommandParameterHolder.PARAM_STATUS_ADDED.getName());
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_NOT_ADDED.getName());
             } else {
                 logger.log(Level.ERROR, "addDish returned false");
                 request.getSession().setAttribute(CommandParameterHolder.PARAM_NOT_ADDED.getName(), CommandParameterHolder.PARAM_STATUS_NOT_ADDED.getName());
+                request.getSession().removeAttribute(CommandParameterHolder.PARAM_ADDED.getName());
             }
         }catch (NumberFormatException | ServiceException e){
             logger.log(Level.ERROR, e);
             request.getSession().setAttribute(CommandParameterHolder.PARAM_NOT_ADDED.getName(), CommandParameterHolder.PARAM_STATUS_NOT_ADDED.getName());
+            request.getSession().removeAttribute(CommandParameterHolder.PARAM_ADDED.getName());
         }
         return MENU_PATH;
     }

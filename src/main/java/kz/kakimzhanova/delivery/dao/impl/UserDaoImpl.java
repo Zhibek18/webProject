@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_DELETE_USER = "DELETE FROM users WHERE login=?";
     private static final String SQL_UPDATE_USER_PASSWORD = "UPDATE users SET password=? WHERE login=?";
     private static final String SQL_UPDATE_USER_ADDRESS = "UPDATE users SET street=?, house=?, apartment=? WHERE login=?";
-
+    private static final String SQL_UPDATE_USER = "UPDATE users SET first_name=?, street=?, house=?, apartment=?, phone=? WHERE login=?";
 
     @Override
     public List<User> findAll() throws DaoException {
@@ -106,8 +106,32 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User update(User entity) {
-        throw new UnsupportedOperationException();
+    public User update(User user) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        User updatedUser = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            preparedStatement = connection.prepareStatement(SQL_UPDATE_USER);
+
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2,user.getStreet());
+            preparedStatement.setInt(3, user.getHouse());
+            preparedStatement.setInt(4, user.getApartment());
+            preparedStatement.setString(5, user.getPhone());
+            preparedStatement.setString(6, user.getLogin());
+            preparedStatement.executeUpdate();
+            updatedUser = findById(user.getLogin());
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
+        } finally {
+            close(preparedStatement);
+            close(connection);
+        }
+        return updatedUser;
     }
 
 
@@ -172,19 +196,21 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateUserAddress(String login, String street, int house, int apartment) throws DaoException {
-        boolean isUpdated = false;
+    public User updateUser( String login, String firstName, String street, int house, int apartment, String phone) throws DaoException {
+        User user = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
             connection = ConnectionPool.getInstance().takeConnection();
-            preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_ADDRESS);
-            preparedStatement.setString(1, street);
-            preparedStatement.setInt(2, house);
-            preparedStatement.setInt(3, apartment);
-            preparedStatement.setString(4, login);
+            preparedStatement = connection.prepareStatement(SQL_UPDATE_USER);
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, street);
+            preparedStatement.setInt(3, house);
+            preparedStatement.setInt(4, apartment);
+            preparedStatement.setString(5, phone);
+            preparedStatement.setString(6, login);
             preparedStatement.executeUpdate();
-            isUpdated = true;
+            user = findById(login);
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
             Thread.currentThread().interrupt();
@@ -194,6 +220,6 @@ public class UserDaoImpl implements UserDao {
             close(preparedStatement);
             close(connection);
         }
-        return isUpdated;
+        return user;
     }
 }

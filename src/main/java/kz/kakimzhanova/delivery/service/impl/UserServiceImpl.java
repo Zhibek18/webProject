@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         }
         return isAdmin;
     }
-    private User findById(String login) throws ServiceException {
+    public User findById(String login) throws ServiceException {
         User user;
         try {
             user = userDao.findById(login);
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean addNewUser(String login, String password, String firstName, String street, int house, int apartment, String phone) throws ServiceException {
         boolean added = false;
-        if (validateNewUser(login, password, firstName, street, phone)){
+        if (validateNewUser(login, password, firstName, street, house, apartment, phone)){
             User user = new User(login, password, firstName, street, house, apartment, phone);
             try {
                 added = userDao.create(user);
@@ -64,9 +64,9 @@ public class UserServiceImpl implements UserService {
         }
         return added;
     }
-    private boolean validateNewUser(String login, String password, String firstName, String street, String phone){
+    private boolean validateNewUser(String login, String password, String firstName, String street, int house, int apartment, String phone){
         logger.log(Level.DEBUG, login+" "+password +" "+firstName+" " + street+ " " +phone);
-        return (validateLogin(login) && validatePassword(password) && validateStreet(street) && validatePhone(phone) && (validateFirstName(firstName)));
+        return (validateLogin(login) && validatePassword(password) && validateStreet(street) && validatePhone(phone) && (validateFirstName(firstName)) && (house > 0) && (apartment > 0));
     }
     private boolean validateLogin(String login){
         Pattern loginPattern = Pattern.compile(LOGIN_VALIDATE_REGEX);
@@ -126,13 +126,21 @@ public class UserServiceImpl implements UserService {
         return isChanged;
     }
     @Override
-    public boolean changeAddress(String login, String street, int house, int apartment) throws ServiceException {
-        boolean isChanged;
+    public User updateUser( String login,String name, String street, int house, int apartment, String phone) throws ServiceException {
+        User user = null;
         try{
-            isChanged = userDao.updateUserAddress(login, street, house, apartment);
+            if (validateUpdateUser(name, street, house, apartment, phone)) {
+                user = userDao.updateUser(login, name, street, house, apartment, phone);
+                logger.log(Level.DEBUG, "user:" + user);
+            } else{
+                throw new ServiceException("not valid input: name:" + name + " street:"+street + " house:" + house + " apartment:" + apartment + "phone:" + phone);
+            }
         } catch (DaoException e) {
             throw new ServiceException("Couldn't change address: "+ e);
         }
-        return isChanged;
+        return user;
+    }
+    private boolean validateUpdateUser(String name, String street, int house, int apartment, String phone ){
+        return (validateFirstName(name) && validateStreet(street) && validatePhone(phone) && (house > 0) && (apartment > 0));
     }
 }

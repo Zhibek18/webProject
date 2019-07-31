@@ -11,10 +11,10 @@ public enum CommandType {
     FORWARD_CHANGE_PASSWORD(new ForwardChangePasswordCommand()),
     DELETE_USER(new DeleteUserCommand()),
     CHANGE_PASSWORD(new ChangePasswordCommand()),
-    FORWARD_CHANGE_ADDRESS(new ForwardChangeAddressCommand()),
-    CHANGE_ADDRESS(new ChangeAddressCommand()),
+    FORWARD_UPDATE_USER(new ForwardUpdateUserCommand()),
+    UPDATE_USER(new UpdateUserCommand()),
     SHOW_MENU(new ShowMenuCommand()),
-    ADD_DISH(new AddDishCommand()),
+    ADD_DISH(new AddDishToOrderCommand()),
     SHOW_ORDER(new ShowOrderCommand()),
     DELETE_ORDERED_DISH(new DeleteOrderedDishCommand()),
     DELETE_ORDER(new DeleteOrderCommand()),
@@ -23,7 +23,11 @@ public enum CommandType {
     UPDATE_ORDER_TOTAL_COST(new UpdateOrderTotalCostCommand()),
     CHANGE_LANGUAGE(new ChangeLanguageCommand()),
     FORWARD_MAIN(new ForwardMainCommand()),
-    FORWARD_ADMIN(new ForwardAdminCommand());
+    FORWARD_ADMIN(new ForwardAdminCommand()),
+    EDIT_DISH_PRICE(new EditDishPriceCommand()),
+    FORWARD_EDIT_MENU(new ForwardEditMenuCommand()),
+    DELETE_DISH_FROM_MENU(new DeleteDishFromMenuCommand()),
+    ADD_DISH_TO_MENU(new AddDishToMenuCommand());
     private Command command;
 
     CommandType(Command command) {

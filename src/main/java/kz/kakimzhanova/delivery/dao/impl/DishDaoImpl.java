@@ -6,6 +6,8 @@ import kz.kakimzhanova.delivery.dao.DishDao;
 import kz.kakimzhanova.delivery.entity.Dish;
 import kz.kakimzhanova.delivery.exception.DaoException;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -13,8 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DishDaoImpl implements DishDao {
+    private static Logger logger = LogManager.getLogger();
     private static final String SQL_SELECT_ALL_DISHES = "SELECT dish_name, price FROM menu";
-    private static final String SQL_SELECT_DISH_BY_DISHNAME = "SELECT dish_name, price FROM menu WHERE dish_name=?";
+    private static final String SQL_SELECT_DISH_BY_DISH_NAME = "SELECT dish_name, price FROM menu WHERE dish_name=?";
     private static final String SQL_DELETE_DISH = "DELETE FROM menu WHERE dish_name=?";
     private static final String SQL_INSERT_DISH = "INSERT INTO menu (dish_name, price) VALUES (?,?)";
     private static final String SQL_UPDATE_DISH = "UPDATE menu SET price=? WHERE dish_name=?";
@@ -56,7 +59,7 @@ public class DishDaoImpl implements DishDao {
         PreparedStatement preparedStatement = null;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
-            preparedStatement = connection.prepareStatement(SQL_SELECT_DISH_BY_DISHNAME);
+            preparedStatement = connection.prepareStatement(SQL_SELECT_DISH_BY_DISH_NAME);
             preparedStatement.setString(1, dishName);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){

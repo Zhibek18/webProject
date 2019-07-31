@@ -2,6 +2,7 @@ package kz.kakimzhanova.delivery.command.impl;
 
 import kz.kakimzhanova.delivery.command.Command;
 import kz.kakimzhanova.delivery.command.CommandParameterHolder;
+import kz.kakimzhanova.delivery.entity.User;
 import kz.kakimzhanova.delivery.exception.ServiceException;
 import kz.kakimzhanova.delivery.service.UserService;
 import kz.kakimzhanova.delivery.service.impl.UserServiceImpl;
@@ -11,38 +12,34 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class ChangeAddressCommand implements Command {
+public class UpdateUserCommand implements Command {
     private static Logger logger = LogManager.getLogger();
-    private static final String CHANGE_ADDRESS_ERROR_MESSAGE = "changeAddress.error";
+    private static final String UPDATE_USER_ERROR_MESSAGE = "updateUser.error";
     private static final String WRONG_INPUT_MESSAGE = "wrongInput.error";
-    private static final String MAIN_PATH = "path.page.main";
-    private static final String CHANGE_ADDRESS_PATH = "path.page.changeAddress";
+    private static final String UPDATE_USER_PATH = "path.page.updateUser";
     private UserService service = new UserServiceImpl();
     @Override
     public String execute(HttpServletRequest request) {
-        String page;
+        User user;
         String login = request.getSession().getAttribute(CommandParameterHolder.PARAM_LOGIN.getName()).toString();
         String street = request.getParameter(CommandParameterHolder.PARAM_STREET.getName());
+        String firstName = request.getParameter(CommandParameterHolder.PARAM_FIRST_NAME.getName());
+        String phone = request.getParameter(CommandParameterHolder.PARAM_PHONE.getName());
         try {
             int house = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_HOUSE.getName()));
             int apartment = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_APARTMENT.getName()));
-            if (service.changeAddress(login, street, house, apartment)) {
-                page = MAIN_PATH;
-                request.getSession().removeAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName());
-            } else {
-                logger.log(Level.WARN, "changeAddress returned false");
-                request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName(), CHANGE_ADDRESS_ERROR_MESSAGE);
-                page = CHANGE_ADDRESS_PATH;
-            }
+            user = service.updateUser(login, firstName, street, house, apartment, phone);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_USER.getName(), user);
+            request.getSession().removeAttribute(CommandParameterHolder.PARAM_UPDATE_USER_ERROR.getName());
         }catch (NumberFormatException e){
             logger.log(Level.ERROR, e);
-            request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName(), WRONG_INPUT_MESSAGE);
-            page = CHANGE_ADDRESS_PATH;
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_USER_ERROR.getName(), WRONG_INPUT_MESSAGE);
+
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_ADDRESS_ERROR.getName(), CHANGE_ADDRESS_ERROR_MESSAGE);
-            page = CHANGE_ADDRESS_PATH;
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_USER_ERROR.getName(), UPDATE_USER_ERROR_MESSAGE);
+
         }
-        return page;
+        return UPDATE_USER_PATH;
     }
 }

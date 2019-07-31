@@ -26,7 +26,7 @@ public class UpdateOrderTotalCostCommand implements Command {
         Order order = (Order)request.getSession().getAttribute(CommandParameterHolder.PARAM_ORDER.getName());
         int orderId = order.getOrderId();
         BigDecimal totalCost = new BigDecimal(request.getParameter(CommandParameterHolder.PARAM_TOTAL_COST.getName()));
-        if (totalCost.compareTo(BigDecimal.ZERO) != 0){
+        if (totalCost.compareTo(BigDecimal.ZERO) > 0){
             try {
                 if (orderService.updateTotalCost(orderId, totalCost)) {
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_ID.getName(), null);

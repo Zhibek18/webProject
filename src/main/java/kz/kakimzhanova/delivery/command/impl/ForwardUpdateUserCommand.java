@@ -4,10 +4,10 @@ import kz.kakimzhanova.delivery.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class ForwardChangeAddressCommand implements Command {
-    private static final String CHANGE_ADDRESS_PATH = "path.page.changeAddress";
+public class ForwardUpdateUserCommand implements Command {
+    private static final String UPDATE_USER_PATH = "path.page.updateUser";
     @Override
     public String execute(HttpServletRequest request) {
-        return CHANGE_ADDRESS_PATH;
+        return UPDATE_USER_PATH;
     }
 }

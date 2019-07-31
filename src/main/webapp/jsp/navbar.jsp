@@ -38,7 +38,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="controller?command=forward_change_password"><fmt:message key="ChangePassword"/></a>
+                <a class="nav-link" href="controller?command=forward_update_user"><fmt:message key="updateUser.title"/></a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -54,6 +54,7 @@
                 <input type="hidden" name="command" value="logout"/>
                 <input class="btn btn-outline-danger my-2 my-sm-0" type="submit" value="<fmt:message key="logOut"/>"/><br/>
             </form>
+
         </form>
     </div>
 </nav>
