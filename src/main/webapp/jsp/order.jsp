@@ -114,7 +114,7 @@
             </form>
     </c:if>
 
-    <a href="controller?command=show_menu"><fmt:message key="BackToMenu"/></a><br/>
+    <a class="btn btn-primary" href="controller?command=show_menu"><fmt:message key="BackToMenu"/></a><br/>
         </div>
 </body>
 </html>

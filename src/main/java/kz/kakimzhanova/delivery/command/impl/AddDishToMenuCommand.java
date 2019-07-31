@@ -40,8 +40,9 @@ public class AddDishToMenuCommand implements Command {
                 request.getSession().removeAttribute(CommandParameterHolder.PARAM_ADDED.getName());
             }
         } catch (ServiceException|NumberFormatException e){
-            logger.log(Level.ERROR, e + CommandParameterHolder.PARAM_NOT_ADDED.getName() + CommandParameterHolder.PARAM_STATUS_NOT_ADDED.getName());
+            logger.log(Level.ERROR, e);
             request.getSession().setAttribute(CommandParameterHolder.PARAM_NOT_ADDED.getName(), CommandParameterHolder.PARAM_STATUS_NOT_ADDED.getName());
+            request.getSession().removeAttribute(CommandParameterHolder.PARAM_ADDED.getName());
         }
         return EDIT_MENU_PATH;
     }

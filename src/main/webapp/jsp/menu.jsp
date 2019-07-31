@@ -40,25 +40,29 @@
 <div class="jumbotron">
         <h1><fmt:message key="Menu"/>:</h1>
 
-    <a href="controller?command=show_order"><fmt:message key="ShowOrder"/></a><br/>
+    <a class="btn btn-primary" href="controller?command=show_order"><fmt:message key="ShowOrder"/></a><br/>
 
-    <div class="card-deck">
+    <div class="card-columns">
         <c:forEach var="dish" items="${menu}" varStatus="status" step="1">
-            <div class="card">
-                <div class="card-body">
-                    <img src="images/products/p4.png" class="img-responsive">
-                    <h5 class="card-title"><fmt:message key="${dish.dishName}"/></h5>
-                    <p class="price-container">
-                        <span><c:out value="${dish.price}"/></span>
-                    </p>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <form name="addDish" method="post" action="controller">
-                        <input type="hidden" name="command" value="add_dish"/>
-                        <input type="hidden" name="dishName" value="${dish.dishName}"/>
-                        <input class="btn btn-success" type="submit" value="<fmt:message key="add"/>"/>
-                    </form>
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <img src="images/products/p4.png" class="img-responsive">
+                        <h5 class="card-title"><fmt:message key="${dish.dishName}"/></h5>
+                        <p class="price-container">
+                            <span><c:out value="${dish.price}"/></span>
+                        </p>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <footer class="blockquote-footer" align="center">
+                            <form name="addDish" method="post" action="controller">
+                                <input type="hidden" name="command" value="add_dish"/>
+                                <input type="hidden" name="dishName" value="${dish.dishName}"/>
+                                <input class="btn btn-success" type="submit" value="<fmt:message key="add"/>"/>
+                            </form>
+                        </footer>
+                    </div>
                 </div>
-            </div>
         </c:forEach>
 
     </div>

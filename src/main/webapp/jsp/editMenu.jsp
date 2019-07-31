@@ -52,16 +52,17 @@
         <c:forEach var="dish" items="${menu}" varStatus="status" step="1">
             <form name="editMenu" method="post" action="controller">
                 <input type="hidden" name="command" value="edit_dish_price"/>
-                <div class="col-md-4 mb-3">
-                    <input class="form-control" type="text" name="dishName" value="${dish.dishName}" readonly/>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <input class="form-control" type="text" name="dishName" value="${dish.dishName}" readonly/>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <input class="form-control" type="number" step="any" name="dishPrice" value="${dish.price}"/>
+                    </div>
+                    <div class="col-md-4">
+                        <input class="btn btn-primary" type="submit" value="<fmt:message key="Save"/>"/>
+                    </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <input class="form-control" type="number" step="any" name="dishPrice" value="${dish.price}"/>
-                </div>
-                <div class="col-md-4">
-                    <input class="btn btn-primary" type="submit" value="<fmt:message key="Save"/>"/>
-                </div>
-
             </form>
             <form name="deleteDishFromMenu" method="post" action="controller">
                 <input type="hidden" name="command" value="delete_dish_from_menu"/>
