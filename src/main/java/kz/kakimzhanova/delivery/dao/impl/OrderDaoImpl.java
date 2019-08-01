@@ -14,11 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
-    private static final String SQL_SELECT_ALL_ORDERS = "select orders.order_id, orders.timestamp, orders.total_cost, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login)";
-    private static final String SQL_SELECT_ORDER_BY_ID = "select orders.order_id, orders.timestamp, orders.total_cost, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login) and orders.order_id=?";
+    private static final String SQL_SELECT_ALL_ORDERS = "select orders.order_id, orders.timestamp, orders.total_cost, orders.status, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login)";
+    private static final String SQL_SELECT_ORDER_BY_ID = "select orders.order_id, orders.timestamp, orders.total_cost, orders.status, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login) and orders.order_id=?";
     private static final String SQL_DELETE_ORDER = "DELETE FROM orders WHERE order_id=?";
     private static final String SQL_INSERT_ORDER = "INSERT INTO orders (login) VALUES (?)";
     private static final String SQL_UPDATE_TOTAL_COST = "UPDATE orders SET total_cost=? WHERE order_id=?";
+    private static final String SQL_UPDATE_STATUS = "UPDATE orders SET status=? WHERE order_id=?";
     private OrderListDao orderListDao = new OrderListDaoImpl();
     @Override
     public List<Order> findAll() throws DaoException {
@@ -38,9 +39,10 @@ public class OrderDaoImpl implements OrderDao {
                 order.setTimestamp(resultSet.getTimestamp(DaoParameterHolder.PARAM_TIMESTAMP.getName()));
                 order.setFirstName(resultSet.getString(DaoParameterHolder.PARAM_FIRST_NAME.getName()));
                 order.setStreet(resultSet.getString(DaoParameterHolder.PARAM_STREET.getName()));
-                order.setHouse(resultSet.getInt(DaoParameterHolder.PARAM_HOUSE.getName()));
+                order.setHouse(resultSet.getString(DaoParameterHolder.PARAM_HOUSE.getName()));
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
+                order.setStatus(resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName()));
                 order.setOrderList(orderListDao.findByOrderId(orderId));
                 order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
                 orders.add(order);
@@ -76,9 +78,10 @@ public class OrderDaoImpl implements OrderDao {
                 order.setTimestamp(resultSet.getTimestamp(DaoParameterHolder.PARAM_TIMESTAMP.getName()));
                 order.setFirstName(resultSet.getString(DaoParameterHolder.PARAM_FIRST_NAME.getName()));
                 order.setStreet(resultSet.getString(DaoParameterHolder.PARAM_STREET.getName()));
-                order.setHouse(resultSet.getInt(DaoParameterHolder.PARAM_HOUSE.getName()));
+                order.setHouse(resultSet.getString(DaoParameterHolder.PARAM_HOUSE.getName()));
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
+                order.setStatus(resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName()));
                 order.setOrderList(orderListDao.findByOrderId(orderId));
                 order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
             }
@@ -172,6 +175,29 @@ public class OrderDaoImpl implements OrderDao {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_UPDATE_TOTAL_COST);
             preparedStatement.setBigDecimal(1, totalCost);
+            preparedStatement.setInt(2, orderId);
+            preparedStatement.executeUpdate();
+            isUpdated = true;
+        } catch (InterruptedException e) {
+            logger.log(Level.WARN, e);
+            Thread.currentThread().interrupt();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }finally {
+            close(preparedStatement);
+            close(connection);
+        }
+        return isUpdated;
+    }
+    @Override
+    public boolean updateStatus(int orderId, int status) throws DaoException{
+        boolean isUpdated = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection = ConnectionPool.getInstance().takeConnection();
+            preparedStatement = connection.prepareStatement(SQL_UPDATE_STATUS);
+            preparedStatement.setInt(1, status);
             preparedStatement.setInt(2, orderId);
             preparedStatement.executeUpdate();
             isUpdated = true;

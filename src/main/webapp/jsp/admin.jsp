@@ -35,8 +35,9 @@
                                     <div class="col-md-12">
                                         <div class="card-body">
                                             <div class="news-content">
-                                                <a href="#"><h6><fmt:message key="OrderId"/>: ${order.orderId}  </h6></a>
+                                                <h6><fmt:message key="OrderId"/>: ${order.orderId}  </h6>
                                                 <p><fmt:message key="Created"/>: ${order.timestamp}</p>
+                                                <p><fmt:message key="Status"/>: ${order.status}</p>
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
@@ -81,7 +82,12 @@
                                                 </table>
                                                 <div class="news-footer" align="right">
                                                     <fmt:message key="TotalCost"/>:${order.totalCost}<br/>
-                                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                                    <form name="changeStatus" method="post" action="controller">
+                                                        <input type="hidden" name="command" value="confirm_order"/>
+                                                        <input type="hidden" name="orderId" value="${order.orderId}"/>
+                                                        <input type="submit" class="btn btn-primary" value="<fmt:message key="Confirm"/>"/>
+
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

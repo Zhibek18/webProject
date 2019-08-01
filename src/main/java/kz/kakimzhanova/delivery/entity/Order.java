@@ -4,88 +4,37 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class Order extends Entity {
+public class Order extends PersonalData {
     private int orderId;
-    private String login;
+    private int status;
     private Timestamp timestamp;
-    private String firstName;
-    private String street;
-    private int house;
-    private int apartment;
-    private String phone;
     private List<OrderedDish> orderList;
     private BigDecimal totalCost;
-    public List<OrderedDish> getOrderList() {
-        return orderList;
-    }
 
-    public BigDecimal getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
-    }
-
-    public void addDish(OrderedDish orderedDish){
-        orderList.add(orderedDish);
-    }
-
-    public void setOrderList(List<OrderedDish> orderList) {
-        this.orderList = orderList;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public int getHouse() {
-        return house;
-    }
-
-    public void setHouse(int house) {
-        this.house = house;
-    }
-
-    public int getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(int apartment) {
-        this.apartment = apartment;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Order(int orderId, String login, Timestamp timestamp) {
+    public Order(String login, Timestamp timestamp, String firstName, String street, String house, int apartment, String phone, int orderId, List<OrderedDish> orderList, BigDecimal totalCost, int status) {
+        super(login, firstName, street, house, apartment, phone);
         this.orderId = orderId;
-        this.login = login;
+        this.timestamp = timestamp;
+        this.orderList = orderList;
+        this.totalCost = totalCost;
+        this.status = status;
+    }
+
+    public Order(int orderId,String login, Timestamp timestamp) {
+        super(login);
+        this.orderId = orderId;
         this.timestamp = timestamp;
     }
 
-    public Order(String login) {
-        this.login = login;
+    public Order() {
     }
 
-    public Order() {
+    public OrderStatus getStatus() {
+        return OrderStatus.values()[status];
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getOrderId() {
@@ -96,14 +45,6 @@ public class Order extends Entity {
         this.orderId = orderId;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public Timestamp getTimestamp() {
         return timestamp;
     }
@@ -112,19 +53,30 @@ public class Order extends Entity {
         this.timestamp = timestamp;
     }
 
+    public List<OrderedDish> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<OrderedDish> orderList) {
+        this.orderList = orderList;
+    }
+
+    public BigDecimal getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(BigDecimal totalCost) {
+        this.totalCost = totalCost;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder stringBuilder = new StringBuilder("Order{");
-        stringBuilder.append("orderId=").append(orderId);
-        stringBuilder.append(", login='").append(login).append('\'');
-        stringBuilder.append(", timestamp=").append(timestamp);
-        stringBuilder.append(", firstName='").append(firstName).append('\'');
-        stringBuilder.append(", street='").append(street).append('\'');
-        stringBuilder.append(", house=").append(house);
-        stringBuilder.append(", apartment=").append(apartment);
-        stringBuilder.append(", phone='").append(phone).append('\'');
-        stringBuilder.append(", orderList=").append(orderList);
-        stringBuilder.append('}');
-        return stringBuilder.toString();
+        final StringBuilder sb = new StringBuilder("Order{");
+        sb.append("orderId=").append(orderId);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append(", orderList=").append(orderList);
+        sb.append(", totalCost=").append(totalCost);
+        sb.append('}');
+        return sb.toString();
     }
 }

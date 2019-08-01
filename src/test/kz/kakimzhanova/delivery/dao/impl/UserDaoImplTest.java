@@ -19,7 +19,7 @@ public class UserDaoImplTest {
     private static final String USER_PASSWORD ="pass";
     private static final String USER_FIRST_NAME = "User";
     private static final String USER_STREET = "Aaaa";
-    private static final int USER_HOUSE = 1;
+    private static final String USER_HOUSE = "1";
     private static final int USER_APPARTMENT = 3;
     private static final String USER_PHONE = "123333";
     private static UserDao userDao;
@@ -49,7 +49,7 @@ public class UserDaoImplTest {
 
     @Test
     public void create() {
-        User user = new User("zhibek125", "zhibek125", "Zhibek", "B1", 4, 5, "123556");
+        User user = new User("zhibek125", "zhibek125", "Zhibek", "B1", "4/2", 5, "123556");
         boolean expected = true;
         boolean actual = false;
         try {

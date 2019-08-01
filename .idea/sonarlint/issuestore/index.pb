@@ -195,7 +195,9 @@ Jsrc/main/java/kz/kakimzhanova/delivery/command/impl/UpdateUserCommand.java,d/3
 Rsrc/main/java/kz/kakimzhanova/delivery/command/impl/DeleteDishFromMenuCommand.java,b/f/bf6dd769ff53284a98b7439c03460a6a5d8c4787
 }
 Msrc/main/java/kz/kakimzhanova/delivery/command/impl/AddDishToMenuCommand.java,a/c/ac637dd050c2a3708ba4e6989c0248222fce542b
-}
-Msrc/main/java/kz/kakimzhanova/delivery/command/impl/EditDishPriceCommand.java,6/1/610ee8e681e2754af3efa9d9a77792727b17a8d0
 P
  src/main/webapp/jsp/editMenu.jsp,7/5/7553cdc88c0951ce93ebee2e985eda112c4c0905
+x
+Hsrc/main/java/kz/kakimzhanova/delivery/command/impl/EditDishCommand.java,5/9/5926b031eea0fa09d4442a0181d0e594bc8d5bb6
+|
+Lsrc/main/java/kz/kakimzhanova/delivery/command/impl/ConfirmOrderCommand.java,9/1/911c2614b4a0e095aa44dd02317649d3ce348ca9

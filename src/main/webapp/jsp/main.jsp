@@ -16,7 +16,7 @@
     <title><fmt:message key="main.title" /></title>
 </head>
 <body>
-<c:set var="currentPage" value="path.page.main"/>
+<c:set var="currentPage" value="path.page.main" scope="session"/>
 <c:import url="/jsp/navbar.jsp" charEncoding="utf-8"/>
 <div class="jumbotron">
     <h3><fmt:message key="welcome" /></h3>

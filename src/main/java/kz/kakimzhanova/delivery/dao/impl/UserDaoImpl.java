@@ -88,7 +88,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getFirstName());
             preparedStatement.setString(4,user.getStreet());
-            preparedStatement.setInt(5, user.getHouse());
+            preparedStatement.setString(5, user.getHouse());
             preparedStatement.setInt(6, user.getApartment());
             preparedStatement.setString(7, user.getPhone());
             preparedStatement.executeUpdate();
@@ -116,7 +116,7 @@ public class UserDaoImpl implements UserDao {
 
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2,user.getStreet());
-            preparedStatement.setInt(3, user.getHouse());
+            preparedStatement.setString(3, user.getHouse());
             preparedStatement.setInt(4, user.getApartment());
             preparedStatement.setString(5, user.getPhone());
             preparedStatement.setString(6, user.getLogin());
@@ -152,7 +152,7 @@ public class UserDaoImpl implements UserDao {
                 user.setPassword(resultSet.getString(DaoParameterHolder.PARAM_PASSWORD.getName()));
                 user.setFirstName(resultSet.getString(DaoParameterHolder.PARAM_FIRST_NAME.getName()));
                 user.setStreet(resultSet.getString(DaoParameterHolder.PARAM_STREET.getName()));
-                user.setHouse(resultSet.getInt(DaoParameterHolder.PARAM_HOUSE.getName()));
+                user.setHouse(resultSet.getString(DaoParameterHolder.PARAM_HOUSE.getName()));
                 user.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 user.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
                 user.setAdmin(resultSet.getBoolean(DaoParameterHolder.PARAM_IS_ADMIN.getName()));
@@ -196,7 +196,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User updateUser( String login, String firstName, String street, int house, int apartment, String phone) throws DaoException {
+    public User updateUser( String login, String firstName, String street, String house, int apartment, String phone) throws DaoException {
         User user = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -205,7 +205,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement = connection.prepareStatement(SQL_UPDATE_USER);
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, street);
-            preparedStatement.setInt(3, house);
+            preparedStatement.setString(3, house);
             preparedStatement.setInt(4, apartment);
             preparedStatement.setString(5, phone);
             preparedStatement.setString(6, login);

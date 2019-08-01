@@ -24,8 +24,12 @@ public class AddDishToMenuCommand implements Command {
     public String execute(HttpServletRequest request) {
         String dishName = request.getParameter(CommandParameterHolder.PARAM_DISH_NAME.getName());
         try{
+            String dishNameRu = request.getParameter(CommandParameterHolder.PARAM_DISH_NAME_RU.getName());
+            String dishNameEn = request.getParameter(CommandParameterHolder.PARAM_DISH_NAME_EN.getName());
+            String descriptionRu = request.getParameter(CommandParameterHolder.PARAM_DESCRIPTION_RU.getName());
+            String descriptionEn = request.getParameter(CommandParameterHolder.PARAM_DESCRIPTION_EN.getName());
             BigDecimal price = new BigDecimal(request.getParameter(CommandParameterHolder.PARAM_DISH_PRICE.getName()));
-            Dish dish = new Dish(dishName, price);
+            Dish dish = new Dish(dishName,dishNameRu, dishNameEn, descriptionRu, descriptionEn, price);
 
             request.getSession().removeAttribute(CommandParameterHolder.PARAM_EDIT_MENU_ERROR.getName());
             if (dishService.addDish(dish)){

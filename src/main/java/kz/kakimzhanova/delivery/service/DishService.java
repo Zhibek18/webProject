@@ -10,5 +10,5 @@ public interface DishService {
     List<Dish> findAllDishes() throws ServiceException;
     boolean addDish(Dish dish) throws ServiceException;
     boolean delete(String dishName) throws ServiceException;
-    boolean editDish(String dishName, BigDecimal price) throws ServiceException;
+    boolean editDish(String dishName, String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal price) throws ServiceException;
 }

@@ -12,4 +12,5 @@ public interface OrderService {
     boolean deleteOrder(int orderId) throws ServiceException;
     Order findOrderById(int orderId) throws ServiceException;
     boolean updateTotalCost(int orderId, BigDecimal totalCost) throws ServiceException;
+    boolean updateOrderStatus(int orderId, int status) throws ServiceException;
 }

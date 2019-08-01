@@ -24,10 +24,11 @@ public enum CommandType {
     CHANGE_LANGUAGE(new ChangeLanguageCommand()),
     FORWARD_MAIN(new ForwardMainCommand()),
     FORWARD_ADMIN(new ForwardAdminCommand()),
-    EDIT_DISH_PRICE(new EditDishPriceCommand()),
+    EDIT_DISH(new EditDishCommand()),
     FORWARD_EDIT_MENU(new ForwardEditMenuCommand()),
     DELETE_DISH_FROM_MENU(new DeleteDishFromMenuCommand()),
-    ADD_DISH_TO_MENU(new AddDishToMenuCommand());
+    ADD_DISH_TO_MENU(new AddDishToMenuCommand()),
+    CONFIRM_ORDER(new ConfirmOrderCommand());
     private Command command;
 
     CommandType(Command command) {

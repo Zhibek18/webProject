@@ -14,8 +14,12 @@ public enum DaoParameterHolder {
     PARAM_QUANTITY("quantity"),
     PARAM_PRICE("price"),
     PARAM_TIMESTAMP("timestamp"),
-    PARAM_TOTAL_COST("total_cost");
-
+    PARAM_TOTAL_COST("total_cost"),
+    PARAM_DISH_NAME_RU("dish_name_ru"),
+    PARAM_DISH_NAME_EN("dish_name_en"),
+    PARAM_DESCRIPTION_RU("description_ru"),
+    PARAM_DESCRIPTION_EN("description_en"),
+    PARAM_STATUS("status");
 
     String name;
 

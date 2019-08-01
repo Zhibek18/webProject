@@ -2,26 +2,21 @@ package kz.kakimzhanova.delivery.entity;
 
 import java.math.BigDecimal;
 
-public class OrderedDish extends Entity{
+public class OrderedDish extends Dish{
     private int orderId;
-    private String dishName;
     private int quantity;
-    private BigDecimal price;
     public OrderedDish(int orderId, String dishName, int quantity) {
         this.orderId = orderId;
         this.dishName = dishName;
         this.quantity = quantity;
     }
 
+    public OrderedDish(String dishName, String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal price, int orderId, int quantity) {
+        super(dishName, dishNameRu, dishNameEn, descriptionRu, descriptionEn, price);
+        this.orderId = orderId;
+        this.quantity = quantity;
+    }
     public OrderedDish() {
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public int getOrderId() {
@@ -30,14 +25,6 @@ public class OrderedDish extends Entity{
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
-    }
-
-    public String getDishName() {
-        return dishName;
-    }
-
-    public void setDishName(String dishName) {
-        this.dishName = dishName;
     }
 
     public int getQuantity() {
@@ -50,11 +37,15 @@ public class OrderedDish extends Entity{
 
     @Override
     public String toString() {
-        final StringBuilder stringBuilder = new StringBuilder("OrderedDish{");
-        stringBuilder.append("  orderId=").append(orderId);
-        stringBuilder.append(", dishName='").append(dishName).append('\'');
-        stringBuilder.append(", quantity=").append(quantity);
-        stringBuilder.append('}');
-        return stringBuilder.toString();
+        final StringBuilder sb = new StringBuilder("OrderedDish{");
+        sb.append("orderId=").append(orderId);
+        sb.append(", quantity=").append(quantity);
+        sb.append(", dishName='").append(dishName).append('\'');
+        sb.append(", dishNameRu='").append(dishNameRu).append('\'');
+        sb.append(", dishNameEn='").append(dishNameEn).append('\'');
+        sb.append(", descriptionRu='").append(descriptionRu).append('\'');
+        sb.append(", descriptionEn='").append(descriptionEn).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

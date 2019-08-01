@@ -18,6 +18,10 @@ import java.util.regex.Pattern;
 public class DishServiceImpl implements DishService {
     private static Logger logger = LogManager.getLogger();
     private static final String NAME_VALIDATE_REGEX = "[\\w]{5,20}";
+    private static final String RU_NAME_VALIDATE_REGEX = "[А-Я][А-Яа-я -()]{1,19}";
+    private static final String EN_NAME_VALIDATE_REGEX = "[A-Z][A-Za-z -()]{1,19}";
+    private static final String RU_DESCRIPTION_VALIDATE_REGEX = "[А-Яа-я][А-Яа-я -]{1,49}";
+    private static final String EN_DESCRIPTION_VALIDATE_REGEX = "[A-Za-z][A-Za-z -]{1,49}";
     private DishDao dishDao = new DishDaoImpl();
 
     @Override
@@ -30,11 +34,12 @@ public class DishServiceImpl implements DishService {
         }
         return dishes;
     }
+
     public boolean addDish(Dish dish) throws ServiceException {
         boolean isAdded;
-        try{
+        try {
             if (isValid(dish)) {
-                if (dishDao.findById(dish.getDishName())==null) {
+                if (dishDao.findById(dish.getDishName()) == null) {
                     isAdded = dishDao.create(dish);
                 } else {
                     throw new ServiceException("Dish with name " + dish + "already exist");
@@ -48,19 +53,20 @@ public class DishServiceImpl implements DishService {
         return isAdded;
     }
 
-    private boolean isValid(Dish dish){
+    private boolean isValid(Dish dish) {
         return isValidName(dish.getDishName()) && isValidPrice(dish.getPrice());
     }
 
-    private boolean isValidName(String name){
+    private boolean isValidName(String name) {
         Pattern namePattern = Pattern.compile(NAME_VALIDATE_REGEX);
         Matcher nameMatcher = namePattern.matcher(name);
         return nameMatcher.matches();
     }
 
-    private boolean isValidPrice(BigDecimal price){
+    private boolean isValidPrice(BigDecimal price) {
         return (price.compareTo(BigDecimal.ZERO) > 0);
     }
+
     @Override
     public boolean delete(String dishName) throws ServiceException {
         boolean isDeleted;
@@ -71,18 +77,45 @@ public class DishServiceImpl implements DishService {
         }
         return isDeleted;
     }
+
     @Override
-    public boolean editDish(String dishName, BigDecimal price) throws ServiceException {
+    public boolean editDish(String dishName, String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal price) throws ServiceException {
         boolean isEdited;
         try {
-            if (isValidPrice(price)) {
-                isEdited = dishDao.updatePrice(dishName, price);
+            if (isValidUpdate(dishNameRu, dishNameEn, descriptionRu, descriptionEn, price)) {
+                isEdited = dishDao.update(dishName, dishNameRu, dishNameEn, descriptionRu, descriptionEn, price);
             } else {
-                throw new ServiceException("Not valid price " + price + " for dish " + dishName);
+                throw new ServiceException("Not valid dish " + dishName + ":" + "\ndishNameRu="+dishNameRu+ "\ndishNameEn="+dishNameEn+ "\ndescriptionRu="+descriptionRu + "\ndescriptionEn="+descriptionEn +"\nprice="+price);
             }
         } catch (DaoException e) {
             throw new ServiceException("Couldn't update dish:" + dishName + " " + e);
         }
         return isEdited;
+    }
+
+    private boolean isValidUpdate(String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal price) {
+        return ((isValidNameRu(dishNameRu)) && (isValidNameEn(dishNameEn)) && (isValidPrice(price)) && (isValidDescriptionRu(descriptionRu)) && (isValidDescriptionEn(descriptionEn)));
+    }
+
+    private boolean isValidNameRu(String nameRu) {
+        Pattern ruNamePattern = Pattern.compile(RU_NAME_VALIDATE_REGEX);
+        Matcher ruNameMatcher = ruNamePattern.matcher(nameRu);
+        return ruNameMatcher.matches();
+    }
+
+    private boolean isValidNameEn(String nameEn) {
+        Pattern enNamePattern = Pattern.compile(EN_NAME_VALIDATE_REGEX);
+        Matcher enNameMatcher = enNamePattern.matcher(nameEn);
+        return enNameMatcher.matches();
+    }
+    private boolean isValidDescriptionRu(String descriptionRu){
+        Pattern ruDescriptionPattern = Pattern.compile(RU_DESCRIPTION_VALIDATE_REGEX);
+        Matcher ruDescriptionMatcher = ruDescriptionPattern.matcher(descriptionRu);
+        return ruDescriptionMatcher.matches();
+    }
+    private boolean isValidDescriptionEn(String descriptionEn){
+        Pattern enDescriptionPattern = Pattern.compile(EN_DESCRIPTION_VALIDATE_REGEX);
+        Matcher enDescriptionMatcher = enDescriptionPattern.matcher(descriptionEn);
+        return enDescriptionMatcher.matches();
     }
 }

@@ -28,7 +28,7 @@ public class SignupCommand  implements Command {
             String password = request.getParameter(CommandParameterHolder.PARAM_PASSWORD.getName());
             String firstName = request.getParameter(CommandParameterHolder.PARAM_FIRST_NAME.getName());
             String street = request.getParameter(CommandParameterHolder.PARAM_STREET.getName());
-            int house = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_HOUSE.getName()));
+            String house = request.getParameter(CommandParameterHolder.PARAM_HOUSE.getName());
             int apartment = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_APARTMENT.getName()));
             String phone = request.getParameter(CommandParameterHolder.PARAM_PHONE.getName());
             if(!service.checkLogin(login,password)) {

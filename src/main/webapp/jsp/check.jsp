@@ -74,7 +74,14 @@
                                             <tbody>
                                             <c:forEach var="orderedDish" items="${confirmedOrder.orderList}" varStatus="status">
                                                 <tr>
-                                                    <th scope="row"><fmt:message key="${orderedDish.dishName}"/></th>
+                                                    <th scope="row">
+                                                        <c:if test="${language == 'ru_RU'}">
+                                                            <h5 class="card-title">${orderedDish.dishNameRu}</h5>
+                                                        </c:if>
+                                                        <c:if test="${language == 'en_US'}">
+                                                            <h5 class="card-title">${orderedDish.dishNameEn}</h5>
+                                                        </c:if>
+                                                    </th>
                                                     <td><c:out value="${orderedDish.quantity}"/></td>
                                                     <td><c:out value="${orderedDish.price}"/></td>
                                                 </tr>

@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private static final String STREET_VALIDATE_REGEX = "(?U)[\\w]{2,20}";
     private static final String PHONE_VALIDATE_REGEX = "[+\\d]{6,12}";
     private static final String PHONE_REPLACE_SYMBOLS_REGEX = "[\\D&&[^+]]";
+    private static final String HOUSE_VALIDATE_REGEX = "(?U)[\\w/]{1,10}";
     private static Logger logger = LogManager.getLogger();
     private UserDao userDao = new UserDaoImpl();
 
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
     @Override
-    public boolean addNewUser(String login, String password, String firstName, String street, int house, int apartment, String phone) throws ServiceException {
+    public boolean addNewUser(String login, String password, String firstName, String street, String house, int apartment, String phone) throws ServiceException {
         boolean added = false;
         if (validateNewUser(login, password, firstName, street, house, apartment, phone)){
             User user = new User(login, password, firstName, street, house, apartment, phone);
@@ -64,9 +65,9 @@ public class UserServiceImpl implements UserService {
         }
         return added;
     }
-    private boolean validateNewUser(String login, String password, String firstName, String street, int house, int apartment, String phone){
+    private boolean validateNewUser(String login, String password, String firstName, String street, String house, int apartment, String phone){
         logger.log(Level.DEBUG, login+" "+password +" "+firstName+" " + street+ " " +phone);
-        return (validateLogin(login) && validatePassword(password) && validateStreet(street) && validatePhone(phone) && (validateFirstName(firstName)) && (house > 0) && (apartment > 0));
+        return (validateLogin(login) && validatePassword(password) && validateStreet(street) && validatePhone(phone) && (validateFirstName(firstName)) && (validateHouse(house)) && (apartment > 0));
     }
     private boolean validateLogin(String login){
         Pattern loginPattern = Pattern.compile(LOGIN_VALIDATE_REGEX);
@@ -92,6 +93,11 @@ public class UserServiceImpl implements UserService {
         Pattern phonePattern = Pattern.compile(PHONE_VALIDATE_REGEX);
         Matcher phoneMatcher = phonePattern.matcher(phone.replaceAll(PHONE_REPLACE_SYMBOLS_REGEX, ""));
         return phoneMatcher.matches();
+    }
+    private boolean validateHouse(String house){
+        Pattern housePattern = Pattern.compile(HOUSE_VALIDATE_REGEX);
+        Matcher houseMatcher = housePattern.matcher(house);
+        return houseMatcher.matches();
     }
     @Override
     public List<User> findAllUsers() throws ServiceException {
@@ -126,8 +132,8 @@ public class UserServiceImpl implements UserService {
         return isChanged;
     }
     @Override
-    public User updateUser( String login,String name, String street, int house, int apartment, String phone) throws ServiceException {
-        User user = null;
+    public User updateUser( String login,String name, String street, String house, int apartment, String phone) throws ServiceException {
+        User user;
         try{
             if (validateUpdateUser(name, street, house, apartment, phone)) {
                 user = userDao.updateUser(login, name, street, house, apartment, phone);
@@ -140,7 +146,7 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
-    private boolean validateUpdateUser(String name, String street, int house, int apartment, String phone ){
-        return (validateFirstName(name) && validateStreet(street) && validatePhone(phone) && (house > 0) && (apartment > 0));
+    private boolean validateUpdateUser(String name, String street, String house, int apartment, String phone ){
+        return (validateFirstName(name) && validateStreet(street) && validatePhone(phone) && (validateHouse(house)) && (apartment > 0));
     }
 }

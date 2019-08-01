@@ -29,62 +29,62 @@ public class DishDaoImplTest {
     }
 
 
-    @Test
-    public void findById() {
-        Dish expected = new Dish("rice", BigDecimal.valueOf(400.0));
-        Dish actual = new Dish();
-        try {
-            actual = dishDao.findById("rice");
-        } catch (DaoException e) {
-            logger.log(Level.WARN, e);
-        }
-        Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
-    }
-
-    @AfterClass
-    public static void dispose() {
-        try {
-            ConnectionPool.getInstance().dispose();
-        } catch (ConnectionPoolException e) {
-            logger.log(Level.WARN, e);
-        }
-    }
-
-    @Test
-    public void create() {
-        boolean expected = true;
-        boolean actual = false;
-        try {
-            actual = dishDao.create(new Dish("spaghetti", BigDecimal.valueOf(13.5)));
-        } catch (DaoException e) {
-            logger.log(Level.WARN, e);
-        }
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void delete() {
-        boolean expected = true;
-        boolean actual = false;
-        try {
-            actual = dishDao.delete("spaghetti");
-        } catch (DaoException e) {
-            logger.log(Level.WARN, e);
-        }
-        Assert.assertEquals(expected, actual);
-    }
-
-
-
-    @Test
-    public void updatePrice() {
-        boolean expected = true;
-        boolean actual = false;
-        try{
-            actual = dishDao.updatePrice("rice", new BigDecimal(400.0));
-        } catch (DaoException e) {
-            logger.log(Level.WARN, e);
-        }
-        Assert.assertEquals(expected, actual);
-    }
+//    @Test
+//    public void findById() {
+//        Dish expected = new Dish("rice", BigDecimal.valueOf(400.0));
+//        Dish actual = new Dish();
+//        try {
+//            actual = dishDao.findById("rice");
+//        } catch (DaoException e) {
+//            logger.log(Level.WARN, e);
+//        }
+//        Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
+//    }
+//
+//    @AfterClass
+//    public static void dispose() {
+//        try {
+//            ConnectionPool.getInstance().dispose();
+//        } catch (ConnectionPoolException e) {
+//            logger.log(Level.WARN, e);
+//        }
+//    }
+//
+//    @Test
+//    public void create() {
+//        boolean expected = true;
+//        boolean actual = false;
+//        try {
+//            actual = dishDao.create(new Dish("spaghetti", BigDecimal.valueOf(13.5)));
+//        } catch (DaoException e) {
+//            logger.log(Level.WARN, e);
+//        }
+//        Assert.assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void delete() {
+//        boolean expected = true;
+//        boolean actual = false;
+//        try {
+//            actual = dishDao.delete("spaghetti");
+//        } catch (DaoException e) {
+//            logger.log(Level.WARN, e);
+//        }
+//        Assert.assertEquals(expected, actual);
+//    }
+//
+//
+//
+//    @Test
+//    public void updatePrice() {
+//        boolean expected = true;
+//        boolean actual = false;
+//        try{
+//            actual = dishDao.updatePrice("rice", new BigDecimal(400.0));
+//        } catch (DaoException e) {
+//            logger.log(Level.WARN, e);
+//        }
+//        Assert.assertEquals(expected, actual);
+//    }
 }

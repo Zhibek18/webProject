@@ -6,5 +6,5 @@ import kz.kakimzhanova.delivery.exception.DaoException;
 import java.math.BigDecimal;
 
 public interface DishDao extends BaseDao<String, Dish>{
-    boolean updatePrice(String dishName, BigDecimal newPrice) throws DaoException;
+    boolean update(String dishName,String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal newPrice) throws DaoException;
 }

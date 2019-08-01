@@ -75,7 +75,7 @@
             </div>
             <div class="col-md-3 mb-3">
                 <label for="validationCustom04"><fmt:message key="House"/>:</label>
-                <input type="number" name="house" value="${user.house}" class="form-control" id="validationCustom04" placeholder="House" required>
+                <input type="text" name="house" value="${user.house}" class="form-control" id="validationCustom04" placeholder="House" required>
                 <div class="invalid-feedback">
                     Please provide a valid house number.
                 </div>

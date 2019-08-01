@@ -78,7 +78,14 @@
                 <tbody>
                 <c:forEach var="orderedDish" items="${order.orderList}" varStatus="status">
                     <tr>
-                        <th scope="row"><fmt:message key="${orderedDish.dishName}"/></th>
+                        <th scope="row">
+                            <c:if test="${language == 'ru_RU'}">
+                                <h5 class="card-title">${orderedDish.dishNameRu}</h5>
+                            </c:if>
+                            <c:if test="${language == 'en_US'}">
+                                <h5 class="card-title">${orderedDish.dishNameEn}</h5>
+                            </c:if>
+                        </th>
                         <td>
                             <form name="changeDishQuantity" method="post" action="controller">
                                 <input type="hidden" name="command" value="change_dish_quantity"/>

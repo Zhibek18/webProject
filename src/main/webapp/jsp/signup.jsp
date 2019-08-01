@@ -41,7 +41,7 @@
 
 
                     <div class="text"><fmt:message key="House"/>:</div>
-                    <input class="input" type="number" name="house" value="">
+                    <input class="input" type="text" name="house" value="">
 
 
                     <div class="text"><fmt:message key="Apartment"/>:</div>

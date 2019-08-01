@@ -49,11 +49,21 @@
                 <div class="card">
                     <div class="card-body">
                         <img src="images/products/p4.png" class="img-responsive">
-                        <h5 class="card-title"><fmt:message key="${dish.dishName}"/></h5>
+                        <c:if test="${language == 'ru_RU'}">
+                            <h5 class="card-title">${dish.dishNameRu}</h5>
+                        </c:if>
+                        <c:if test="${language == 'en_US'}">
+                            <h5 class="card-title">${dish.dishNameEn}</h5>
+                        </c:if>
                         <p class="price-container">
                             <span><c:out value="${dish.price}"/></span>
                         </p>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <c:if test="${language == 'en_US'}">
+                            <p class="card-text">${dish.descriptionEn}</p>
+                        </c:if>
+                        <c:if test="${language == 'ru_RU'}">
+                            <p class="card-text">${dish.descriptionRu}</p>
+                        </c:if>
                         <footer class="blockquote-footer" align="center">
                             <form name="addDish" method="post" action="controller">
                                 <input type="hidden" name="command" value="add_dish"/>

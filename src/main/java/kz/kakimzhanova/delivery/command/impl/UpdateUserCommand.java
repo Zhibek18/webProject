@@ -26,7 +26,7 @@ public class UpdateUserCommand implements Command {
         String firstName = request.getParameter(CommandParameterHolder.PARAM_FIRST_NAME.getName());
         String phone = request.getParameter(CommandParameterHolder.PARAM_PHONE.getName());
         try {
-            int house = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_HOUSE.getName()));
+            String house = request.getParameter(CommandParameterHolder.PARAM_HOUSE.getName());
             int apartment = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_APARTMENT.getName()));
             user = service.updateUser(login, firstName, street, house, apartment, phone);
             request.getSession().setAttribute(CommandParameterHolder.PARAM_USER.getName(), user);

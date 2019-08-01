@@ -16,7 +16,7 @@
 
 </head>
 <body>
-    <c:set var="currentPage" value="path.page.admin" scope="session"/>
+    <c:set var="currentPage" value="path.page.editMenu" scope="session"/>
     <c:import url="adminNavbar.jsp" charEncoding="utf-8"/>
     <div class="jumbotron">
 
@@ -39,26 +39,55 @@
 
         <form name="addDishToMenu" method="post" action="controller">
             <input type="hidden" name="command" value="add_dish_to_menu"/>
-            <div class="col-md-4 mb-3">
-                <input class="form-control" type="text" name="dishName" value="" placeholder="Name"/>
-            </div>
-            <div class="col-md-4 mb-3">
-                <input class="form-control" type="text" name="dishPrice" value="" placeholder="Price"/>
-            </div>
-            <div class="col-md-4">
-                <input class="btn btn-success" type="submit" value="<fmt:message key="Save"/>"/>
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <input class="form-control" type="text" name="dishName" value="" placeholder="Name"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <input class="form-control" type="text" name="dishNameRu" value="" placeholder="NameRu"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <input class="form-control" type="text" name="dishNameEn" value="" placeholder="NameEn"/>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <input class="form-control" type="text" name="dishPrice" value="" placeholder="Price"/>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <textarea class="form-control md-textarea" name="descriptionRu" placeholder="DescriptionRu" rows="3"></textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <textarea class="form-control md-textarea" name="descriptionEn" placeholder="DescriptionEn" rows="3"></textarea>
+                </div>
+
+                <div class="col-md-4">
+                    <input class="btn btn-success" type="submit" value="<fmt:message key="Save"/>"/>
+                </div>
             </div>
         </form>
         <c:forEach var="dish" items="${menu}" varStatus="status" step="1">
             <form name="editMenu" method="post" action="controller">
-                <input type="hidden" name="command" value="edit_dish_price"/>
+                <input type="hidden" name="command" value="edit_dish"/>
                 <div class="form-row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <input class="form-control" type="text" name="dishName" value="${dish.dishName}" readonly/>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <input class="form-control" type="number" step="any" name="dishPrice" value="${dish.price}"/>
+                    <div class="col-md-3 mb-3">
+                        <input class="form-control" type="text" name="dishNameRu" value="${dish.dishNameRu}" placeholder="NameRu"/>
                     </div>
+                    <div class="col-md-3 mb-3">
+                        <input class="form-control" type="text" name="dishNameEn" value="${dish.dishNameEn}" placeholder="NameEn"/>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <input class="form-control" type="number" step="0.01" name="dishPrice" value="${dish.price}"/>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <textarea class="form-control md-textarea" name="descriptionRu" placeholder="DescriptionRu" rows="3">${dish.descriptionRu}</textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <textarea class="form-control md-textarea" name="descriptionEn" placeholder="DescriptionEn" rows="3">${dish.descriptionEn}</textarea>
+                    </div>
+
                     <div class="col-md-4">
                         <input class="btn btn-primary" type="submit" value="<fmt:message key="Save"/>"/>
                     </div>

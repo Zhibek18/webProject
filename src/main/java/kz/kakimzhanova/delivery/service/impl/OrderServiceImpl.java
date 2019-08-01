@@ -14,6 +14,8 @@ import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
     private static Logger logger = LogManager.getLogger();
+    private static final int MAX_STATUS_VALUE = 2;
+    private static final int MIN_STATUS_VALUE = 0;
     private OrderDao orderDao = new OrderDaoImpl();
 
     @Override
@@ -66,5 +68,23 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(e);
         }
         return isUpadted;
+    }
+    @Override
+    public boolean updateOrderStatus(int orderId, int status) throws ServiceException{
+        boolean isConfirmed;
+        try{
+            if (isValidStatus(status)) {
+                isConfirmed = orderDao.updateStatus(orderId, status);
+            } else {
+                throw new ServiceException("Not valid status:"+status);
+            }
+        }catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return isConfirmed;
+    }
+
+    private boolean isValidStatus(int status){
+        return ((status >= MIN_STATUS_VALUE)&&(status <= MAX_STATUS_VALUE));
     }
 }

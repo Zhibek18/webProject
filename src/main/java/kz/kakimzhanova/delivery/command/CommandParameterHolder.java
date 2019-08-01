@@ -42,7 +42,11 @@ public enum CommandParameterHolder {
     PARAM_USER("user"),
     PARAM_UPDATE_PASSWORD_ERROR("updatePasswordError"),
     PARAM_EDIT_MENU_ERROR("editMenuError"),
-    PARAM_DISH_PRICE("dishPrice");
+    PARAM_DISH_PRICE("dishPrice"),
+    PARAM_DISH_NAME_RU("dishNameRu"),
+    PARAM_DISH_NAME_EN("dishNameEn"),
+    PARAM_DESCRIPTION_RU("descriptionRu"),
+    PARAM_DESCRIPTION_EN("descriptionEn");
     private String name;
 
     CommandParameterHolder(String name) {
