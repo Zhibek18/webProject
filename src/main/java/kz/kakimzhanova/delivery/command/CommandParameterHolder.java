@@ -46,7 +46,8 @@ public enum CommandParameterHolder {
     PARAM_DISH_NAME_RU("dishNameRu"),
     PARAM_DISH_NAME_EN("dishNameEn"),
     PARAM_DESCRIPTION_RU("descriptionRu"),
-    PARAM_DESCRIPTION_EN("descriptionEn");
+    PARAM_DESCRIPTION_EN("descriptionEn"),
+    PARAM_ORDER_LIST("orderList");
     private String name;
 
     CommandParameterHolder(String name) {

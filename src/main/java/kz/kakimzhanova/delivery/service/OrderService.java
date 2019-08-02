@@ -1,6 +1,7 @@
 package kz.kakimzhanova.delivery.service;
 
 import kz.kakimzhanova.delivery.entity.Order;
+import kz.kakimzhanova.delivery.entity.OrderedDish;
 import kz.kakimzhanova.delivery.exception.ServiceException;
 
 import java.math.BigDecimal;
@@ -14,4 +15,5 @@ public interface OrderService {
     boolean updateTotalCost(int orderId, BigDecimal totalCost) throws ServiceException;
     boolean updateOrderStatus(int orderId, int status) throws ServiceException;
     List<Order> findOrdersByLogin(String login) throws ServiceException;
+    Order createOrder(String login, List<OrderedDish> orderList) throws ServiceException;
 }

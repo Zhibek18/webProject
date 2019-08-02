@@ -21,22 +21,24 @@ public class OrderDaoImpl implements OrderDao {
     private static final String SQL_UPDATE_TOTAL_COST = "UPDATE orders SET total_cost=? WHERE order_id=?";
     private static final String SQL_UPDATE_STATUS = "UPDATE orders SET status=? WHERE order_id=?";
     private static final String SQL_SELECT_ORDERS_BY_LOGIN = "select orders.order_id, orders.timestamp, orders.total_cost, orders.status, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login and orders.login=?)";
-    private OrderListDao orderListDao = new OrderListDaoImpl();
+    private Connection connection;
+
+    public OrderDaoImpl(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public List<Order> findAll() throws DaoException {
-        List<Order> orders = null;
-        Connection connection = null;
+        List<Order> orders;
         Statement statement = null;
         ResultSet resultSet = null;
         try{
-            connection = ConnectionPool.getInstance().takeConnection();
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             resultSet = statement.executeQuery(SQL_SELECT_ALL_ORDERS);
             orders = new ArrayList<>();
             while(resultSet.next()){
                 Order order = new Order();
-                int orderId = resultSet.getInt(DaoParameterHolder.PARAM_ORDER_ID.getName());
-                order.setOrderId(orderId);
+                order.setOrderId(resultSet.getInt(DaoParameterHolder.PARAM_ORDER_ID.getName()));
                 order.setTimestamp(resultSet.getTimestamp(DaoParameterHolder.PARAM_TIMESTAMP.getName()));
                 order.setFirstName(resultSet.getString(DaoParameterHolder.PARAM_FIRST_NAME.getName()));
                 order.setStreet(resultSet.getString(DaoParameterHolder.PARAM_STREET.getName()));
@@ -44,19 +46,14 @@ public class OrderDaoImpl implements OrderDao {
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
                 order.setStatus(resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName()));
-                order.setOrderList(orderListDao.findByOrderId(orderId));
                 order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
                 orders.add(order);
             }
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             close(resultSet);
             close(statement);
-            close(connection);
         }
         return orders;
     }
@@ -64,11 +61,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order findById(Integer orderId) throws DaoException {
         Order order = null;
-        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_SELECT_ORDER_BY_ID);
             preparedStatement.setInt(1, orderId);
             resultSet = preparedStatement.executeQuery();
@@ -83,41 +78,30 @@ public class OrderDaoImpl implements OrderDao {
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
                 order.setStatus(resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName()));
-                order.setOrderList(orderListDao.findByOrderId(orderId));
                 order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
             }
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {
             close(resultSet);
             close(preparedStatement);
-            close(connection);
         }
         return order;
     }
 
     @Override
     public boolean delete(Integer orderId) throws DaoException {
-        boolean isDeleted = false;
-        Connection connection = null;
+        boolean isDeleted;
         PreparedStatement preparedStatement = null;
         try {
-            connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_DELETE_ORDER);
             preparedStatement.setInt(1,orderId);
             preparedStatement.executeUpdate();
             isDeleted = true;
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             close(preparedStatement);
-            close(connection);
         }
         return isDeleted;
     }
@@ -133,13 +117,11 @@ public class OrderDaoImpl implements OrderDao {
     }
     @Override
     public Order create(String login) throws DaoException {
-        Connection connection = null;
         PreparedStatement preparedStatement = null;
         Order order = null;
         ResultSet resultSet = null;
         int orderId;
         try {
-            connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_INSERT_ORDER,Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, login);
             preparedStatement.executeUpdate();
@@ -151,13 +133,9 @@ public class OrderDaoImpl implements OrderDao {
 
         } catch (SQLException e) {
             throw new DaoException(e);
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } finally {
             close(resultSet);
             close(preparedStatement);
-            close(connection);
         }
         return order;
     }
@@ -169,58 +147,44 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public boolean updateTotalCost(int orderId, BigDecimal totalCost) throws DaoException {
-        boolean isUpdated = false;
-        Connection connection = null;
+        boolean isUpdated;
         PreparedStatement preparedStatement = null;
         try{
-            connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_UPDATE_TOTAL_COST);
             preparedStatement.setBigDecimal(1, totalCost);
             preparedStatement.setInt(2, orderId);
             preparedStatement.executeUpdate();
             isUpdated = true;
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {
             close(preparedStatement);
-            close(connection);
         }
         return isUpdated;
     }
     @Override
     public boolean updateStatus(int orderId, int status) throws DaoException{
-        boolean isUpdated = false;
-        Connection connection = null;
+        boolean isUpdated;
         PreparedStatement preparedStatement = null;
         try{
-            connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_UPDATE_STATUS);
             preparedStatement.setInt(1, status);
             preparedStatement.setInt(2, orderId);
             preparedStatement.executeUpdate();
             isUpdated = true;
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {
             close(preparedStatement);
-            close(connection);
         }
         return isUpdated;
     }
     @Override
     public List<Order> findByLogin(String login) throws DaoException {
-        List<Order> orders = null;
-        Connection connection = null;
+        List<Order> orders;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try{
-            connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_SELECT_ORDERS_BY_LOGIN);
             preparedStatement.setString(1, login);
             resultSet = preparedStatement.executeQuery();
@@ -236,19 +200,14 @@ public class OrderDaoImpl implements OrderDao {
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
                 order.setStatus(resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName()));
-                order.setOrderList(orderListDao.findByOrderId(orderId));
                 order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
                 orders.add(order);
             }
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             close(resultSet);
             close(preparedStatement);
-            close(connection);
         }
         return orders;
     }

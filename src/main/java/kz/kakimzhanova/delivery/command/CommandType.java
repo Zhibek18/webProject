@@ -20,7 +20,7 @@ public enum CommandType {
     DELETE_ORDER(new DeleteOrderCommand()),
     SHOW_ORDERS(new ShowOrdersCommand()),
     CHANGE_DISH_QUANTITY(new ChangeDishQuantityCommand()),
-    UPDATE_ORDER_TOTAL_COST(new UpdateOrderTotalCostCommand()),
+    USER_CONFIRM_ORDER(new UserConfirmOrderCommand()),
     CHANGE_LANGUAGE(new ChangeLanguageCommand()),
     FORWARD_MAIN(new ForwardMainCommand()),
     FORWARD_ADMIN(new ForwardAdminCommand()),
@@ -28,7 +28,8 @@ public enum CommandType {
     FORWARD_EDIT_MENU(new ForwardEditMenuCommand()),
     DELETE_DISH_FROM_MENU(new DeleteDishFromMenuCommand()),
     ADD_DISH_TO_MENU(new AddDishToMenuCommand()),
-    CONFIRM_ORDER(new ConfirmOrderCommand());
+    ADMIN_CONFIRM_ORDER(new AdminConfirmOrderCommand()),
+    CANCEL_ORDER(new CancelOrderCommand());
     private Command command;
 
     CommandType(Command command) {

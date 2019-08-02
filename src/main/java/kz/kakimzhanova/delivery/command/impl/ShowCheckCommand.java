@@ -4,11 +4,11 @@ import kz.kakimzhanova.delivery.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class ForwardMainCommand implements Command {
-    private static final String MAIN_PATH = "path.page.main";
+public class ShowCheckCommand implements Command {
+    private static final String CHECK_PATH = "path.page.check";
+
     @Override
     public String execute(HttpServletRequest request) {
-
-        return MAIN_PATH;
+        return CHECK_PATH;
     }
 }

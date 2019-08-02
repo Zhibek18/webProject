@@ -29,6 +29,10 @@ public class Order extends PersonalData {
     public Order() {
     }
 
+    public Order(String login) {
+        super(login);
+    }
+
     public OrderStatus getStatus() {
         return OrderStatus.values()[status];
     }

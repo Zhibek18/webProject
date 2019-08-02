@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class ConfirmOrderCommand implements Command {
+public class AdminConfirmOrderCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String ADMIN_PATH = "path.page.admin";
     private static final String ORDER_CONFIRM_ERROR_MESSAGE = "orderComfirm.error";
