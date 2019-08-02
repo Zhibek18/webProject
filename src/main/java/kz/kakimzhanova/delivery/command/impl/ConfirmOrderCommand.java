@@ -2,6 +2,7 @@ package kz.kakimzhanova.delivery.command.impl;
 
 import kz.kakimzhanova.delivery.command.Command;
 import kz.kakimzhanova.delivery.command.CommandParameterHolder;
+import kz.kakimzhanova.delivery.entity.Order;
 import kz.kakimzhanova.delivery.exception.ServiceException;
 import kz.kakimzhanova.delivery.service.OrderService;
 import kz.kakimzhanova.delivery.service.impl.OrderServiceImpl;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public class ConfirmOrderCommand implements Command {
     private static Logger logger = LogManager.getLogger();
@@ -32,6 +34,7 @@ public class ConfirmOrderCommand implements Command {
             logger.log(Level.ERROR, e);
             request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), ORDER_CONFIRM_ERROR_MESSAGE);
         }
-        return ADMIN_PATH;
+        ShowOrdersCommand showOrdersCommand = new ShowOrdersCommand();
+        return showOrdersCommand.execute(request);
     }
 }

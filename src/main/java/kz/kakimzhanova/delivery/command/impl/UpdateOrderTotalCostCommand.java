@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class UpdateOrderTotalCostCommand implements Command {
     private static Logger logger = LogManager.getLogger();
@@ -29,9 +30,14 @@ public class UpdateOrderTotalCostCommand implements Command {
         if (totalCost.compareTo(BigDecimal.ZERO) > 0){
             try {
                 if (orderService.updateTotalCost(orderId, totalCost)) {
-                    request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_ID.getName(), null);
-                    request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER.getName(), null);
-                    request.getSession().setAttribute(CommandParameterHolder.PARAM_CONFIRMED_ORDER.getName(), orderService.findOrderById(orderId));
+                    order.setTotalCost(totalCost);
+                    request.getSession().setAttribute(CommandParameterHolder.PARAM_CONFIRMED_ORDER.getName(), order);
+                    List<Order> orders = (List<Order>) request.getSession().getAttribute(CommandParameterHolder.PARAM_ORDERS.getName());
+                    orders.add(order);
+                    request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDERS.getName(), orders);
+                    request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER_ID.getName());
+                    request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER.getName());
+
                     page = CHECK_PATH;
                     request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName());
                 } else {

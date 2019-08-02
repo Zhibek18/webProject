@@ -98,8 +98,8 @@ public class OrderListDaoImpl implements OrderListDao {
         try{
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_SELECT_ORDER_LIST_BY_ORDER_ID_AND_DISH_NAME);
-            preparedStatement.setInt(1, orderId);
-            preparedStatement.setString(2, dishName);
+            preparedStatement.setString(1, dishName);
+            preparedStatement.setInt(2, orderId);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
                 orderedDish = new OrderedDish();

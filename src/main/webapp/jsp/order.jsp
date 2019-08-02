@@ -61,7 +61,7 @@
             <form name="deleteOrder" method="post" action="controller">
                 <input type="hidden" name="command" value="delete_order"/>
                 <input class="btn btn-outline-danger" type="submit" value="<fmt:message key="CancelOrder"/>"/>
-
+                <input type="hidden" name="orderId" value="${orderId}"/>
             </form>
                 <c:set var="totalCost" value="0" scope="request"/>
 

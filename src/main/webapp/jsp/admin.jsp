@@ -37,7 +37,7 @@
                                             <div class="news-content">
                                                 <h6><fmt:message key="OrderId"/>: ${order.orderId}  </h6>
                                                 <p><fmt:message key="Created"/>: ${order.timestamp}</p>
-                                                <p><fmt:message key="Status"/>: ${order.status}</p>
+                                                <p><fmt:message key="Status"/>: <fmt:message key="${order.status}"/></p>
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
@@ -73,21 +73,34 @@
                                                     <tbody>
                                                     <c:forEach var="orderedDish" items="${order.orderList}" varStatus="status">
                                                         <tr>
-                                                            <th scope="row"><fmt:message key="${orderedDish.dishName}"/></th>
+                                                            <th scope="row">
+                                                                <c:if test="${language == 'ru_RU'}">
+                                                                    <h5 class="card-title">${orderedDish.dishNameRu}</h5>
+                                                                </c:if>
+                                                                <c:if test="${language == 'en_US'}">
+                                                                    <h5 class="card-title">${orderedDish.dishNameEn}</h5>
+                                                                </c:if>
+                                                            </th>
                                                             <td><c:out value="${orderedDish.quantity}"/></td>
                                                             <td><c:out value="${orderedDish.price}"/></td>
                                                         </tr>
                                                     </c:forEach>
                                                     </tbody>
                                                 </table>
-                                                <div class="news-footer" align="right">
+                                                <div class="news-footer">
                                                     <fmt:message key="TotalCost"/>:${order.totalCost}<br/>
-                                                    <form name="changeStatus" method="post" action="controller">
-                                                        <input type="hidden" name="command" value="confirm_order"/>
-                                                        <input type="hidden" name="orderId" value="${order.orderId}"/>
-                                                        <input type="submit" class="btn btn-primary" value="<fmt:message key="Confirm"/>"/>
-
-                                                    </form>
+                                                    <div class="row">
+                                                        <form class="col-md-6 col-centered mb-3" name="changeStatus" method="post" action="controller">
+                                                            <input type="hidden" name="command" value="confirm_order"/>
+                                                            <input type="hidden" name="orderId" value="${order.orderId}"/>
+                                                            <input type="submit" class="btn btn-primary" value="<fmt:message key="Confirm"/>"/>
+                                                        </form>
+                                                        <form class="col-md-6 col-centered mb-3" name="deleteOrder" method="post" action="controller">
+                                                            <input type="hidden" name="command" value="delete_order"/>
+                                                            <input type="hidden" name="orderId" value="${order.orderId}"/>
+                                                            <input class="btn btn-outline-danger" type="submit" value="<fmt:message key="Delete"/>"/>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

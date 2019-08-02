@@ -28,7 +28,7 @@ $(document).ready(function () {
             phone:{
                 required:true,
                 minlength:6,
-                maxlength:12
+                maxlength:20
             }
         }
     });

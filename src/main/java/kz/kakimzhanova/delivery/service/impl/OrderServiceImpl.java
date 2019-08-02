@@ -87,4 +87,14 @@ public class OrderServiceImpl implements OrderService {
     private boolean isValidStatus(int status){
         return ((status >= MIN_STATUS_VALUE)&&(status <= MAX_STATUS_VALUE));
     }
+    @Override
+    public List<Order> findOrdersByLogin(String login) throws ServiceException{
+        List<Order> orders;
+        try {
+            orders = orderDao.findByLogin(login);
+        } catch (DaoException e) {
+        throw new ServiceException(e);
+        }
+        return orders;
+    }
 }
