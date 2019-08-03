@@ -2,7 +2,6 @@ package kz.kakimzhanova.delivery.service.impl;
 
 import kz.kakimzhanova.delivery.dao.OrderDao;
 import kz.kakimzhanova.delivery.dao.OrderListDao;
-import kz.kakimzhanova.delivery.dao.impl.OrderDaoImpl;
 import kz.kakimzhanova.delivery.entity.Order;
 import kz.kakimzhanova.delivery.entity.OrderedDish;
 import kz.kakimzhanova.delivery.exception.DaoException;
@@ -10,13 +9,12 @@ import kz.kakimzhanova.delivery.exception.ServiceException;
 import kz.kakimzhanova.delivery.exception.TransactionManagerException;
 import kz.kakimzhanova.delivery.service.OrderService;
 import kz.kakimzhanova.delivery.transaction.OrderTransactionManager;
-import kz.kakimzhanova.delivery.transaction.OrderTransactionManagerImpl;
+import kz.kakimzhanova.delivery.transaction.impl.OrderTransactionManagerImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
@@ -62,31 +60,6 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return orders;
-    }
-    @Override
-    public Order newOrder(String login) throws ServiceException {
-        OrderTransactionManager transactionManager = new OrderTransactionManagerImpl();
-        Order order;
-        try {
-            transactionManager.beginTransaction();
-            OrderDao orderDao = transactionManager.connectOrderDao();
-            order = orderDao.create(login);
-            transactionManager.commit();
-        } catch (DaoException|TransactionManagerException e) {
-            try {
-                transactionManager.rollback();
-            } catch (TransactionManagerException ex) {
-                logger.log(Level.ERROR, ROLLBACK_ERROR + ex);
-            }
-            throw new ServiceException("Could not create new order for " + login + ": " + e);
-        } finally {
-            try {
-                transactionManager.endTransaction();
-            } catch (TransactionManagerException e) {
-                logger.log(Level.WARN, "Could not end transaction newOrder for " + login + ": " + e);
-            }
-        }
-        return order;
     }
 
     @Override

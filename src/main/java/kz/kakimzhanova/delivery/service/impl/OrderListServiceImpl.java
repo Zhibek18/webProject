@@ -1,14 +1,13 @@
 package kz.kakimzhanova.delivery.service.impl;
 
 import kz.kakimzhanova.delivery.dao.OrderListDao;
-import kz.kakimzhanova.delivery.dao.impl.OrderListDaoImpl;
 import kz.kakimzhanova.delivery.entity.OrderedDish;
 import kz.kakimzhanova.delivery.exception.DaoException;
 import kz.kakimzhanova.delivery.exception.ServiceException;
 import kz.kakimzhanova.delivery.exception.TransactionManagerException;
 import kz.kakimzhanova.delivery.service.OrderListService;
 import kz.kakimzhanova.delivery.transaction.OrderTransactionManager;
-import kz.kakimzhanova.delivery.transaction.OrderTransactionManagerImpl;
+import kz.kakimzhanova.delivery.transaction.impl.OrderTransactionManagerImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

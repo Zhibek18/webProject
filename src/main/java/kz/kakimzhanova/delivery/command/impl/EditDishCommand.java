@@ -33,8 +33,8 @@ public class EditDishCommand implements Command {
             String descriptionEn = request.getParameter(CommandParameterHolder.PARAM_DESCRIPTION_EN.getName());
             BigDecimal dishPrice = new BigDecimal(request.getParameter(CommandParameterHolder.PARAM_DISH_PRICE.getName()));
             List<Dish> dishes = (ArrayList<Dish>)request.getSession().getAttribute(CommandParameterHolder.PARAM_MENU.getName());
-
-            if (dishService.editDish(dishName,dishNameRu, dishNameEn, descriptionRu, descriptionEn, dishPrice)){
+            Dish newDish = new Dish(dishName,dishNameRu, dishNameEn, descriptionRu, descriptionEn, dishPrice);
+            if (dishService.editDish(newDish)){
                 for (Dish dish : dishes){
                     if (dish.getDishName().equals(dishName)){
                         dish.setDishNameRu(dishNameRu);

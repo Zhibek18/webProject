@@ -17,7 +17,7 @@ import java.util.List;
 public class DishDaoImpl implements DishDao {
     private static Logger logger = LogManager.getLogger();
     private static final String SQL_SELECT_ALL_DISHES = "SELECT dish_name,dish_name_ru, dish_name_en, description_ru, description_en, price FROM menu";
-    private static final String SQL_SELECT_DISH_BY_DISH_NAME = "SELECT dish_name, dish_name_ru, dish_name_en, description_ru,description_en price FROM menu WHERE dish_name=?";
+    private static final String SQL_SELECT_DISH_BY_DISH_NAME = "SELECT dish_name, dish_name_ru, dish_name_en, description_ru,description_en, price FROM menu WHERE dish_name=?";
     private static final String SQL_DELETE_DISH = "DELETE FROM menu WHERE dish_name=?";
     private static final String SQL_INSERT_DISH = "INSERT INTO menu (dish_name, dish_name_ru, dish_name_en, description_ru, description_en, price) VALUES (?,?,?,?,?,?)";
     private static final String SQL_UPDATE_DISH = "UPDATE menu SET price=?, dish_name_ru=?, dish_name_en=?, description_ru=?, description_en=? WHERE dish_name=?";
@@ -145,21 +145,21 @@ public class DishDaoImpl implements DishDao {
     }
 
     @Override
-    public boolean update(String dishName,String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal newPrice) throws DaoException {
-        boolean isUpdated = false;
+    public Dish update(Dish dish) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        Dish updatedDish = null;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_UPDATE_DISH);
-            preparedStatement.setBigDecimal(1,newPrice);
-            preparedStatement.setString(2,dishNameRu);
-            preparedStatement.setString(3,dishNameEn);
-            preparedStatement.setString(4,descriptionRu);
-            preparedStatement.setString(5,descriptionEn);
-            preparedStatement.setString(6,dishName);
+            preparedStatement.setBigDecimal(1,dish.getPrice());
+            preparedStatement.setString(2,dish.getDishNameRu());
+            preparedStatement.setString(3,dish.getDishNameEn());
+            preparedStatement.setString(4,dish.getDescriptionRu());
+            preparedStatement.setString(5,dish.getDescriptionEn());
+            preparedStatement.setString(6,dish.getDishName());
             preparedStatement.executeUpdate();
-            isUpdated = true;
+            updatedDish = findById(dish.getDishName());
         } catch (InterruptedException e) {
             logger.log(Level.WARN, e);
             Thread.currentThread().interrupt();
@@ -169,11 +169,6 @@ public class DishDaoImpl implements DishDao {
             close(preparedStatement);
             close(connection);
         }
-        return isUpdated;
-    }
-
-    @Override
-    public Dish update(Dish entity) {
-        throw new UnsupportedOperationException();
+        return updatedDish;
     }
 }

@@ -11,7 +11,7 @@ public class OrderedDish extends Dish{
         this.quantity = quantity;
     }
 
-    public OrderedDish(String dishName, String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal price, int orderId, int quantity) {
+    public OrderedDish(int orderId, String dishName, String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal price,  int quantity) {
         super(dishName, dishNameRu, dishNameEn, descriptionRu, descriptionEn, price);
         this.orderId = orderId;
         this.quantity = quantity;

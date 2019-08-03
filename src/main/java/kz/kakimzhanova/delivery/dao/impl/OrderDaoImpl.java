@@ -27,6 +27,8 @@ public class OrderDaoImpl implements OrderDao {
         this.connection = connection;
     }
 
+
+
     @Override
     public List<Order> findAll() throws DaoException {
         List<Order> orders;
@@ -210,5 +212,12 @@ public class OrderDaoImpl implements OrderDao {
             close(preparedStatement);
         }
         return orders;
+    }
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("OrderDaoImpl{");
+        sb.append("connection=").append(connection);
+        sb.append('}');
+        return sb.toString();
     }
 }

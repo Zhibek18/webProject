@@ -79,16 +79,17 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public boolean editDish(String dishName, String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal price) throws ServiceException {
+    public boolean editDish(Dish dish) throws ServiceException {
         boolean isEdited;
         try {
-            if (isValidUpdate(dishNameRu, dishNameEn, descriptionRu, descriptionEn, price)) {
-                isEdited = dishDao.update(dishName, dishNameRu, dishNameEn, descriptionRu, descriptionEn, price);
+            if (isValidUpdate(dish.getDishNameRu(), dish.getDishNameEn(), dish.getDescriptionRu(), dish.getDescriptionEn(), dish.getPrice())) {
+                Dish updatedDish = dishDao.update(dish);
+                isEdited = (updatedDish != null);
             } else {
-                throw new ServiceException("Not valid dish " + dishName + ":" + "\ndishNameRu="+dishNameRu+ "\ndishNameEn="+dishNameEn+ "\ndescriptionRu="+descriptionRu + "\ndescriptionEn="+descriptionEn +"\nprice="+price);
+                throw new ServiceException("Not valid dish " + dish.getDishName() + ":" + "\ndishNameRu="+dish.getDishNameRu() + "\ndishNameEn="+dish.getDishNameEn()+ "\ndescriptionRu="+dish.getDescriptionRu() + "\ndescriptionEn="+dish.getDescriptionEn() +"\nprice="+dish.getPrice());
             }
         } catch (DaoException e) {
-            throw new ServiceException("Couldn't update dish:" + dishName + " " + e);
+            throw new ServiceException("Couldn't update dish:" + dish.getDishName() + " " + e);
         }
         return isEdited;
     }
