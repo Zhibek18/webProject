@@ -19,7 +19,6 @@
 <c:set var="currentPage" value="path.page.updateUser" scope="session"/>
 <c:import url="navbar.jsp" charEncoding="utf-8"/>
 
-
 <div class="jumbotron">
     <c:if test="${not empty updateUserError}">
         <div class="alert alert-danger" role="alert">
@@ -41,7 +40,7 @@
             <fmt:message key="${deleteUserError}" />
         </div>
     </c:if>
-
+    <h3><fmt:message key="editProfile"/> </h3>
     <form name="deleteUser" method="post" action="controller" align="right">
         <input type="hidden" name="command" value="delete_user"/>
         <input class="btn btn-danger" type="submit" value="<fmt:message key="deleteAccount"/>"/><br/>

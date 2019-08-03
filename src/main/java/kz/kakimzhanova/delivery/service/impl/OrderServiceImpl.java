@@ -221,7 +221,7 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
     @Override
-    public Order createOrder(String login, List<OrderedDish> orderList) throws ServiceException{
+    public Order createOrder(String login, List<OrderedDish> orderList, BigDecimal totalCost) throws ServiceException{
         OrderTransactionManager transactionManager = new OrderTransactionManagerImpl();
         Order order;
         try {
@@ -231,12 +231,38 @@ public class OrderServiceImpl implements OrderService {
             order = orderDao.create(login);
             if (order != null) {
                 int orderId = order.getOrderId();
-                for (OrderedDish dish : orderList){
-                    orderListDao.create(orderId, dish.getDishName(), dish.getQuantity());
+                if (totalCost.compareTo(BigDecimal.ZERO) > 0) {
+                    orderDao.updateTotalCost(orderId, totalCost);
+                    if (orderList != null) {
+                        for (OrderedDish dish : orderList) {
+                            orderListDao.create(orderId, dish.getDishName(), dish.getQuantity());
+                        }
+                        transactionManager.commit();
+                        order.setOrderList(orderList);
+                        order.setTotalCost(totalCost);
+                    } else {
+                        try {
+                            transactionManager.rollback();
+                        } catch (TransactionManagerException ex) {
+                            logger.log(Level.ERROR, ROLLBACK_ERROR + ex);
+                        }
+                        throw new ServiceException("Could not create order: orderList is null");
+                    }
+                } else {
+                    try {
+                        transactionManager.rollback();
+                    } catch (TransactionManagerException ex) {
+                        logger.log(Level.ERROR, ROLLBACK_ERROR + ex);
+                    }
+                    throw new ServiceException("Could not create order: total cost is not valid: totalCost = " + totalCost );
                 }
-                transactionManager.commit();
             } else {
-                throw new ServiceException("orderDao.create returned false");
+                try {
+                    transactionManager.rollback();
+                } catch (TransactionManagerException ex) {
+                    logger.log(Level.ERROR, ROLLBACK_ERROR + ex);
+                }
+                throw new ServiceException("Could not create order: orderDao.create returned null");
             }
         } catch (TransactionManagerException| DaoException e) {
             try {

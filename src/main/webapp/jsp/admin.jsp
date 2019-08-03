@@ -90,8 +90,8 @@
                                                 <div class="news-footer">
                                                     <fmt:message key="TotalCost"/>:${order.totalCost}<br/>
                                                     <div class="row">
-                                                        <form class="col-md-6 col-centered mb-3" name="changeStatus" method="post" action="controller">
-                                                            <input type="hidden" name="command" value="confirm_order"/>
+                                                        <form class="col-md-6 col-centered mb-3" name="confirmOrder" method="post" action="controller">
+                                                            <input type="hidden" name="command" value="admin_confirm_order"/>
                                                             <input type="hidden" name="orderId" value="${order.orderId}"/>
                                                             <input type="submit" class="btn btn-primary" value="<fmt:message key="Confirm"/>"/>
                                                         </form>

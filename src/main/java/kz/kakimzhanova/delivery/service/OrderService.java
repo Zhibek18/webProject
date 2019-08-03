@@ -14,5 +14,5 @@ public interface OrderService {
     boolean updateTotalCost(int orderId, BigDecimal totalCost) throws ServiceException;
     boolean updateOrderStatus(int orderId, int status) throws ServiceException;
     List<Order> findOrdersByLogin(String login) throws ServiceException;
-    Order createOrder(String login, List<OrderedDish> orderList) throws ServiceException;
+    Order createOrder(String login, List<OrderedDish> orderList, BigDecimal totalCost) throws ServiceException;
 }

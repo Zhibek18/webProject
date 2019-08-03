@@ -68,6 +68,11 @@
                             <form name="addDish" method="post" action="controller">
                                 <input type="hidden" name="command" value="add_dish"/>
                                 <input type="hidden" name="dishName" value="${dish.dishName}"/>
+                                <input type="hidden" name="dishPrice" value="${dish.price}"/>
+                                <input type="hidden" name="dishNameRu" value="${dish.dishNameRu}"/>
+                                <input type="hidden" name="dishNameEn" value="${dish.dishNameEn}"/>
+                                <input type="hidden" name="descriptionRu" value="${dish.descriptionRu}"/>
+                                <input type="hidden" name="descriptionEn" value="${dish.descriptionEn}"/>
                                 <input class="btn btn-success" type="submit" value="<fmt:message key="add"/>"/>
                             </form>
                         </footer>

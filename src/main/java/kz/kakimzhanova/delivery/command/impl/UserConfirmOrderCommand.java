@@ -27,8 +27,10 @@ public class UserConfirmOrderCommand implements Command {
         List<OrderedDish> orderList = (List<OrderedDish>)request.getSession().getAttribute(CommandParameterHolder.PARAM_ORDER_LIST.getName());
         String login = (String)request.getSession().getAttribute(CommandParameterHolder.PARAM_LOGIN.getName());
         try {
-            Order order = orderService.createOrder(login, orderList);
+            BigDecimal totalCost = new BigDecimal(request.getParameter(CommandParameterHolder.PARAM_TOTAL_COST.getName()));
+            Order order = orderService.createOrder(login, orderList, totalCost);
             request.getSession().setAttribute(CommandParameterHolder.PARAM_CONFIRMED_ORDER.getName(), order);
+            request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER_LIST.getName());
             page = CHECK_PATH;
             request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName());
         }catch (ServiceException e){

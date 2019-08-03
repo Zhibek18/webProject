@@ -21,6 +21,7 @@ public class UpdateUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         User user;
+        String page = UPDATE_USER_PATH;
         String login = request.getSession().getAttribute(CommandParameterHolder.PARAM_LOGIN.getName()).toString();
         String street = request.getParameter(CommandParameterHolder.PARAM_STREET.getName());
         String firstName = request.getParameter(CommandParameterHolder.PARAM_FIRST_NAME.getName());
@@ -31,6 +32,8 @@ public class UpdateUserCommand implements Command {
             user = service.updateUser(login, firstName, street, house, apartment, phone);
             request.getSession().setAttribute(CommandParameterHolder.PARAM_USER.getName(), user);
             request.getSession().removeAttribute(CommandParameterHolder.PARAM_UPDATE_USER_ERROR.getName());
+            ForwardUpdateUserCommand forwardUpdateUserCommand = new ForwardUpdateUserCommand();
+            page = forwardUpdateUserCommand.execute(request);
         }catch (NumberFormatException e){
             logger.log(Level.ERROR, e);
             request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_USER_ERROR.getName(), WRONG_INPUT_MESSAGE);
@@ -40,6 +43,6 @@ public class UpdateUserCommand implements Command {
             request.getSession().setAttribute(CommandParameterHolder.PARAM_UPDATE_USER_ERROR.getName(), UPDATE_USER_ERROR_MESSAGE);
 
         }
-        return UPDATE_USER_PATH;
+        return page;
     }
 }

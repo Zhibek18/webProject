@@ -75,6 +75,10 @@ public class Dish extends Entity {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Dish{");
         sb.append("dishName='").append(dishName).append('\'');
+        sb.append(", dishNameRu='").append(dishNameRu).append('\'');
+        sb.append(", dishNameEn='").append(dishNameEn).append('\'');
+        sb.append(", descriptionRu='").append(descriptionRu).append('\'');
+        sb.append(", descriptionEn='").append(descriptionEn).append('\'');
         sb.append(", price=").append(price);
         sb.append('}');
         return sb.toString();

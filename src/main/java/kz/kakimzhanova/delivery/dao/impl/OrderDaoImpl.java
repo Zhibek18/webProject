@@ -14,20 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
-    private static final String SQL_SELECT_ALL_ORDERS = "select orders.order_id, orders.timestamp, orders.total_cost, orders.status, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login)";
-    private static final String SQL_SELECT_ORDER_BY_ID = "select orders.order_id, orders.timestamp, orders.total_cost, orders.status, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login) and orders.order_id=?";
+    private static final String SQL_SELECT_ALL_ORDERS = "select orders.order_id, orders.timestamp, orders.total_cost, orders.status, users.first_name, users.street, users.house, users.apartment, users.phone "
+            + "from orders inner join users on (orders.login = users.login) order by orders.timestamp ";
+    private static final String SQL_SELECT_ORDER_BY_ID = "select orders.order_id, orders.timestamp, orders.total_cost, orders.status, users.first_name, users.street, users.house, users.apartment, users.phone"
+            + " from orders inner join users on (orders.login = users.login) and orders.order_id=? order by orders.timestamp";
     private static final String SQL_DELETE_ORDER = "DELETE FROM orders WHERE order_id=?";
     private static final String SQL_INSERT_ORDER = "INSERT INTO orders (login) VALUES (?)";
     private static final String SQL_UPDATE_TOTAL_COST = "UPDATE orders SET total_cost=? WHERE order_id=?";
     private static final String SQL_UPDATE_STATUS = "UPDATE orders SET status=? WHERE order_id=?";
-    private static final String SQL_SELECT_ORDERS_BY_LOGIN = "select orders.order_id, orders.timestamp, orders.total_cost, orders.status, users.first_name, users.street, users.house, users.apartment, users.phone from orders inner join users on (orders.login = users.login and orders.login=?)";
+    private static final String SQL_SELECT_ORDERS_BY_LOGIN = "select orders.order_id, orders.timestamp, orders.total_cost, orders.status, users.first_name, users.street, users.house, users.apartment, users.phone"
+            + " from orders inner join users on (orders.login = users.login and orders.login=?) order by orders.timestamp";
     private Connection connection;
 
     public OrderDaoImpl(Connection connection) {
         this.connection = connection;
     }
-
-
 
     @Override
     public List<Order> findAll() throws DaoException {

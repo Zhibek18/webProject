@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class DishServiceImpl implements DishService {
     private static Logger logger = LogManager.getLogger();
-    private static final String NAME_VALIDATE_REGEX = "[\\w]{5,20}";
+    private static final String NAME_VALIDATE_REGEX = "[\\w]{1,20}";
     private static final String RU_NAME_VALIDATE_REGEX = "[А-Я][А-Яа-я -()]{1,19}";
     private static final String EN_NAME_VALIDATE_REGEX = "[A-Z][A-Za-z -()]{1,19}";
     private static final String RU_DESCRIPTION_VALIDATE_REGEX = "[А-Яа-я][А-Яа-я -]{1,49}";
@@ -54,7 +54,7 @@ public class DishServiceImpl implements DishService {
     }
 
     private boolean isValid(Dish dish) {
-        return isValidName(dish.getDishName()) && isValidPrice(dish.getPrice());
+        return  (isValidName(dish.getDishName())&&(isValidNameRu(dish.getDishNameRu())) && (isValidNameEn(dish.getDishNameEn())) && (isValidPrice(dish.getPrice())) && (isValidDescriptionRu(dish.getDescriptionRu())) && (isValidDescriptionEn(dish.getDescriptionEn())));
     }
 
     private boolean isValidName(String name) {

@@ -17,8 +17,7 @@ public class DeleteOrderCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private OrderService orderService = new OrderServiceImpl();
     private static final String DELETE_ORDER_ERROR = "deleteOrder.error";
-    private static final String MENU_PATH = "path.page.menu";
-    private static final String ADMIN_PATH = "path.page.admin";
+    private static final String INDEX_PATH = "path.page.index";
     @Override
     public String execute(HttpServletRequest request) {
         String page = null;
@@ -28,22 +27,13 @@ public class DeleteOrderCommand implements Command {
                 request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER_ID.getName());
                 request.getSession().removeAttribute(CommandParameterHolder.PARAM_ORDER.getName());
                 request.removeAttribute(CommandParameterHolder.PARAM_DELETE_ORDER_ERROR.getName());
-                List<Order> orders = (List<Order>) request.getSession().getAttribute(CommandParameterHolder.PARAM_ORDERS.getName());
-                if (orders != null){
-                    Order deletedOrder = null;
-                    for (Order order : orders){
-                        if (order.getOrderId() == orderId){
-                            deletedOrder = order;
-                            break;
-                        }
-                    }
-                    orders.remove(deletedOrder);
-                }
                 boolean isAdmin = (Boolean) request.getSession().getAttribute(CommandParameterHolder.PARAM_IS_ADMIN.getName());
                 if (isAdmin){
-                    page = ADMIN_PATH;
+                    ForwardAdminCommand forwardAdminCommand = new ForwardAdminCommand();
+                    page = forwardAdminCommand.execute(request);
                 } else {
-                    page = MENU_PATH;
+                    logger.log(Level.ERROR, "Someone tried to delete order from admin page");
+                    page = INDEX_PATH;
                 }
             } else {
                 logger.log(Level.ERROR, "deleteOrder returned false");

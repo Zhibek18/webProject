@@ -21,7 +21,6 @@ public class AdminConfirmOrderCommand implements Command {
     private OrderService orderService = new OrderServiceImpl();
     @Override
     public String execute(HttpServletRequest request) {
-
         try {
             int orderId = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_ORDER_ID.getName()));
             if (orderService.updateOrderStatus(orderId, ORDER_STATUS_CONFIRMED)){

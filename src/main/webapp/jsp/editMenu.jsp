@@ -36,56 +36,62 @@
                 <fmt:message key="${notAdded}" />
             </div>
         </c:if>
-
+        <h3><fmt:message key="EditMenu"/> </h3>
         <form name="addDishToMenu" method="post" action="controller">
+            <h5><fmt:message key="AddDish"/></h5>
             <input type="hidden" name="command" value="add_dish_to_menu"/>
             <div class="form-row">
                 <div class="col-md-3 mb-3">
-                    <input class="form-control" type="text" name="dishName" value="" placeholder="Name"/>
+                    <input class="form-control" type="text" name="dishName" value="" placeholder="<fmt:message key="DishName"/>"/>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <input class="form-control" type="text" name="dishNameRu" value="" placeholder="NameRu"/>
+                    <input class="form-control" type="text" name="dishNameRu" value="" placeholder="<fmt:message key="DishNameRu"/>"/>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <input class="form-control" type="text" name="dishNameEn" value="" placeholder="NameEn"/>
+                    <input class="form-control" type="text" name="dishNameEn" value="" placeholder="<fmt:message key="DishNameEn"/>"/>
                 </div>
-
                 <div class="col-md-3 mb-3">
-                    <input class="form-control" type="text" name="dishPrice" value="" placeholder="Price"/>
+                    <input class="form-control" type="text" name="dishPrice" value="" placeholder="<fmt:message key="DishPrice"/>"/>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <textarea class="form-control md-textarea" name="descriptionRu" placeholder="DescriptionRu" rows="3"></textarea>
+                    <textarea class="form-control md-textarea" name="descriptionRu" placeholder="<fmt:message key="DescriptionRu"/>" rows="3"></textarea>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <textarea class="form-control md-textarea" name="descriptionEn" placeholder="DescriptionEn" rows="3"></textarea>
+                    <textarea class="form-control md-textarea" name="descriptionEn" placeholder="<fmt:message key="DescriptionEn"/>" rows="3"></textarea>
                 </div>
-
                 <div class="col-md-4">
-                    <input class="btn btn-success" type="submit" value="<fmt:message key="Save"/>"/>
+                    <input class="btn btn-success" type="submit" value="<fmt:message key="add"/>"/>
                 </div>
             </div>
         </form>
-        <c:forEach var="dish" items="${menu}" varStatus="status" step="1">
+        <h5><fmt:message key="Menu"/> </h5>
+        <c:forEach var="dish" items="${menu}" varStatus="status">
             <form name="editMenu" method="post" action="controller">
                 <input type="hidden" name="command" value="edit_dish"/>
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
+                        <fmt:message key="DishName"/>:<br/>
                         <input class="form-control" type="text" name="dishName" value="${dish.dishName}" readonly/>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <input class="form-control" type="text" name="dishNameRu" value="${dish.dishNameRu}" placeholder="NameRu"/>
+                        <fmt:message key="DishNameRu"/>:<br/>
+                        <input class="form-control" type="text" name="dishNameRu" value="${dish.dishNameRu}" placeholder="<fmt:message key="DishNameRu"/>"/>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <input class="form-control" type="text" name="dishNameEn" value="${dish.dishNameEn}" placeholder="NameEn"/>
+                        <fmt:message key="DishNameEn"/>:<br/>
+                        <input class="form-control" type="text" name="dishNameEn" value="${dish.dishNameEn}" placeholder="<fmt:message key="DishNameEn"/>"/>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <input class="form-control" type="number" step="0.01" name="dishPrice" value="${dish.price}"/>
+                        <fmt:message key="DishPrice"/>:<br/>
+                        <input class="form-control" type="number" step="0.01" name="dishPrice" value="${dish.price}" placeholder="<fmt:message key="DishPrice"/>"/>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <textarea class="form-control md-textarea" name="descriptionRu" placeholder="DescriptionRu" rows="3">${dish.descriptionRu}</textarea>
+                        <fmt:message key="DescriptionRu"/>:<br/>
+                        <textarea class="form-control md-textarea" name="descriptionRu" placeholder="<fmt:message key="DescriptionRu"/>" rows="3">${dish.descriptionRu}</textarea>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <textarea class="form-control md-textarea" name="descriptionEn" placeholder="DescriptionEn" rows="3">${dish.descriptionEn}</textarea>
+                        <fmt:message key="DescriptionEn"/>:<br/>
+                        <textarea class="form-control md-textarea" name="descriptionEn" placeholder="<fmt:message key="DescriptionEn"/>" rows="3">${dish.descriptionEn}</textarea>
                     </div>
 
                     <div class="col-md-4">

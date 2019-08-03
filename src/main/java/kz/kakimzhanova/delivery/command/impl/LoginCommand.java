@@ -17,12 +17,8 @@ import java.util.List;
 public class LoginCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String LOGIN_ERROR_MESSAGE = "login.error";
-    private static final String MAIN_PATH = "path.page.main";
     private static final String LOGIN_PATH = "path.page.login";
-    private static final String ADMIN_PATH = "path.page.admin";
-    private static final String SHOW_ORDERS_ERROR_MESSAGE = "showOrders.error";
     private UserServiceImpl userService = new UserServiceImpl();
-    private OrderService orderService = new OrderServiceImpl();
     public String execute(HttpServletRequest request){
         String page = null;
         String login = request.getParameter(CommandParameterHolder.PARAM_LOGIN.getName());
@@ -36,16 +32,13 @@ public class LoginCommand implements Command {
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_USER.getName(), userService.findById(login));
                     boolean isAdmin = userService.isAdmin(login);
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_IS_ADMIN.getName(), isAdmin);
-                    List<Order> orders;
                     if (isAdmin) {
-                        orders = orderService.findAllOrders();
-                        page = ADMIN_PATH;
+                        ForwardAdminCommand forwardAdminCommand = new ForwardAdminCommand();
+                        page = forwardAdminCommand.execute(request);
                     } else {
-                        orders = orderService.findOrdersByLogin(login);
-                        page = MAIN_PATH;
+                        ForwardMainCommand forwardMainCommand = new ForwardMainCommand();
+                        page = forwardMainCommand.execute(request);
                     }
-                    request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDERS.getName(), orders);
-                    request.getSession().removeAttribute(CommandParameterHolder.PARAM_SHOW_ORDERS_ERROR.getName());
                     request.getSession().removeAttribute(CommandParameterHolder.PARAM_LOGIN_ERROR.getName());
                 } else {
                     logger.log(Level.WARN, "checkLogin returned false");

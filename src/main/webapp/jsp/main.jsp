@@ -21,9 +21,6 @@
 <c:import url="/jsp/navbar.jsp" charEncoding="utf-8"/>
 <div class="jumbotron">
     <h3><fmt:message key="welcome" /></h3>
-    <hr/>
-    <fmt:message key="hello"/>, ${login}!
-    <hr/>
         <c:if test="${not empty showMenuError}">
             <fmt:message key="${showMenuError}"/><br/>
         </c:if>

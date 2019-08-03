@@ -27,12 +27,12 @@ public class ChangeDishQuantityCommand implements Command {
             for (OrderedDish dish : orderList) {
                 if (dish.getDishName().equals(dishName)) {
                     dish.setQuantity(quantity);
-                } else {
-                    logger.log(Level.ERROR,"dish " + dishName + "not found");
-                    request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_QUANTITY_ERROR.getName(), CHANGE_QUANTITY_ERROR_MESSAGE);
+                    request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_LIST.getName(), orderList);
+                    return ORDER_PATH;
                 }
             }
-            request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_LIST.getName(), orderList);
+            logger.log(Level.ERROR,"dish " + dishName + " not found");
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_QUANTITY_ERROR.getName(), CHANGE_QUANTITY_ERROR_MESSAGE);
         } catch (NumberFormatException e) {
             logger.log(Level.WARN, e);
             request.getSession().setAttribute(CommandParameterHolder.PARAM_CHANGE_QUANTITY_ERROR.getName(), CHANGE_QUANTITY_ERROR_MESSAGE);
