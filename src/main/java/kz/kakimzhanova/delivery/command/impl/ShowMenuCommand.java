@@ -12,13 +12,20 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
+/**
+ * ShowMenuCommand class has DishService field
+ */
 public class ShowMenuCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String MENU_PATH = "path.page.menu";
     private static final String MAIN_PATH = "path.page.main";
     private static final String MENU_ERROR_MESSAGE = "showMenu.Error";
     private DishService service = new DishServiceImpl();
+
+    /**
+     * execute method loads all dishes from menu table and saves data in menu session attribute
+     * @see Command#execute(HttpServletRequest)
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String page;

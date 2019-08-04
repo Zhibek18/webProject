@@ -10,7 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * SignUpCommand class contains UserService
+ */
 public class SignupCommand  implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String LOGIN_PATH = "path.page.login";
@@ -20,6 +22,12 @@ public class SignupCommand  implements Command {
     private static final String WRONG_INPUT_ERROR_MESSAGE = "wrongInput.error";
     private static final String SIGNUP_ERROR_MESSAGE = "signup.error";
     private UserService service = new UserServiceImpl();
+
+    /**
+     * execute method adds new user if data is valid
+     * @param request contains user data
+     * @see Command#execute(HttpServletRequest)
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String page;

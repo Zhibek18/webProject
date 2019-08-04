@@ -2,13 +2,14 @@ package kz.kakimzhanova.delivery.command;
 
 import kz.kakimzhanova.delivery.command.impl.*;
 
+/**
+ * enum CommandType contains all command names with appropriate Command objects
+ */
 public enum CommandType {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     SIGNUP(new SignupCommand()),
-    SHOW_USERS(new ShowUsersCommand()),
     FORWARD_SIGNUP(new ForwardSignUpCommand()),
-    FORWARD_CHANGE_PASSWORD(new ForwardChangePasswordCommand()),
     DELETE_USER(new DeleteUserCommand()),
     CHANGE_PASSWORD(new ChangePasswordCommand()),
     FORWARD_UPDATE_USER(new ForwardUpdateUserCommand()),
@@ -18,7 +19,6 @@ public enum CommandType {
     SHOW_ORDER(new ShowOrderCommand()),
     DELETE_ORDERED_DISH(new DeleteOrderedDishCommand()),
     DELETE_ORDER(new DeleteOrderCommand()),
-    SHOW_ORDERS(new ShowOrdersCommand()),
     CHANGE_DISH_QUANTITY(new ChangeDishQuantityCommand()),
     USER_CONFIRM_ORDER(new UserConfirmOrderCommand()),
     CHANGE_LANGUAGE(new ChangeLanguageCommand()),
@@ -32,10 +32,18 @@ public enum CommandType {
     CANCEL_ORDER(new CancelOrderCommand());
     private Command command;
 
+    /**
+     * Constructor
+     * @param command
+     */
     CommandType(Command command) {
         this.command = command;
     }
 
+    /**
+     *
+     * @return appropriate Command object
+     */
     public Command getCommand() {
         return command;
     }

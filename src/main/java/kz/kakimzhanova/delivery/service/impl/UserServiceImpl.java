@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
         return added;
     }
     private boolean validateNewUser(String login, String password, String firstName, String street, String house, int apartment, String phone){
-        logger.log(Level.DEBUG, login+" "+password +" "+firstName+" " + street+ " " +phone);
         return (validateLogin(login) && validatePassword(password) && validateStreet(street) && validatePhone(phone) && (validateFirstName(firstName)) && (validateHouse(house)) && (apartment > 0));
     }
     private boolean validateLogin(String login){

@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Controller handles client requests
+ */
 @WebServlet(urlPatterns = "/controller")
 public class Controller extends HttpServlet {
     private static Logger logger = LogManager.getLogger();
@@ -24,21 +27,34 @@ public class Controller extends HttpServlet {
     private static final String PARAM_COMMAND = "command";
     private static final String PARAM_NULL_PAGE_ERROR = "nullPage";
     private static final String PARAM_NULL_PAGE_ERROR_MESSAGE = "nullPage.error";
+    private static final String PARAM_PAGE_PATH = "pagePath";
+
     public Controller(){
         super();
     }
 
+    /**
+     * init initializes connection pool
+     * @throws ServletException
+     */
     @Override
     public void init() throws ServletException {
         try {
             ConnectionPool.getInstance().initPoolData();
         } catch (ConnectionPoolException e) {
             logger.log(Level.FATAL, e);
+            throw new ServletException("Connection pool was not initialized: " + e);
         }
     }
 
+    /**
+     * doGet handles get request
+     * @param req-request
+     * @param resp-response
+     * @see Controller#processGetRequest(HttpServletRequest, HttpServletResponse)
+     */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         resp.setContentType("text/html");
         try {
             processGetRequest(req, resp);
@@ -47,20 +63,34 @@ public class Controller extends HttpServlet {
         }
     }
 
+    /**
+     * doPost handles post request
+     * @param req - request
+     * @param resp - response
+     * @see Controller#processPostRequest(HttpServletRequest, HttpServletResponse)
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         resp.setContentType("text/html");
         try {
             processPostRequest(req, resp);
-        }catch (ServletException | IOException e){
+        }catch (IOException e){
             logger.log(Level.ERROR, e);
         }
     }
+
+    /**
+     * processGet request executes command then forwards to received page
+     * @param req - request
+     * @param resp - response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void processGetRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pagePath;
         String page;
-        if (req.getParameterMap().containsKey("pagePath")) {
-            pagePath = req.getParameter("pagePath");
+        if (req.getParameterMap().containsKey(PARAM_PAGE_PATH)) {
+            pagePath = req.getParameter(PARAM_PAGE_PATH);
         } else {
             Command command = CommandFactory.defineCommand(req.getParameter(PARAM_COMMAND));
             pagePath = command.execute(req);
@@ -75,7 +105,14 @@ public class Controller extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + page);
         }
     }
-    private void processPostRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    /**
+     * processPostRequest executes command and then redirects to doGet method, to avoid repeating command execution when user updates the page
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
+    private void processPostRequest(HttpServletRequest req, HttpServletResponse resp)throws IOException {
         String pagePath;
         String page;
         Command command = CommandFactory.defineCommand(req.getParameter(PARAM_COMMAND));
@@ -88,14 +125,18 @@ public class Controller extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + page);
         }
     }
+
+    /**
+     * destroy method disposes connection pool
+     */
     @Override
     public void destroy() {
-        super.destroy();
         try {
             ConnectionPool.getInstance().dispose();
         } catch (ConnectionPoolException e) {
             logger.log(Level.ERROR, e);
         }
+        super.destroy();
     }
 }
 

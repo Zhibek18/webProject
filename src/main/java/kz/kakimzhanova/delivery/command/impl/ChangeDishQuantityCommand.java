@@ -2,22 +2,26 @@ package kz.kakimzhanova.delivery.command.impl;
 
 import kz.kakimzhanova.delivery.command.Command;
 import kz.kakimzhanova.delivery.command.CommandParameterHolder;
-import kz.kakimzhanova.delivery.entity.Order;
 import kz.kakimzhanova.delivery.entity.OrderedDish;
-import kz.kakimzhanova.delivery.exception.ServiceException;
-import kz.kakimzhanova.delivery.service.OrderListService;
-import kz.kakimzhanova.delivery.service.impl.OrderListServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
+/**
+ *  ChangeDishQuantityCommand class
+ */
 public class ChangeDishQuantityCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String CHANGE_QUANTITY_ERROR_MESSAGE = "changeQuantity.error";
     private static final String ORDER_PATH = "path.page.order";
+
+    /**
+     * execute method changes quantity field of specified dish in orderList attribute
+     * @param request has dish parameters
+     * @see Command#execute(HttpServletRequest)
+     */
     @Override
     public String execute(HttpServletRequest request) {
         List<OrderedDish> orderList = (List<OrderedDish>)request.getSession().getAttribute(CommandParameterHolder.PARAM_ORDER_LIST.getName());

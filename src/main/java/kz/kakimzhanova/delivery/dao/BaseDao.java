@@ -26,23 +26,29 @@ public interface BaseDao <K,T extends Entity>{
         try{
             if (statement != null){
                 statement.close();
+            } else {
+                logger.log(Level.ERROR, "Got null statement");
             }
         } catch (SQLException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
     }
     default void close(Connection connection){
         if (connection != null){
             ConnectionPool.getInstance().returnConnection(connection);
+        }else {
+            logger.log(Level.ERROR, "Got null connection");
         }
     }
     default void close(ResultSet resultSet){
         try {
             if (resultSet != null) {
                 resultSet.close();
+            } else {
+                logger.log(Level.ERROR, "Got null resultSet");
             }
         } catch (SQLException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
     }
 }

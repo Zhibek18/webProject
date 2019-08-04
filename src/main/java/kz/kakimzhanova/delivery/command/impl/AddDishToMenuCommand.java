@@ -12,13 +12,20 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-
+/**
+ * AddDishToMenuCommand class has DishService field
+ */
 public class AddDishToMenuCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String EDIT_MENU_PATH = "path.page.editMenu";
     private DishService dishService = new DishServiceImpl();
 
     @Override
+    /**
+     * execute method adds new dish to menu table in database
+     * @see Command#execute(HttpServletRequest)
+     * @param request - request with the new dish parameters
+     */
     public String execute(HttpServletRequest request) {
         String dishName = request.getParameter(CommandParameterHolder.PARAM_DISH_NAME.getName());
         try{

@@ -11,26 +11,40 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * UpdateUserCommand class contains UserService field
+ */
 public class UpdateUserCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String UPDATE_USER_ERROR_MESSAGE = "updateUser.error";
     private static final String WRONG_INPUT_MESSAGE = "wrongInput.error";
     private static final String UPDATE_USER_PATH = "path.page.updateUser";
     private UserService service = new UserServiceImpl();
+
+    /**
+     * execute method updates current users data in users table
+     * @param request contains updated user data
+     * @see Command#execute(HttpServletRequest)
+     */
     @Override
     public String execute(HttpServletRequest request) {
-        User user;
         String page = UPDATE_USER_PATH;
-        String login = request.getSession().getAttribute(CommandParameterHolder.PARAM_LOGIN.getName()).toString();
+        User newUser;
+        User user = (User)request.getSession().getAttribute(CommandParameterHolder.PARAM_USER.getName());
+        String login = null;
+        if (user != null) {
+            login = user.getLogin();
+        } else {
+            logger.log(Level.ERROR, "Got null user attribute");
+        }
         String street = request.getParameter(CommandParameterHolder.PARAM_STREET.getName());
         String firstName = request.getParameter(CommandParameterHolder.PARAM_FIRST_NAME.getName());
         String phone = request.getParameter(CommandParameterHolder.PARAM_PHONE.getName());
         try {
             String house = request.getParameter(CommandParameterHolder.PARAM_HOUSE.getName());
             int apartment = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_APARTMENT.getName()));
-            user = service.updateUser(login, firstName, street, house, apartment, phone);
-            request.getSession().setAttribute(CommandParameterHolder.PARAM_USER.getName(), user);
+            newUser = service.updateUser(login, firstName, street, house, apartment, phone);
+            request.getSession().setAttribute(CommandParameterHolder.PARAM_USER.getName(), newUser);
             request.getSession().removeAttribute(CommandParameterHolder.PARAM_UPDATE_USER_ERROR.getName());
             ForwardUpdateUserCommand forwardUpdateUserCommand = new ForwardUpdateUserCommand();
             page = forwardUpdateUserCommand.execute(request);

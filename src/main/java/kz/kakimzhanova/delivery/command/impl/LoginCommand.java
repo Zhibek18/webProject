@@ -2,23 +2,26 @@ package kz.kakimzhanova.delivery.command.impl;
 
 import kz.kakimzhanova.delivery.command.Command;
 import kz.kakimzhanova.delivery.command.CommandParameterHolder;
-import kz.kakimzhanova.delivery.entity.Order;
 import kz.kakimzhanova.delivery.exception.ServiceException;
-import kz.kakimzhanova.delivery.service.OrderService;
-import kz.kakimzhanova.delivery.service.impl.OrderServiceImpl;
 import kz.kakimzhanova.delivery.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * LoginCommand class has UserService field
+ */
 public class LoginCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String LOGIN_ERROR_MESSAGE = "login.error";
     private static final String LOGIN_PATH = "path.page.login";
     private UserServiceImpl userService = new UserServiceImpl();
+
+    /**
+     * execute method checks if user exists, if user is admin and saves current user in session
+     * @param request contains user login and password
+     * @see Command#execute(HttpServletRequest)
+     */
     public String execute(HttpServletRequest request){
         String page = null;
         String login = request.getParameter(CommandParameterHolder.PARAM_LOGIN.getName());
@@ -28,10 +31,8 @@ public class LoginCommand implements Command {
         if ((login != null)&&(password != null)) {
             try {
                 if (userService.checkLogin(login, password)) {
-                    request.getSession().setAttribute(CommandParameterHolder.PARAM_LOGIN.getName(), login);
                     request.getSession().setAttribute(CommandParameterHolder.PARAM_USER.getName(), userService.findById(login));
                     boolean isAdmin = userService.isAdmin(login);
-                    request.getSession().setAttribute(CommandParameterHolder.PARAM_IS_ADMIN.getName(), isAdmin);
                     if (isAdmin) {
                         ForwardAdminCommand forwardAdminCommand = new ForwardAdminCommand();
                         page = forwardAdminCommand.execute(request);

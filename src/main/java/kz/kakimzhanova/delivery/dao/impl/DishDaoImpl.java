@@ -5,17 +5,13 @@ import kz.kakimzhanova.delivery.dao.DaoParameterHolder;
 import kz.kakimzhanova.delivery.dao.DishDao;
 import kz.kakimzhanova.delivery.entity.Dish;
 import kz.kakimzhanova.delivery.exception.DaoException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DishDaoImpl implements DishDao {
-    private static Logger logger = LogManager.getLogger();
     private static final String SQL_SELECT_ALL_DISHES = "SELECT dish_name,dish_name_ru, dish_name_en, description_ru, description_en, price FROM menu";
     private static final String SQL_SELECT_DISH_BY_DISH_NAME = "SELECT dish_name, dish_name_ru, dish_name_en, description_ru,description_en, price FROM menu WHERE dish_name=?";
     private static final String SQL_DELETE_DISH = "DELETE FROM menu WHERE dish_name=?";
@@ -23,7 +19,7 @@ public class DishDaoImpl implements DishDao {
     private static final String SQL_UPDATE_DISH = "UPDATE menu SET price=?, dish_name_ru=?, dish_name_en=?, description_ru=?, description_en=? WHERE dish_name=?";
     @Override
     public List<Dish> findAll() throws DaoException {
-        List<Dish> dishes = null;
+        List<Dish> dishes;
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -42,9 +38,6 @@ public class DishDaoImpl implements DishDao {
                 dish.setPrice(resultSet.getBigDecimal(DaoParameterHolder.PARAM_PRICE.getName()));
                 dishes.add(dish);
             }
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {
@@ -75,9 +68,6 @@ public class DishDaoImpl implements DishDao {
                 dish.setDescriptionEn(resultSet.getString(DaoParameterHolder.PARAM_DESCRIPTION_EN.getName()));
                 dish.setPrice(resultSet.getBigDecimal(DaoParameterHolder.PARAM_PRICE.getName()));
             }
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {
@@ -90,7 +80,7 @@ public class DishDaoImpl implements DishDao {
 
     @Override
     public boolean delete(String dishName) throws DaoException {
-        boolean isDeleted = false;
+        boolean isDeleted;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -99,9 +89,6 @@ public class DishDaoImpl implements DishDao {
             preparedStatement.setString(1,dishName);
             preparedStatement.executeUpdate();
             isDeleted = true;
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -120,7 +107,7 @@ public class DishDaoImpl implements DishDao {
     public boolean create(Dish dish) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        boolean isCreated = false;
+        boolean isCreated;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_INSERT_DISH);
@@ -134,9 +121,6 @@ public class DishDaoImpl implements DishDao {
             isCreated = true;
         } catch (SQLException e) {
             throw new DaoException(e);
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } finally {
             close(preparedStatement);
             close(connection);
@@ -148,7 +132,7 @@ public class DishDaoImpl implements DishDao {
     public Dish update(Dish dish) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Dish updatedDish = null;
+        Dish updatedDish;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_UPDATE_DISH);
@@ -160,9 +144,6 @@ public class DishDaoImpl implements DishDao {
             preparedStatement.setString(6,dish.getDishName());
             preparedStatement.executeUpdate();
             updatedDish = findById(dish.getDishName());
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {

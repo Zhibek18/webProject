@@ -1,6 +1,7 @@
 package kz.kakimzhanova.delivery.entity;
 
 public class User extends PersonalData{
+    private static final long serialVersionUID = 5L;
     private String password;
     private boolean isAdmin;
 

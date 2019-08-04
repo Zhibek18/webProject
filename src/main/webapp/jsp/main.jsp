@@ -8,6 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>
 <fmt:setLocale value="${language}" scope="session"/>
 <fmt:bundle basename="pagecontent.pagecontent" prefix = "label." >
 
@@ -19,15 +20,16 @@
 <body>
 <c:set var="currentPage" value="path.page.main" scope="session"/>
 <c:import url="/jsp/navbar.jsp" charEncoding="utf-8"/>
+<c:if test="${not empty showMenuError}">
+    <fmt:message key="${showMenuError}"/><br/>
+</c:if>
+
+<c:if test="${not empty nullpage}">
+    <fmt:message key="${nullpage}" /><br/>
+</c:if>
 <div class="jumbotron">
     <h3><fmt:message key="welcome" /></h3>
-        <c:if test="${not empty showMenuError}">
-            <fmt:message key="${showMenuError}"/><br/>
-        </c:if>
-
-    <c:if test="${not empty nullpage}">
-        <fmt:message key="${nullpage}" /><br/>
-    </c:if>
+    <ctg:hello name="${user.firstName}" language="${language}"/>
 
     <div class="container">
         <div class="row">

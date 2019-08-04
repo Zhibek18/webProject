@@ -2,12 +2,14 @@ package kz.kakimzhanova.delivery.entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class Order extends PersonalData {
+    private static final long serialVersionUID = 2L;
     private int orderId;
     private int status;
-    private Timestamp timestamp;
+    private Date timestamp;
     private List<OrderedDish> orderList;
     private BigDecimal totalCost;
 
@@ -49,7 +51,7 @@ public class Order extends PersonalData {
         this.orderId = orderId;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 

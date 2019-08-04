@@ -1,8 +1,7 @@
 package kz.kakimzhanova.delivery.entity;
 
-import java.sql.Timestamp;
-
 public class PersonalData extends Entity {
+    private static final long serialVersionUID = 4L;
     private String login;
     private String firstName;
     private String street;
@@ -10,7 +9,7 @@ public class PersonalData extends Entity {
     private int apartment;
     private String phone;
 
-    public PersonalData(String login, String firstName, String street, String house, int apartment, String phone) {
+    PersonalData(String login, String firstName, String street, String house, int apartment, String phone) {
         this.login = login;
         this.firstName = firstName;
         this.street = street;
@@ -19,10 +18,10 @@ public class PersonalData extends Entity {
         this.phone = phone;
     }
 
-    public PersonalData() {
+    PersonalData() {
     }
 
-    public PersonalData(String login) {
+    PersonalData(String login) {
         this.login = login;
     }
 

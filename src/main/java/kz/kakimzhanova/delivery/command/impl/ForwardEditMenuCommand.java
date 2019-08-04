@@ -12,12 +12,20 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
+/**
+ * ForwardEditMenuCommand class has DishService field
+ */
 public class ForwardEditMenuCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String EDIT_MENU_PATH = "path.page.editMenu";
     private static final String EDIT_MENU_ERROR_MESSAGE = "editMenu.error";
     private DishService dishService = new DishServiceImpl();
+
+    /**
+     * execute method loads all dishes from menu table and forwards to editMenu page
+     * @param request provides access to session attributes
+     * @see Command#execute(HttpServletRequest)
+     */
     @Override
     public String execute(HttpServletRequest request) {
         List<Dish> dishes;

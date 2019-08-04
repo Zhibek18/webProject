@@ -35,9 +35,6 @@
                         <a class="nav-link" href="controller?command=forward_admin"><fmt:message key="orders.title"/> <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="controller?command=show_users"><fmt:message key="users.title"/></a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="controller?command=forward_edit_menu"><fmt:message key="editMenu.title"/></a>
                     </li>
                 </ul>

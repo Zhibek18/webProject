@@ -14,12 +14,19 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * DeleteDishFromMenuCommand class has DishService field
+ */
 public class DeleteDishFromMenuCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String EDIT_MENU_PATH = "path.page.editMenu";
     private static final String DELETE_DISH_ERROR_MESSAGE = "deleteDish.error";
     private DishService dishService = new DishServiceImpl();
+
+    /**execute method deletes dish from menu table in database
+     * @param request contains dish parameters
+     * @see Command#execute(HttpServletRequest)
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String page = EDIT_MENU_PATH;

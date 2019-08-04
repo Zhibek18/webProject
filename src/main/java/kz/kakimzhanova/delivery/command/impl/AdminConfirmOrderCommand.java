@@ -12,14 +12,20 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
+/**
+ *  AdminConfirmOrderCommand class has orderService field
+ */
 public class AdminConfirmOrderCommand implements Command {
     private static Logger logger = LogManager.getLogger();
-    private static final String ADMIN_PATH = "path.page.admin";
-    private static final String ORDER_CONFIRM_ERROR_MESSAGE = "orderComfirm.error";
+    private static final String ORDER_CONFIRM_ERROR_MESSAGE = "orderConfirm.error";
     private static final int ORDER_STATUS_CONFIRMED = 1;
     private OrderService orderService = new OrderServiceImpl();
     @Override
+    /**
+     * execute method changes orders status on confirmed
+     * @see Command#execute(HttpServletRequest)
+     * @see OrderService#updateOrderStatus(int, int)
+     */
     public String execute(HttpServletRequest request) {
         try {
             int orderId = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_ORDER_ID.getName()));
@@ -33,7 +39,7 @@ public class AdminConfirmOrderCommand implements Command {
             logger.log(Level.ERROR, e);
             request.getSession().setAttribute(CommandParameterHolder.PARAM_ORDER_CONFIRM_ERROR.getName(), ORDER_CONFIRM_ERROR_MESSAGE);
         }
-        ShowOrdersCommand showOrdersCommand = new ShowOrdersCommand();
-        return showOrdersCommand.execute(request);
+        ForwardAdminCommand forwardAdminCommand = new ForwardAdminCommand();
+        return forwardAdminCommand.execute(request);
     }
 }

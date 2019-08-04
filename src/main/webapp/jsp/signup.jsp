@@ -35,18 +35,14 @@
                     <div class="text"><fmt:message key="Name"/>:</div>
                     <input class="input" type="text" name="firstName" value="">
 
-
                     <div class="text"><fmt:message key="Street"/>:</div>
                     <input class="input" type="text" name="street" value="">
-
 
                     <div class="text"><fmt:message key="House"/>:</div>
                     <input class="input" type="text" name="house" value="">
 
-
                     <div class="text"><fmt:message key="Apartment"/>:</div>
                     <input class="input" type="number" name="apartment" value="">
-
 
                     <div class="text"><fmt:message key="Phone"/>:</div>
                     <input class="input" type="text" name="phone" value="">

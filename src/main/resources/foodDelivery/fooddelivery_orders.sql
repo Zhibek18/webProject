@@ -1,0 +1,3 @@
+INSERT INTO fooddelivery.orders (order_id, login, timestamp, total_cost, status) VALUES (2, 'zhibek', '2019-08-04 22:37:25', 800, 1);
+INSERT INTO fooddelivery.orders (order_id, login, timestamp, total_cost, status) VALUES (3, 'zhibek', '2019-08-04 22:37:31', 1700, 1);
+INSERT INTO fooddelivery.orders (order_id, login, timestamp, total_cost, status) VALUES (4, 'zhibek', '2019-08-04 22:51:26', 1300, 0);

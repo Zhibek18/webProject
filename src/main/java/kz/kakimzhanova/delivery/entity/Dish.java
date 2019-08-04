@@ -3,6 +3,7 @@ package kz.kakimzhanova.delivery.entity;
 import java.math.BigDecimal;
 
 public class Dish extends Entity {
+    private static final long serialVersionUID = 1L;
     protected String dishName;
     protected String dishNameRu;
     protected String dishNameEn;

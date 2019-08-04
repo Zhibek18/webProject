@@ -1,5 +1,9 @@
 package kz.kakimzhanova.delivery.command;
 
+/**
+ * CommandParameterHolder contains names of all parameters that request can contain
+ * @see Command
+ */
 public enum CommandParameterHolder {
     PARAM_LOGIN("login"),
     PARAM_PASSWORD("password"),

@@ -2,6 +2,7 @@ package kz.kakimzhanova.delivery.command.impl;
 
 import kz.kakimzhanova.delivery.command.Command;
 import kz.kakimzhanova.delivery.command.CommandParameterHolder;
+import kz.kakimzhanova.delivery.entity.User;
 import kz.kakimzhanova.delivery.exception.ServiceException;
 import kz.kakimzhanova.delivery.service.UserService;
 import kz.kakimzhanova.delivery.service.impl.UserServiceImpl;
@@ -10,16 +11,29 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ *  ChangePasswordCommand class has UserService field
+ */
 public class ChangePasswordCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String UPDATE_USER_PATH = "path.page.updateUser";
     private static final String NOT_VALID_ERROR = "notValidLogin.error";
     private static final String CHANGE_PASSWORD_ERROR = "changePassword.error";
     private UserService service = new UserServiceImpl();
+
+    /**
+     * execute method changes password of current user in users table
+     * @param request contains new password
+     */
     @Override
     public String execute(HttpServletRequest request) {
-        String login = request.getSession().getAttribute(CommandParameterHolder.PARAM_LOGIN.getName()).toString();
+        User user = (User)request.getSession().getAttribute(CommandParameterHolder.PARAM_USER.getName());
+        String login = null;
+        if (user != null) {
+            login = user.getLogin();
+        } else {
+            logger.log(Level.ERROR, "Got null user attribute");
+        }
         String oldPassword = request.getParameter(CommandParameterHolder.PARAM_OLD_PASSWORD.getName());
         String newPassword = request.getParameter(CommandParameterHolder.PARAM_NEW_PASSWORD.getName());
         try {

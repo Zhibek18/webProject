@@ -14,12 +14,20 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * EditDishCommand class has DishService field
+ */
 public class EditDishCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String EDIT_DISH_ERROR_MESSAGE = "editMenu.error";
     private static final String EDIT_MENU_PATH = "path.page.editMenu";
     private DishService dishService = new DishServiceImpl();
+
+    /**
+     * execute method updates existing dish in menu table
+     * @param request contains dish parameters
+     * @see Command#execute(HttpServletRequest)
+     */
     @Override
     public String execute(HttpServletRequest request) {
         request.getSession().removeAttribute(CommandParameterHolder.PARAM_NOT_ADDED.getName());

@@ -18,36 +18,36 @@
 <body>
     <c:set var="currentPage" value="path.page.order" scope="session"/>
     <c:import url="navbar.jsp"/>
+
+    <c:if test="${not empty deleteDishError}">
+        <div class="alert alert-danger" role="alert">
+            <fmt:message key="${deleteDishError}" />
+        </div>
+    </c:if>
+    <c:if test="${not empty changeQuantityError}">
+        <div class="alert alert-danger" role="alert">
+            <fmt:message key="${changeQuantityError}" />
+        </div>
+    </c:if>
+    <c:if test="${not empty deleteOrderError}">
+        <div class="alert alert-danger" role="alert">
+            <fmt:message key="${deleteOrderError}" />
+        </div>
+    </c:if>
+    <c:if test="${not empty nullpage}">
+        <div class="alert alert-danger" role="alert">
+            <fmt:message key="${nullpage}" /><br/>
+        </div>
+    </c:if>
+    <c:if test="${not empty orderConfirmError}">
+        <div class="alert alert-danger" role="alert">
+            <fmt:message key="${orderConfirmError}" />
+        </div>
+    </c:if>
         <div class="jumbotron">
             <h3><fmt:message key="OrderList"/>:</h3>
             <c:if test="${empty orderList}">
                 <fmt:message key="EmptyMessage"/>
-            </c:if>
-
-            <c:if test="${not empty deleteDishError}">
-            <div class="alert alert-danger" role="alert">
-                <fmt:message key="${deleteDishError}" />
-            </div>
-            </c:if>
-            <c:if test="${not empty changeQuantityError}">
-            <div class="alert alert-danger" role="alert">
-                <fmt:message key="${changeQuantityError}" />
-            </div>
-            </c:if>
-            <c:if test="${not empty deleteOrderError}">
-                <div class="alert alert-danger" role="alert">
-                        <fmt:message key="${deleteOrderError}" />
-                </div>
-            </c:if>
-            <c:if test="${not empty nullpage}">
-            <div class="alert alert-danger" role="alert">
-                <fmt:message key="${nullpage}" /><br/>
-            </div>
-            </c:if>
-            <c:if test="${not empty orderConfirmError}">
-                <div class="alert alert-danger" role="alert">
-                <fmt:message key="${orderConfirmError}" />
-                </div>
             </c:if>
             <c:if test="${not empty orderList}">
                 <form name="cancelOrder" method="post" action="controller">

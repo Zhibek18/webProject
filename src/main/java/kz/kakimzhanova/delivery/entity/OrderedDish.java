@@ -3,6 +3,7 @@ package kz.kakimzhanova.delivery.entity;
 import java.math.BigDecimal;
 
 public class OrderedDish extends Dish{
+    private static final long serialVersionUID = 3L;
     private int orderId;
     private int quantity;
     public OrderedDish(int orderId, String dishName, int quantity) {

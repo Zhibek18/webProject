@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Security filter forbids user to access to jsp pages directly from browser
+ */
 @WebFilter(urlPatterns = {"/jsp/*"}, initParams = {@WebInitParam(name = "INDEX_PATH", value = "/index.jsp")})
 public class SecurityFilter implements Filter {
     private String indexPath;
@@ -25,6 +28,6 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        indexPath = null;
     }
 }

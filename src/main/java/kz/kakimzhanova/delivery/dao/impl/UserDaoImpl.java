@@ -16,12 +16,11 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_INSERT_USER = "INSERT INTO users (login, password, first_name, street, house, apartment, phone ) VALUES (?,?,?,?,?,?,?)";
     private static final String SQL_DELETE_USER = "DELETE FROM users WHERE login=?";
     private static final String SQL_UPDATE_USER_PASSWORD = "UPDATE users SET password=? WHERE login=?";
-    private static final String SQL_UPDATE_USER_ADDRESS = "UPDATE users SET street=?, house=?, apartment=? WHERE login=?";
     private static final String SQL_UPDATE_USER = "UPDATE users SET first_name=?, street=?, house=?, apartment=?, phone=? WHERE login=?";
 
     @Override
     public List<User> findAll() throws DaoException {
-        List<User> users = null;
+        List<User> users;
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -37,9 +36,6 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             throw new DaoException(e);
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } finally {
             close(resultSet);
             close(statement);
@@ -50,7 +46,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean delete(String login) throws DaoException {
-        boolean isDeleted = false;
+        boolean isDeleted;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -59,9 +55,6 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(1,login);
             preparedStatement.executeUpdate();
             isDeleted = true;
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -80,7 +73,7 @@ public class UserDaoImpl implements UserDao {
     public boolean create(User user) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        boolean isCreated = false;
+        boolean isCreated;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_INSERT_USER);
@@ -95,9 +88,6 @@ public class UserDaoImpl implements UserDao {
             isCreated = true;
         } catch (SQLException e) {
             throw new DaoException(e);
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } finally {
             close(preparedStatement);
             close(connection);
@@ -124,9 +114,6 @@ public class UserDaoImpl implements UserDao {
             updatedUser = findById(user.getLogin());
         } catch (SQLException e) {
             throw new DaoException(e);
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } finally {
             close(preparedStatement);
             close(connection);
@@ -159,9 +146,6 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             throw new DaoException(e);
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } finally {
             close(resultSet);
             close(preparedStatement);
@@ -173,7 +157,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean updateUserPassword(String login, String newPassword) throws DaoException {
-        boolean isUpdated = false;
+        boolean isUpdated;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -183,9 +167,6 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(2,login);
             preparedStatement.executeUpdate();
             isUpdated = true;
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {
@@ -197,7 +178,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User updateUser( String login, String firstName, String street, String house, int apartment, String phone) throws DaoException {
-        User user = null;
+        User user;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -211,9 +192,6 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(6, login);
             preparedStatement.executeUpdate();
             user = findById(login);
-        } catch (InterruptedException e) {
-            logger.log(Level.WARN, e);
-            Thread.currentThread().interrupt();
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {

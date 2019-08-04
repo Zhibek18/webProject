@@ -1,0 +1,21 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <uri>customtags</uri>
+    <short-name>ctg</short-name>
+    <jsp-version>2.0</jsp-version>
+    <tag>
+        <name>hello</name>
+        <tag-class>kz.kakimzhanova.delivery.tag.HelloTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>language</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>
