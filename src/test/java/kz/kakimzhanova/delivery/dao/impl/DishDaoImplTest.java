@@ -39,7 +39,7 @@ public class DishDaoImplTest {
 
     @Test
     public void findById() {
-        Dish expected = new Dish("rice","Рис", "Rice", "Вареный рис", "Boiled rice", BigDecimal.valueOf(400.00).setScale(2));
+        Dish expected = new Dish("rice","Рис", "Rice", "Вареный рис", "Boiled rice", BigDecimal.valueOf(401.00).setScale(2));
         Dish actual = new Dish();
         try {
             actual = dishDao.findById("rice");
