@@ -42,7 +42,7 @@ public class Controller extends HttpServlet {
         try {
             ConnectionPool.getInstance().initPoolData();
         } catch (ConnectionPoolException e) {
-            logger.log(Level.FATAL, e);
+            //logger.log(Level.FATAL, e);
             throw new ServletException("Connection pool was not initialized: " + e);
         }
     }

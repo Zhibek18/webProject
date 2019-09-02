@@ -1,6 +1,6 @@
-INSERT INTO fooddelivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('admin', 'admin', null, null, null, null, null, 1);
-INSERT INTO fooddelivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('guka4071', 'ediffer12', 'Seyfullina', '40', 71, '123456', 'Gauhar', 0);
-INSERT INTO fooddelivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('olzhas111', 'olzhas111', 'Aaaa', '1', 1, '123456', 'Olzhas', 0);
-INSERT INTO fooddelivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('qwerty12345', 'qwertyuiop', 'sss', '40', 70, '', 'nnn', 0);
-INSERT INTO fooddelivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('user', 'p', 'myStreet', '55', 12, '123333', 'User', 0);
-INSERT INTO fooddelivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('zhibek', 'zhibek', 'Сейфуллина', '2/3', 11, ' 8 (7172) -12-34-56', 'Жибек', 0);
+INSERT INTO food_delivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('admin', 'admin', null, null, null, null, null, 1);
+INSERT INTO food_delivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('guka4071', 'ediffer12', 'Seyfullina', '40', 71, '123456', 'Gauhar', 0);
+INSERT INTO food_delivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('olzhas111', 'olzhas111', 'Aaaa', '1', 1, '123456', 'Olzhas', 0);
+INSERT INTO food_delivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('qwerty12345', 'qwertyuiop', 'sss', '40', 70, '', 'nnn', 0);
+INSERT INTO food_delivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('user', 'p', 'myStreet', '55', 12, '123333', 'User', 0);
+INSERT INTO food_delivery.users (login, password, street, house, apartment, phone, first_name, is_admin) VALUES ('zhibek', 'zhibek', 'Сейфуллина', '2/3', 11, ' 8 (7172) -12-34-56', 'Жибек', 0);

@@ -24,7 +24,7 @@ public class DishDaoImplTest {
         try {
             ConnectionPool.getInstance().initPoolData();
         } catch (ConnectionPoolException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.FATAL, e);
         }
     }
 

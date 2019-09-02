@@ -72,13 +72,14 @@ public class OrderDaoImplTest {
     @Test
     public void create() {
         OrderTransactionManager transactionManager = new OrderTransactionManagerImpl();
-        Order expected = new Order(150,"user",null);
+        Order expected = new Order(150,"zhibek",null);
         Order actual = null;
         try {
             transactionManager.beginTransaction();
             OrderDao orderDao = transactionManager.connectOrderDao();
-            actual = orderDao.create("user");
+            actual = orderDao.create("zhibek");
             transactionManager.commit();
+
         } catch (DaoException | TransactionManagerException e) {
             try {
                 transactionManager.rollback();

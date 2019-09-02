@@ -89,7 +89,7 @@ public class ConnectionPool {
         if (connectionsCount == DEFAULT_POOL_SIZE) {
             logger.log(Level.INFO, "Connection pool initialized");
         } else {
-            logger.log(Level.ERROR, connectionsCount + " connections out of " + poolSize + " in Connection pool were initialized");
+            throw new ConnectionPoolException( connectionsCount + " connections out of " + poolSize + " in Connection pool were initialized");
         }
     }
 
@@ -134,7 +134,7 @@ public class ConnectionPool {
     }
     public void dispose() throws ConnectionPoolException {
         clearConnectionQueues();
-        deregisterDriver();
+        //deregisterDriver();
         logger.log(Level.INFO, "Connection pool disposed");
     }
 
