@@ -2,3 +2,4 @@ INSERT INTO food_delivery.menu (dish_name, price, dish_name_en, dish_name_ru, de
 INSERT INTO food_delivery.menu (dish_name, price, dish_name_en, dish_name_ru, description_en, description_ru) VALUES ('friedChicken', 1000.00, 'Fried chicken', 'Жареная курица', 'Fried chicken', 'Жареная курица');
 INSERT INTO food_delivery.menu (dish_name, price, dish_name_en, dish_name_ru, description_en, description_ru) VALUES ('friedPotato', 1200.00, 'Fried potato', 'Жареная картошка', 'Fried potato', 'Жареная картошка');
 INSERT INTO food_delivery.menu (dish_name, price, dish_name_en, dish_name_ru, description_en, description_ru) VALUES ('rice', 400.00, 'Rice', 'Рис', 'Boiled rice', 'Вареный рис');
+insert into menu (dish_name, price, dish_name_en, dish_name_ru, description_en, description_ru) values ('pizza', 100.00, 'pizza', 'пицца','pizza','пицца' );

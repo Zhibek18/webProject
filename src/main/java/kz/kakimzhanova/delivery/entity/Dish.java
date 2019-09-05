@@ -80,7 +80,7 @@ public class Dish extends Entity {
         sb.append(", dishNameEn='").append(dishNameEn).append('\'');
         sb.append(", descriptionRu='").append(descriptionRu).append('\'');
         sb.append(", descriptionEn='").append(descriptionEn).append('\'');
-        sb.append(", price=").append(price);
+        sb.append(", price=").append(price.setScale(2));
         sb.append('}');
         return sb.toString();
     }

@@ -39,51 +39,60 @@ public class DishDaoImplTest {
 
     @Test
     public void findById() {
-        Dish expected = new Dish("rice","Рис", "Rice", "Вареный рис", "Boiled rice", BigDecimal.valueOf(401.00).setScale(2));
+        Dish expected = new Dish("rice","Рис", "Rice", "Вареный рис", "Boiled rice", BigDecimal.valueOf(400.00).setScale(2));
         Dish actual = new Dish();
         try {
             actual = dishDao.findById("rice");
+            logger.log(Level.INFO, "!!!\n\n" + actual);
         } catch (DaoException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
         Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
     }
 
     @Test
     public void create() {
-        boolean expected = true;
-        boolean actual = false;
+        Dish dish = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(13.50));
+        Dish expected = dish;
+        Dish actual = new Dish();
         try {
-            actual = dishDao.create(new Dish("spaghetti","Спагетти", "Spagetti", "Вареные спагетти","Boiled spagetti", BigDecimal.valueOf(13.5)));
+            dishDao.create(dish);
+            actual = dishDao.findById("spaghetti");//tested
+            dishDao.delete("spaghetti");//tested
         } catch (DaoException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
     }
 
     @Test
     public void delete() {
-        boolean expected = true;
-        boolean actual = false;
+        Dish actual = new Dish();
+        Dish dish = new Dish("spaghetti","Спагетти", "Spagetti", "Вареные спагетти","Boiled spagetti", BigDecimal.valueOf(13.50));
         try {
-            actual = dishDao.delete("spaghetti");
+            dishDao.create(dish);//tested
+            dishDao.delete("spaghetti");
+            actual = dishDao.findById("spaghetti");//tested
         } catch (DaoException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
-        Assert.assertEquals(expected, actual);
+        Assert.assertNull(actual);
     }
 
 
 
     @Test
-    public void updatePrice() {
-        Dish expected = new Dish("rice","Рис", "Rice", "Вареный рис", "Boiled rice", BigDecimal.valueOf(401.0).setScale(2));
-        Dish actual = null;
+    public void update() {
+        Dish dish = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(13.50));
+        Dish expected = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(15.00));
+        Dish actual = new Dish();
         try{
-            Dish dish = new Dish("rice","Рис", "Rice", "Вареный рис", "Boiled rice", BigDecimal.valueOf(401.0));
-            actual = dishDao.update(dish);
+            dishDao.create(dish);//tested
+            Dish updatedDish = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(15));
+            actual = dishDao.update(updatedDish);//update dish in db
+            dishDao.delete("spaghetti");
         } catch (DaoException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
         Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
     }
