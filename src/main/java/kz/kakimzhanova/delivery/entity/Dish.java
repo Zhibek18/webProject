@@ -1,8 +1,17 @@
 package kz.kakimzhanova.delivery.entity;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
+
+
 
 public class Dish extends Entity {
+    private static final Logger LOGGER = LogManager.getLogger(Dish.class);
     private static final long serialVersionUID = 1L;
     protected String dishName;
     protected String dishNameRu;
@@ -73,6 +82,28 @@ public class Dish extends Entity {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Dish dish = (Dish) o;
+        return dishName.equals(dish.dishName) &&
+                dishNameRu.equals(dish.dishNameRu) &&
+                dishNameEn.equals(dish.dishNameEn) &&
+                descriptionRu.equals(dish.descriptionRu) &&
+                descriptionEn.equals(dish.descriptionEn) &&
+                (price.compareTo(dish.price) == 0);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dishName, dishNameRu, dishNameEn, descriptionRu, descriptionEn, price);
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Dish{");
         sb.append("dishName='").append(dishName).append('\'');
@@ -80,7 +111,7 @@ public class Dish extends Entity {
         sb.append(", dishNameEn='").append(dishNameEn).append('\'');
         sb.append(", descriptionRu='").append(descriptionRu).append('\'');
         sb.append(", descriptionEn='").append(descriptionEn).append('\'');
-        sb.append(", price=").append(price.setScale(2));
+        sb.append(", price=").append(price.setScale(2, RoundingMode.HALF_UP));
         sb.append('}');
         return sb.toString();
     }

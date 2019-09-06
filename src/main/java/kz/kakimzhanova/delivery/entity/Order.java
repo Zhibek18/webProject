@@ -1,9 +1,11 @@
 package kz.kakimzhanova.delivery.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Order extends PersonalData {
     private static final long serialVersionUID = 2L;
@@ -76,12 +78,29 @@ public class Order extends PersonalData {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return orderId == order.orderId &&
+                status == order.status &&
+                timestamp.equals(order.timestamp) &&
+                Objects.equals(orderList, order.orderList) &&
+                Objects.equals(totalCost, order.totalCost);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderId, status, timestamp, orderList, totalCost);
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Order{");
         sb.append("orderId=").append(orderId);
         sb.append(", timestamp=").append(timestamp);
         sb.append(", orderList=").append(orderList);
-        sb.append(", totalCost=").append(totalCost);
+        sb.append(", totalCost=").append(totalCost.setScale(2, RoundingMode.HALF_UP));
         sb.append('}');
         return sb.toString();
     }

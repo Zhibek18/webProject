@@ -39,15 +39,14 @@ public class DishDaoImplTest {
 
     @Test
     public void findById() {
-        Dish expected = new Dish("rice","Рис", "Rice", "Вареный рис", "Boiled rice", BigDecimal.valueOf(400.00).setScale(2));
+        Dish expected = new Dish("rice","Рис", "Rice", "Вареный рис", "Boiled rice", BigDecimal.valueOf(400.00));
         Dish actual = new Dish();
         try {
             actual = dishDao.findById("rice");
-            logger.log(Level.INFO, "!!!\n\n" + actual);
         } catch (DaoException e) {
             logger.log(Level.ERROR, e);
         }
-        Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -62,7 +61,7 @@ public class DishDaoImplTest {
         } catch (DaoException e) {
             logger.log(Level.ERROR, e);
         }
-        Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -94,6 +93,6 @@ public class DishDaoImplTest {
         } catch (DaoException e) {
             logger.log(Level.ERROR, e);
         }
-        Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
+        Assert.assertEquals(expected, actual);
     }
 }

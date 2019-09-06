@@ -86,7 +86,7 @@ public class DishDaoImpl implements DishDao {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             preparedStatement = connection.prepareStatement(SQL_DELETE_DISH);
-            preparedStatement.setString(1,dishName);
+            preparedStatement.setString(1, dishName);
             preparedStatement.executeUpdate();
             isDeleted = true;
         } catch (SQLException e) {
@@ -114,8 +114,8 @@ public class DishDaoImpl implements DishDao {
             preparedStatement.setString(1, dish.getDishName());
             preparedStatement.setString(2, dish.getDishNameRu());
             preparedStatement.setString(3, dish.getDishNameEn());
-            preparedStatement.setString(4,dish.getDescriptionRu());
-            preparedStatement.setString(5,dish.getDescriptionEn());
+            preparedStatement.setString(4, dish.getDescriptionRu());
+            preparedStatement.setString(5, dish.getDescriptionEn());
             preparedStatement.setBigDecimal(6, dish.getPrice());
             preparedStatement.executeUpdate();
             isCreated = true;
