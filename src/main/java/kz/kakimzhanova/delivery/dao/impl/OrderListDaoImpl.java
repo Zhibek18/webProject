@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderListDaoImpl implements OrderListDao {
-    private static final String SQL_SELECT_ALL_ORDER_LISTS = "SELECT order_list.order_id, order_list.dish_name, order_list.quantity, menu.dish_name_ru, menu.dish_name_en, menu.description_ru, menu.description_en "
+    private static final String SQL_SELECT_ALL_ORDER_LISTS = "SELECT order_list.order_id, order_list.dish_name, order_list.quantity, menu.dish_name_ru, menu.dish_name_en, menu.description_ru, menu.description_en, menu.price "
             + "FROM order_list INNER JOIN menu ON order_list.dish_name=menu.dish_name";
-    private static final String SQL_SELECT_ORDER_LIST_BY_ORDER_ID_AND_DISH_NAME = "SELECT order_list.order_id, order_list.dish_name, order_list.quantity, menu.dish_name_ru, menu.dish_name_en, menu.description_ru, menu.description_en "
+    private static final String SQL_SELECT_ORDER_LIST_BY_ORDER_ID_AND_DISH_NAME = "SELECT order_list.order_id, order_list.dish_name, order_list.quantity, menu.dish_name_ru, menu.dish_name_en, menu.description_ru, menu.description_en, menu.price "
             + "FROM order_list INNER JOIN menu ON order_list.dish_name=? AND menu.dish_name=order_list.dish_name WHERE order_id=?";
     private static final String SQL_DELETE_ORDER_LIST = "DELETE FROM order_list WHERE order_id =? AND dish_name=?";
     private static final String SQL_INSERT_ORDER_LIST = "INSERT INTO order_list (order_id, dish_name, quantity) VALUES (?,?,?)";
     private static final String SQL_UPDATE_QUANTITY = "UPDATE order_list SET quantity=? WHERE order_id=? AND dish_name=?";
-    private static final String SQL_SELECT_BY_ORDER_ID = "SELECT order_list.order_id, order_list.dish_name, menu.price, menu.dish_name_ru, menu.dish_name_en, order_list.quantity, menu.description_ru, menu.description_en"
+    private static final String SQL_SELECT_BY_ORDER_ID = "SELECT order_list.order_id, order_list.dish_name, menu.price, menu.dish_name_ru, menu.dish_name_en, order_list.quantity, menu.description_ru, menu.description_en, menu.price "
             + " FROM order_list INNER JOIN menu ON order_list.dish_name=menu.dish_name AND order_list.order_id=?";
     private Connection connection;
 
@@ -45,6 +45,7 @@ public class OrderListDaoImpl implements OrderListDao {
                 orderedDish.setDescriptionRu(resultSet.getString(DaoParameterHolder.PARAM_DESCRIPTION_RU.getName()));
                 orderedDish.setDescriptionEn(resultSet.getString(DaoParameterHolder.PARAM_DESCRIPTION_EN.getName()));
                 orderedDish.setQuantity(resultSet.getInt(DaoParameterHolder.PARAM_QUANTITY.getName()));
+                orderedDish.setPrice(resultSet.getBigDecimal(DaoParameterHolder.PARAM_PRICE.getName()));
                 orderedDishes.add(orderedDish);
             }
         } catch (SQLException e) {
@@ -75,6 +76,7 @@ public class OrderListDaoImpl implements OrderListDao {
                 orderedDish.setDescriptionRu(resultSet.getString(DaoParameterHolder.PARAM_DESCRIPTION_RU.getName()));
                 orderedDish.setDescriptionEn(resultSet.getString(DaoParameterHolder.PARAM_DESCRIPTION_EN.getName()));
                 orderedDish.setQuantity(resultSet.getInt(DaoParameterHolder.PARAM_QUANTITY.getName()));
+                orderedDish.setPrice(resultSet.getBigDecimal(DaoParameterHolder.PARAM_PRICE.getName()));
                 orderedDishes.add(orderedDish);
             }
         } catch (SQLException e) {
@@ -109,6 +111,7 @@ public class OrderListDaoImpl implements OrderListDao {
                 orderedDish.setDescriptionRu(resultSet.getString(DaoParameterHolder.PARAM_DESCRIPTION_RU.getName()));
                 orderedDish.setDescriptionEn(resultSet.getString(DaoParameterHolder.PARAM_DESCRIPTION_EN.getName()));
                 orderedDish.setQuantity(resultSet.getInt(DaoParameterHolder.PARAM_QUANTITY.getName()));
+                orderedDish.setPrice(resultSet.getBigDecimal(DaoParameterHolder.PARAM_PRICE.getName()));
             }
         } catch (SQLException e) {
             throw new DaoException(e);

@@ -1,5 +1,7 @@
 package kz.kakimzhanova.delivery.entity;
 
+import java.util.Objects;
+
 public class PersonalData extends Entity {
     private static final long serialVersionUID = 4L;
     private String login;
@@ -71,6 +73,24 @@ public class PersonalData extends Entity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PersonalData)) return false;
+        PersonalData that = (PersonalData) o;
+        return apartment == that.apartment &&
+                login.equals(that.login) &&
+                firstName.equals(that.firstName) &&
+                street.equals(that.street) &&
+                house.equals(that.house) &&
+                phone.equals(that.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, firstName, street, house, apartment, phone);
     }
 
     @Override

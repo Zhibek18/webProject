@@ -8,68 +8,85 @@ import kz.kakimzhanova.delivery.exception.DaoException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 public class UserDaoImplTest {
     private static Logger logger = LogManager.getLogger();
-    private static final String USER_LOGIN ="user";
-    private static final String USER_PASSWORD ="pass";
-    private static final String USER_FIRST_NAME = "User";
-    private static final String USER_STREET = "Aaaa";
-    private static final String USER_HOUSE = "1";
-    private static final int USER_APPARTMENT = 3;
-    private static final String USER_PHONE = "123333";
+    private static User testUser = new User("testUser", "test1", "test", "test", "test", 1, "123456");
+    private static User anotherUser = new User("anotherTestUser", "test1", "test", "test", "4/2", 5, "123556");
     private static UserDao userDao;
     @BeforeClass
     public static void init(){
         userDao = new UserDaoImpl();
         try {
             ConnectionPool.getInstance().initPoolData();
+
+        } catch (ConnectionPoolException e) {
+            logger.log(Level.FATAL, e);
+        }
+    }
+
+    @AfterClass
+    public static void dispose() {
+        try {
+
+            ConnectionPool.getInstance().dispose();
         } catch (ConnectionPoolException e) {
             logger.log(Level.WARN, e);
         }
     }
+
+    @Before
+    public void setUp() throws DaoException {
+        userDao = new UserDaoImpl();
+        userDao.create(testUser);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        userDao.delete(testUser.getLogin());
+    }
+
     @Test
     public void findById() {
-        User expected = new User(USER_LOGIN, USER_PASSWORD, USER_FIRST_NAME, USER_STREET, USER_HOUSE, USER_APPARTMENT, USER_PHONE);
+        User expected = testUser;
         User actual = null;
         try {
-            actual = userDao.findById(USER_LOGIN);
+            actual = userDao.findById(testUser.getLogin());
 
         } catch (DaoException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
         if (actual != null) {
-            Assert.assertEquals(expected.toString().trim(), actual.toString().trim());
+            Assert.assertEquals(expected, actual);
         }
     }
 
     @Test
     public void create() {
-        User user = new User("zhibek125", "zhibek125", "Zhibek", "B1", "4/2", 5, "123556");
-        boolean expected = true;
-        boolean actual = false;
+        User expected = anotherUser;
+        User actual = null;
         try {
-            actual = userDao.create(user);
+            userDao.create(anotherUser);
+            actual = userDao.findById(anotherUser.getLogin());
         } catch (DaoException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
-        Assert.assertEquals(expected, actual);
+        if (actual != null) {
+            Assert.assertEquals(expected, actual);
+        }
     }
 
     @Test
     public void delete() {
-        boolean expected = true;
-        boolean actual = false;
+        User actual = testUser;
         try {
-            actual = userDao.delete("zhibek125");
+            userDao.delete(testUser.getLogin());
+            actual = userDao.findById(testUser.getLogin());
         } catch (DaoException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
-        Assert.assertEquals(expected, actual);
+        Assert.assertNull(actual);
     }
 
     @Test
@@ -77,19 +94,12 @@ public class UserDaoImplTest {
         boolean expected = true;
         boolean actual = false;
         try {
-            actual = userDao.updateUserPassword("user", "p");
+            actual = userDao.updateUserPassword(testUser.getLogin(), "newPass");
         } catch (DaoException e) {
-            logger.log(Level.WARN, e);
+            logger.log(Level.ERROR, e);
         }
         Assert.assertEquals(expected, actual);
     }
 
-    @AfterClass
-    public static void dispose() {
-        try {
-            ConnectionPool.getInstance().dispose();
-        } catch (ConnectionPoolException e) {
-            logger.log(Level.WARN, e);
-        }
-    }
+
 }

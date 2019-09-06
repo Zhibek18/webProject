@@ -1,6 +1,7 @@
 package kz.kakimzhanova.delivery.entity;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class OrderedDish extends Dish{
     private static final long serialVersionUID = 3L;
@@ -37,6 +38,21 @@ public class OrderedDish extends Dish{
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderedDish)) return false;
+        if (!super.equals(o)) return false;
+        OrderedDish that = (OrderedDish) o;
+        return orderId == that.orderId &&
+                quantity == that.quantity;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), orderId, quantity);
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("OrderedDish{");
         sb.append("orderId=").append(orderId);
@@ -46,6 +62,7 @@ public class OrderedDish extends Dish{
         sb.append(", dishNameEn='").append(dishNameEn).append('\'');
         sb.append(", descriptionRu='").append(descriptionRu).append('\'');
         sb.append(", descriptionEn='").append(descriptionEn).append('\'');
+        sb.append(", price=").append(price);
         sb.append('}');
         return sb.toString();
     }

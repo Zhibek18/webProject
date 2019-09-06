@@ -37,16 +37,22 @@ public class OrderDaoImplTest {
         }
     }
     private static Order createOrder () throws TransactionManagerException {
-        OrderTransactionManager orderTransactionManager = new OrderTransactionManagerImpl();
+        OrderTransactionManager transactionManager = new OrderTransactionManagerImpl();
         Order order = null;
         try {
-            orderTransactionManager.beginTransaction();
-            OrderDao orderDao = orderTransactionManager.connectOrderDao();
+            transactionManager.beginTransaction();
+            OrderDao orderDao = transactionManager.connectOrderDao();
             order = orderDao.create(testUser.getLogin());
-            orderTransactionManager.commit();
-            orderTransactionManager.endTransaction();
+            transactionManager.commit();
+
         } catch (TransactionManagerException | DaoException e) {
             logger.log(Level.ERROR, e);
+        }finally {
+            try {
+                transactionManager.endTransaction();
+            } catch (TransactionManagerException e) {
+                logger.log(Level.WARN, e);
+            }
         }
         if (order != null) {
             return order;
@@ -69,16 +75,22 @@ public class OrderDaoImplTest {
         }
     }
     private static boolean deleteOrder(){
-        OrderTransactionManager orderTransactionManager = new OrderTransactionManagerImpl();
+        OrderTransactionManager transactionManager = new OrderTransactionManagerImpl();
         boolean isDeleted = false;
         try {
-            orderTransactionManager.beginTransaction();
-            OrderDao orderDao = orderTransactionManager.connectOrderDao();
+            transactionManager.beginTransaction();
+            OrderDao orderDao = transactionManager.connectOrderDao();
             isDeleted = orderDao.delete(order.getOrderId());
-            orderTransactionManager.commit();
-            orderTransactionManager.endTransaction();
+            transactionManager.commit();
+
         } catch (DaoException | TransactionManagerException e) {
             logger.log(Level.ERROR, e);
+        }finally {
+            try {
+                transactionManager.endTransaction();
+            } catch (TransactionManagerException e) {
+                logger.log(Level.WARN, e);
+            }
         }
         return isDeleted;
     }
@@ -125,7 +137,6 @@ public class OrderDaoImplTest {
             OrderDao orderDao = transactionManager.connectOrderDao();
             expected = orderDao.create(testUser.getLogin());
             transactionManager.commit();
-            transactionManager.endTransaction();
         } catch (DaoException | TransactionManagerException e) {
             try {
                 transactionManager.rollback();
@@ -133,13 +144,22 @@ public class OrderDaoImplTest {
                 logger.log(Level.ERROR, "Rollback failed: " + ex);
             }
             logger.log(Level.ERROR, e);
+        }finally {
+            try {
+                transactionManager.endTransaction();
+            } catch (TransactionManagerException e) {
+                logger.log(Level.WARN, e);
+            }
         }
         try {
-            transactionManager.beginTransaction();
-            OrderDao orderDao = transactionManager.connectOrderDao();
-            actual = orderDao.findById(expected.getOrderId());
-            transactionManager.commit();
-            transactionManager.endTransaction();
+            if (expected != null) {
+                transactionManager.beginTransaction();
+                OrderDao orderDao = transactionManager.connectOrderDao();
+                actual = orderDao.findById(expected.getOrderId());
+                transactionManager.commit();
+            } else {
+                throw new TransactionManagerException("Got null pointer instead of expected order");
+            }
         } catch (DaoException | TransactionManagerException e) {
             try {
                 transactionManager.rollback();
@@ -147,6 +167,12 @@ public class OrderDaoImplTest {
                 logger.log(Level.ERROR, "Rollback failed: " + ex);
             }
             logger.log(Level.ERROR, e);
+        } finally {
+            try {
+                transactionManager.endTransaction();
+            } catch (TransactionManagerException e) {
+                logger.log(Level.WARN, e);
+            }
         }
         Assert.assertEquals(expected, actual);
     }
@@ -167,13 +193,19 @@ public class OrderDaoImplTest {
                 logger.log(Level.ERROR, "Rollback failed: " + ex);
             }
             logger.log(Level.ERROR, e);
+        } finally {
+            try {
+                transactionManager.endTransaction();
+            } catch (TransactionManagerException e) {
+                logger.log(Level.WARN, e);
+            }
         }
         try {
             transactionManager.beginTransaction();
             OrderDao orderDao = transactionManager.connectOrderDao();
             actual = orderDao.findById(order.getOrderId());
             transactionManager.commit();
-            transactionManager.endTransaction();
+
         } catch (DaoException | TransactionManagerException e) {
             try {
                 transactionManager.rollback();
@@ -181,6 +213,12 @@ public class OrderDaoImplTest {
                 logger.log(Level.ERROR, "Rollback failed: " + ex);
             }
             logger.log(Level.ERROR, e);
+        }finally {
+            try {
+                transactionManager.endTransaction();
+            } catch (TransactionManagerException e) {
+                logger.log(Level.WARN, e);
+            }
         }
         Assert.assertNull(actual);
     }

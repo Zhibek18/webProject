@@ -1,5 +1,7 @@
 package kz.kakimzhanova.delivery.entity;
 
+import java.util.Objects;
+
 public class User extends PersonalData{
     private static final long serialVersionUID = 5L;
     private String password;
@@ -28,6 +30,21 @@ public class User extends PersonalData{
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        if (!super.equals(o)) return false;
+        User user = (User) o;
+        return isAdmin == user.isAdmin &&
+                password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), password, isAdmin);
     }
 
     @Override

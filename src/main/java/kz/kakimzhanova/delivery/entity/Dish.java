@@ -18,14 +18,14 @@ public class Dish extends Entity {
     protected String dishNameEn;
     protected String descriptionRu;
     protected String descriptionEn;
-
+    protected BigDecimal price;
     public Dish(String dishName, String dishNameRu, String dishNameEn, String descriptionRu, String descriptionEn, BigDecimal price) {
         this.dishName = dishName;
         this.dishNameRu = dishNameRu;
         this.dishNameEn = dishNameEn;
         this.descriptionRu = descriptionRu;
         this.descriptionEn = descriptionEn;
-        this.price = price;
+        this.price = price.setScale(2,RoundingMode.HALF_UP);
     }
 
     public String getDescriptionRu() {
@@ -44,7 +44,7 @@ public class Dish extends Entity {
         this.descriptionEn = descriptionEn;
     }
 
-    private BigDecimal price;
+
 
     public Dish(){
     }
