@@ -45,6 +45,7 @@ public class UserDaoImplTest {
     @After
     public void tearDown() throws Exception {
         userDao.delete(testUser.getLogin());
+        userDao.delete(anotherUser.getLogin());
     }
 
     @Test
