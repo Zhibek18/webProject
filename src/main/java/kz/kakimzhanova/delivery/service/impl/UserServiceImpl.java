@@ -53,10 +53,9 @@ public class UserServiceImpl implements UserService {
         return user;
     }
     @Override
-    public boolean addNewUser(String login, String password, String firstName, String street, String house, int apartment, String phone) throws ServiceException {
+    public boolean addNewUser(User user) throws ServiceException {
         boolean added = false;
-        if (validateNewUser(login, password, firstName, street, house, apartment, phone)){
-            User user = new User(login, password, firstName, street, house, apartment, phone);
+        if (validateNewUser(user.getLogin(), user.getPassword(), user.getFirstName(), user.getStreet(), user.getHouse(), user.getApartment(), user.getPhone())){
             try {
                 added = userDao.create(user);
             } catch (DaoException e) {
@@ -131,19 +130,20 @@ public class UserServiceImpl implements UserService {
         return isChanged;
     }
     @Override
-    public User updateUser( String login,String name, String street, String house, int apartment, String phone) throws ServiceException {
-        User user;
+    public User updateUser(User user) throws ServiceException {
+        logger.log(Level.DEBUG, "updateUser service : " + user);
+        User updatedUser;
         try{
-            if (validateUpdateUser(name, street, house, apartment, phone)) {
-                user = userDao.updateUser(login, name, street, house, apartment, phone);
-                logger.log(Level.DEBUG, "user:" + user);
+            if (validateUpdateUser(user.getFirstName(), user.getStreet(), user.getHouse(), user.getApartment(), user.getPhone())) {
+                updatedUser = userDao.update(user);
+                logger.log(Level.DEBUG, "updatedUser service : " + updatedUser);
             } else{
-                throw new ServiceException("not valid input: name:" + name + " street:"+street + " house:" + house + " apartment:" + apartment + "phone:" + phone);
+                throw new ServiceException("not valid input: name:" + user.getFirstName() + " street: " + user.getStreet() + " house:" + user.getHouse() + " apartment:" + user.getApartment() + "phone:" + user.getPhone());
             }
         } catch (DaoException e) {
             throw new ServiceException("Couldn't change address: "+ e);
         }
-        return user;
+        return updatedUser;
     }
     private boolean validateUpdateUser(String name, String street, String house, int apartment, String phone ){
         return (validateFirstName(name) && validateStreet(street) && validatePhone(phone) && (validateHouse(house)) && (apartment > 0));

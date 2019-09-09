@@ -8,10 +8,7 @@ import kz.kakimzhanova.delivery.exception.DaoException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.math.BigDecimal;
 
@@ -19,30 +16,35 @@ public class DishDaoImplTest {
     private static final Logger logger = LogManager.getLogger();
     private static DishDao dishDao;
     private static Dish dish = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(13.50));
+    private static Dish anotherDish = new Dish("pasta","Паста", "Pasta", "Паста","Pasta", BigDecimal.valueOf(13.50));
     @BeforeClass
     public static void init(){
         dishDao = new DishDaoImpl();
-
         try {
             ConnectionPool.getInstance().initPoolData();
-            dishDao.create(dish);
         } catch (ConnectionPoolException e) {
             logger.log(Level.FATAL, e);
-        } catch (DaoException e) {
-            logger.log(Level.ERROR, e);
         }
     }
 
     @AfterClass
     public static void dispose() {
         try {
-            dishDao.delete(dish.getDishName());
             ConnectionPool.getInstance().dispose();
         } catch (ConnectionPoolException e) {
             logger.log(Level.WARN, e);
-        } catch (DaoException e) {
-            logger.log(Level.ERROR, e);
         }
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        dishDao.create(dish);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        dishDao.delete(dish.getDishName());
+        dishDao.delete(anotherDish.getDishName());
     }
 
     @Test
@@ -59,12 +61,11 @@ public class DishDaoImplTest {
 
     @Test
     public void create() {
-        Dish expected = dish;
+        Dish expected = anotherDish;
         Dish actual = new Dish();
         try {
-            dishDao.create(dish);
-            actual = dishDao.findById("spaghetti");//tested
-            dishDao.delete("spaghetti");//tested
+            dishDao.create(anotherDish);
+            actual = dishDao.findById(anotherDish.getDishName());//tested
         } catch (DaoException e) {
             logger.log(Level.ERROR, e);
         }
@@ -75,7 +76,6 @@ public class DishDaoImplTest {
     public void delete() {
         Dish actual = new Dish();
         try {
-            dishDao.create(dish);//tested
             dishDao.delete("spaghetti");
             actual = dishDao.findById("spaghetti");//tested
         } catch (DaoException e) {
@@ -91,10 +91,8 @@ public class DishDaoImplTest {
         Dish expected = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(15.00));
         Dish actual = new Dish();
         try{
-            dishDao.create(dish);//tested
             Dish updatedDish = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(15));
             actual = dishDao.update(updatedDish);//update dish in db
-            dishDao.delete("spaghetti");
         } catch (DaoException e) {
             logger.log(Level.ERROR, e);
         }

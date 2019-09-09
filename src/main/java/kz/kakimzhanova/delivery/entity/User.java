@@ -50,8 +50,14 @@ public class User extends PersonalData{
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("User{");
+        sb.append(", login='").append(login).append('\'');
         sb.append("password='").append(password).append('\'');
         sb.append(", isAdmin=").append(isAdmin);
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", street='").append(street).append('\'');
+        sb.append(", house='").append(house).append('\'');
+        sb.append(", apartment=").append(apartment);
+        sb.append(", phone='").append(phone).append('\'');
         sb.append('}');
         return sb.toString();
     }

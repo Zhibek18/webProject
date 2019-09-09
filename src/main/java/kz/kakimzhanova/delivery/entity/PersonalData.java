@@ -3,13 +3,13 @@ package kz.kakimzhanova.delivery.entity;
 import java.util.Objects;
 
 public class PersonalData extends Entity {
-    private static final long serialVersionUID = 4L;
-    private String login;
-    private String firstName;
-    private String street;
-    private String house;
-    private int apartment;
-    private String phone;
+    protected static final long serialVersionUID = 4L;
+    protected String login;
+    protected String firstName;
+    protected String street;
+    protected String house;
+    protected int apartment;
+    protected String phone;
 
     PersonalData(String login, String firstName, String street, String house, int apartment, String phone) {
         this.login = login;

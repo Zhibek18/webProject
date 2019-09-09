@@ -2,6 +2,7 @@ package kz.kakimzhanova.delivery.command.impl;
 
 import kz.kakimzhanova.delivery.command.Command;
 import kz.kakimzhanova.delivery.command.CommandParameterHolder;
+import kz.kakimzhanova.delivery.entity.User;
 import kz.kakimzhanova.delivery.exception.ServiceException;
 import kz.kakimzhanova.delivery.service.UserService;
 import kz.kakimzhanova.delivery.service.impl.UserServiceImpl;
@@ -40,7 +41,8 @@ public class SignupCommand  implements Command {
             int apartment = Integer.parseInt(request.getParameter(CommandParameterHolder.PARAM_APARTMENT.getName()));
             String phone = request.getParameter(CommandParameterHolder.PARAM_PHONE.getName());
             if(!service.checkLogin(login,password)) {
-                if ((service.addNewUser(login, password, firstName, street, house, apartment, phone))) {
+                User newUser = new User(login, password, firstName, street, house, apartment, phone);
+                if ((service.addNewUser(newUser))) {
                     page = LOGIN_PATH;
                     request.getSession().removeAttribute(CommandParameterHolder.PARAM_SIGNUP_ERROR.getName());
                 } else {
