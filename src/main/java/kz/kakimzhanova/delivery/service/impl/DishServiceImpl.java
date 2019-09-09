@@ -23,7 +23,16 @@ public class DishServiceImpl implements DishService {
     private static final String RU_DESCRIPTION_VALIDATE_REGEX = "[А-Яа-я][А-Яа-я -]{1,49}";
     private static final String EN_DESCRIPTION_VALIDATE_REGEX = "[A-Za-z][A-Za-z -]{1,49}";
     private DishDao dishDao = new DishDaoImpl();
-
+    @Override
+    public Dish findById(String dishName) throws ServiceException{
+        Dish dish;
+        try{
+            dish = dishDao.findById(dishName);
+        } catch (DaoException e) {
+            throw new ServiceException("Couldn't find dish: " + dishName + ":" + e);
+        }
+        return dish;
+    }
     @Override
     public List<Dish> findAllDishes() throws ServiceException {
         List<Dish> dishes;

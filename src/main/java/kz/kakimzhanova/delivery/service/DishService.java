@@ -11,4 +11,5 @@ public interface DishService {
     boolean addDish(Dish dish) throws ServiceException;
     boolean delete(String dishName) throws ServiceException;
     boolean editDish(Dish dish) throws ServiceException;
+    Dish findById(String dishName) throws ServiceException;
 }

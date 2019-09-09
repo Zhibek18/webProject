@@ -124,7 +124,6 @@ public class OrderServiceImplTest {
         }
     }
 
-
     @Test
     public void createOrder() {
         Order newOrder = null;
@@ -183,6 +182,4 @@ public class OrderServiceImplTest {
         }
         Assert.assertNotNull(orders);
     }
-
-
 }

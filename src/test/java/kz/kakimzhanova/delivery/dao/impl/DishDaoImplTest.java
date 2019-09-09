@@ -18,31 +18,39 @@ import java.math.BigDecimal;
 public class DishDaoImplTest {
     private static final Logger logger = LogManager.getLogger();
     private static DishDao dishDao;
+    private static Dish dish = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(13.50));
     @BeforeClass
     public static void init(){
         dishDao = new DishDaoImpl();
+
         try {
             ConnectionPool.getInstance().initPoolData();
+            dishDao.create(dish);
         } catch (ConnectionPoolException e) {
             logger.log(Level.FATAL, e);
+        } catch (DaoException e) {
+            logger.log(Level.ERROR, e);
         }
     }
 
     @AfterClass
     public static void dispose() {
         try {
+            dishDao.delete(dish.getDishName());
             ConnectionPool.getInstance().dispose();
         } catch (ConnectionPoolException e) {
             logger.log(Level.WARN, e);
+        } catch (DaoException e) {
+            logger.log(Level.ERROR, e);
         }
     }
 
     @Test
     public void findById() {
-        Dish expected = new Dish("rice","Рис", "Rice", "Вареный рис", "Boiled rice", BigDecimal.valueOf(400.00));
+        Dish expected = dish;
         Dish actual = new Dish();
         try {
-            actual = dishDao.findById("rice");
+            actual = dishDao.findById(dish.getDishName());
         } catch (DaoException e) {
             logger.log(Level.ERROR, e);
         }
@@ -51,7 +59,6 @@ public class DishDaoImplTest {
 
     @Test
     public void create() {
-        Dish dish = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(13.50));
         Dish expected = dish;
         Dish actual = new Dish();
         try {
@@ -67,7 +74,6 @@ public class DishDaoImplTest {
     @Test
     public void delete() {
         Dish actual = new Dish();
-        Dish dish = new Dish("spaghetti","Спагетти", "Spagetti", "Вареные спагетти","Boiled spagetti", BigDecimal.valueOf(13.50));
         try {
             dishDao.create(dish);//tested
             dishDao.delete("spaghetti");
@@ -82,7 +88,6 @@ public class DishDaoImplTest {
 
     @Test
     public void update() {
-        Dish dish = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(13.50));
         Dish expected = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(15.00));
         Dish actual = new Dish();
         try{

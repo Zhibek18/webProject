@@ -36,6 +36,7 @@ public class OrderListServiceImplTest {
     private static DishDao dishDao = new DishDaoImpl();
     private static Dish dish = new Dish("spaghetti","Спагетти", "Spaghetti", "Вареные спагетти","Boiled spaghetti", BigDecimal.valueOf(13.50));
     private static Dish anotherDish = new Dish("pasta","Паста", "Pasta", "Паста","Pasta", BigDecimal.valueOf(13.50));
+    private static Dish thirdDish = new Dish("makaroni","Паста", "Pasta", "Паста","Pasta", BigDecimal.valueOf(16));
     private final static int DISH_QUANTITY = 1;
     private static OrderListService orderListService = new OrderListServiceImpl();
     @BeforeClass
@@ -45,6 +46,7 @@ public class OrderListServiceImplTest {
             userDao.create(testUser);
             dishDao.create(dish);
             dishDao.create(anotherDish);
+            dishDao.create(thirdDish);
         } catch (ConnectionPoolException e) {
             logger.log(Level.FATAL, e);
         } catch (DaoException e) {
@@ -57,6 +59,7 @@ public class OrderListServiceImplTest {
             userDao.delete(testUser.getLogin());
             dishDao.delete(dish.getDishName());
             dishDao.delete(anotherDish.getDishName());
+            dishDao.delete(thirdDish.getDishName());
             ConnectionPool.getInstance().dispose();
         } catch (ConnectionPoolException e) {
             logger.log(Level.WARN, e);
@@ -130,5 +133,45 @@ public class OrderListServiceImplTest {
             logger.log(Level.ERROR, e);
         }
         Assert.assertNotNull(orderList);
+    }
+    @Test
+    public void addDish(){
+        List<OrderedDish> orderList = null;
+        OrderedDish expected = new OrderedDish(order.getOrderId(), thirdDish.getDishName(), thirdDish.getDishNameRu(), thirdDish.getDishNameEn(), thirdDish.getDescriptionRu(), thirdDish.getDescriptionEn(), thirdDish.getPrice(), DISH_QUANTITY);
+        try {
+            orderListService.addDish(order.getOrderId(), thirdDish.getDishName());
+            orderList = orderListService.showOrderList(order.getOrderId());
+        } catch (ServiceException e) {
+            logger.log(Level.ERROR, e);
+        }
+        Assert.assertNotNull(orderList);
+        Assert.assertTrue(orderList.contains(expected));
+    }
+
+    @Test
+    public void deleteDish(){
+        List<OrderedDish> orderList = null;
+        OrderedDish expected = new OrderedDish(order.getOrderId(), dish.getDishName(), dish.getDishNameRu(), dish.getDishNameEn(), dish.getDescriptionRu(), dish.getDescriptionEn(), dish.getPrice(), DISH_QUANTITY);
+        try {
+            orderListService.deleteDish(order.getOrderId(), dish.getDishName());
+            orderList = orderListService.showOrderList(order.getOrderId());
+        } catch (ServiceException e) {
+            logger.log(Level.ERROR, e);
+        }
+        Assert.assertNotNull(orderList);
+        Assert.assertFalse(orderList.contains(expected));
+    }
+    @Test
+    public void incrementDishQuantity(){
+        List<OrderedDish> orderList = null;
+        OrderedDish expected = new OrderedDish(order.getOrderId(), dish.getDishName(), dish.getDishNameRu(), dish.getDishNameEn(), dish.getDescriptionRu(), dish.getDescriptionEn(), dish.getPrice(), DISH_QUANTITY + 1);
+        try {
+            orderListService.changeDishQuantity(order.getOrderId(), dish.getDishName(), DISH_QUANTITY + 1);
+            orderList = orderListService.showOrderList(order.getOrderId());
+        } catch (ServiceException e) {
+            logger.log(Level.ERROR, e);
+        }
+        Assert.assertNotNull(orderList);
+        Assert.assertTrue(orderList.contains(expected));
     }
 }
