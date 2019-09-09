@@ -3,6 +3,7 @@ package kz.kakimzhanova.delivery.command.impl;
 import kz.kakimzhanova.delivery.command.Command;
 import kz.kakimzhanova.delivery.command.CommandParameterHolder;
 import kz.kakimzhanova.delivery.entity.Order;
+import kz.kakimzhanova.delivery.entity.OrderStatus;
 import kz.kakimzhanova.delivery.exception.ServiceException;
 import kz.kakimzhanova.delivery.service.OrderService;
 import kz.kakimzhanova.delivery.service.impl.OrderServiceImpl;
@@ -18,7 +19,7 @@ import java.util.List;
 public class AdminConfirmOrderCommand implements Command {
     private static Logger logger = LogManager.getLogger();
     private static final String ORDER_CONFIRM_ERROR_MESSAGE = "orderConfirm.error";
-    private static final int ORDER_STATUS_CONFIRMED = 1;
+    private static final OrderStatus ORDER_STATUS_CONFIRMED = OrderStatus.CONFIRMED;
     private OrderService orderService = new OrderServiceImpl();
     @Override
     /**

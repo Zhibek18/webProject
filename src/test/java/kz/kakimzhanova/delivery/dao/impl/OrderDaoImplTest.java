@@ -46,6 +46,11 @@ public class OrderDaoImplTest {
             transactionManager.commit();
 
         } catch (TransactionManagerException | DaoException e) {
+            try {
+                transactionManager.rollback();
+            } catch (TransactionManagerException ex) {
+                logger.log(Level.ERROR, "Rollback failed: " + ex);
+            }
             logger.log(Level.ERROR, e);
         }finally {
             try {
@@ -84,6 +89,11 @@ public class OrderDaoImplTest {
             transactionManager.commit();
 
         } catch (DaoException | TransactionManagerException e) {
+            try {
+                transactionManager.rollback();
+            } catch (TransactionManagerException ex) {
+                logger.log(Level.ERROR, "Rollback failed: " + ex);
+            }
             logger.log(Level.ERROR, e);
         }finally {
             try {

@@ -1,6 +1,7 @@
 package kz.kakimzhanova.delivery.service;
 
 import kz.kakimzhanova.delivery.entity.Order;
+import kz.kakimzhanova.delivery.entity.OrderStatus;
 import kz.kakimzhanova.delivery.entity.OrderedDish;
 import kz.kakimzhanova.delivery.exception.ServiceException;
 
@@ -12,7 +13,7 @@ public interface OrderService {
     boolean deleteOrder(int orderId) throws ServiceException;
     Order findOrderById(int orderId) throws ServiceException;
     boolean updateTotalCost(int orderId, BigDecimal totalCost) throws ServiceException;
-    boolean updateOrderStatus(int orderId, int status) throws ServiceException;
+    boolean updateOrderStatus(int orderId, OrderStatus status) throws ServiceException;
     List<Order> findOrdersByLogin(String login) throws ServiceException;
     Order createOrder(String login, List<OrderedDish> orderList, BigDecimal totalCost) throws ServiceException;
 }

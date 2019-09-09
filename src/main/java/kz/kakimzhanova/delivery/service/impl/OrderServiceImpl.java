@@ -3,6 +3,7 @@ package kz.kakimzhanova.delivery.service.impl;
 import kz.kakimzhanova.delivery.dao.OrderDao;
 import kz.kakimzhanova.delivery.dao.OrderListDao;
 import kz.kakimzhanova.delivery.entity.Order;
+import kz.kakimzhanova.delivery.entity.OrderStatus;
 import kz.kakimzhanova.delivery.entity.OrderedDish;
 import kz.kakimzhanova.delivery.exception.DaoException;
 import kz.kakimzhanova.delivery.exception.ServiceException;
@@ -19,8 +20,6 @@ import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
     private static Logger logger = LogManager.getLogger();
-    private static final int MAX_STATUS_VALUE = 2;
-    private static final int MIN_STATUS_VALUE = 0;
     private static final String ROLLBACK_ERROR = "Rollback failed: ";
     @Override
     public List<Order> findAllOrders() throws ServiceException {
@@ -105,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
                 } catch (TransactionManagerException ex) {
                     logger.log(Level.ERROR, ROLLBACK_ERROR + ex);
                 }
-                throw new ServiceException("Could not find order with id = " + orderId + " orderDao findById returned null");
+                logger.log(Level.ERROR, "Could not find order with id = " + orderId + " orderDao findById returned null");
             }
         } catch (DaoException | TransactionManagerException e) {
             try {
@@ -149,19 +148,15 @@ public class OrderServiceImpl implements OrderService {
         return isUpadted;
     }
     @Override
-    public boolean updateOrderStatus(int orderId, int status) throws ServiceException{
+    public boolean updateOrderStatus(int orderId, OrderStatus status) throws ServiceException{
         OrderTransactionManager transactionManager = new OrderTransactionManagerImpl();
         boolean isConfirmed;
         try{
             transactionManager.beginTransaction();
             OrderDao orderDao = transactionManager.connectOrderDao();
-            if (isValidStatus(status)) {
-                isConfirmed = orderDao.updateStatus(orderId, status);
-                transactionManager.commit();
-            } else {
-                throw new ServiceException("Not valid status:" + status);
-            }
-        }catch (DaoException | TransactionManagerException e) {
+            isConfirmed = orderDao.updateStatus(orderId, status);
+            transactionManager.commit();
+         }catch (DaoException | TransactionManagerException e) {
             try {
                 transactionManager.rollback();
             } catch (TransactionManagerException ex) {
@@ -178,9 +173,6 @@ public class OrderServiceImpl implements OrderService {
         return isConfirmed;
     }
 
-    private boolean isValidStatus(int status){
-        return ((status >= MIN_STATUS_VALUE)&&(status <= MAX_STATUS_VALUE));
-    }
     @Override
     public List<Order> findOrdersByLogin(String login) throws ServiceException{
         OrderTransactionManager transactionManager = new OrderTransactionManagerImpl();

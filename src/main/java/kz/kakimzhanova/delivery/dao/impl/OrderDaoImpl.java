@@ -1,5 +1,6 @@
 package kz.kakimzhanova.delivery.dao.impl;
 
+import kz.kakimzhanova.delivery.entity.OrderStatus;
 import kz.kakimzhanova.delivery.pool.ConnectionPool;
 import kz.kakimzhanova.delivery.dao.DaoParameterHolder;
 import kz.kakimzhanova.delivery.dao.OrderDao;
@@ -48,7 +49,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setHouse(resultSet.getString(DaoParameterHolder.PARAM_HOUSE.getName()));
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
-                order.setStatus(resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName()));
+                order.setStatus(OrderStatus.values()[resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName())]);
                 order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
                 orders.add(order);
             }
@@ -80,7 +81,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setHouse(resultSet.getString(DaoParameterHolder.PARAM_HOUSE.getName()));
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
-                order.setStatus(resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName()));
+                order.setStatus(OrderStatus.values()[resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName())]);
                 order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
             }
         } catch (SQLException e) {
@@ -166,12 +167,12 @@ public class OrderDaoImpl implements OrderDao {
         return isUpdated;
     }
     @Override
-    public boolean updateStatus(int orderId, int status) throws DaoException{
+    public boolean updateStatus(int orderId, OrderStatus status) throws DaoException{
         boolean isUpdated;
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = connection.prepareStatement(SQL_UPDATE_STATUS);
-            preparedStatement.setInt(1, status);
+            preparedStatement.setInt(1, status.ordinal());
             preparedStatement.setInt(2, orderId);
             preparedStatement.executeUpdate();
             isUpdated = true;
@@ -202,7 +203,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setHouse(resultSet.getString(DaoParameterHolder.PARAM_HOUSE.getName()));
                 order.setApartment(resultSet.getInt(DaoParameterHolder.PARAM_APARTMENT.getName()));
                 order.setPhone(resultSet.getString(DaoParameterHolder.PARAM_PHONE.getName()));
-                order.setStatus(resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName()));
+                order.setStatus(OrderStatus.values()[resultSet.getInt(DaoParameterHolder.PARAM_STATUS.getName())]);
                 order.setTotalCost(resultSet.getBigDecimal(DaoParameterHolder.PARAM_TOTAL_COST.getName()));
                 orders.add(order);
             }

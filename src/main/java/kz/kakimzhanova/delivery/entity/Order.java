@@ -10,12 +10,12 @@ import java.util.Objects;
 public class Order extends PersonalData {
     private static final long serialVersionUID = 2L;
     private int orderId;
-    private int status;
+    private OrderStatus status;
     private Date timestamp;
     private List<OrderedDish> orderList;
     private BigDecimal totalCost;
 
-    public Order(String login, Timestamp timestamp, String firstName, String street, String house, int apartment, String phone, int orderId, List<OrderedDish> orderList, BigDecimal totalCost, int status) {
+    public Order(String login, Timestamp timestamp, String firstName, String street, String house, int apartment, String phone, int orderId, List<OrderedDish> orderList, BigDecimal totalCost, OrderStatus status) {
         super(login, firstName, street, house, apartment, phone);
         this.orderId = orderId;
         this.timestamp = timestamp;
@@ -38,10 +38,11 @@ public class Order extends PersonalData {
     }
 
     public OrderStatus getStatus() {
-        return OrderStatus.values()[status];
+        //return OrderStatus.values()[status];
+        return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -98,9 +99,10 @@ public class Order extends PersonalData {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Order{");
         sb.append("orderId=").append(orderId);
+        sb.append(", status=").append(status);
         sb.append(", timestamp=").append(timestamp);
         sb.append(", orderList=").append(orderList);
-        sb.append(", totalCost=").append(totalCost.setScale(2, RoundingMode.HALF_UP));
+        sb.append(", totalCost=").append(totalCost);
         sb.append('}');
         return sb.toString();
     }
